@@ -1,6 +1,6 @@
 using System;
 
-namespace BusinessWebApi
+namespace BusinessWeb
 {
     public class WeatherForecast
     {
