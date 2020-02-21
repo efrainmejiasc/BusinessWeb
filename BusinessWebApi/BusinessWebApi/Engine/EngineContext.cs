@@ -14,6 +14,7 @@ namespace BusinessWebApi.Engine
         public DbSet<Company> Company{ get; set; }
         public DbSet<DevicesCompany> DeviceCompany { get; set; }
         public DbSet<TypeUser> TypeUser { get; set; }
+        public DbSet<Person> Person { get; set; }
 
         // 1. Instalar Entity Framework
         // 2. Crear clase que herede de DbContext

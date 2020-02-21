@@ -164,6 +164,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DevicesCompany.cs" />
     <Compile Include="Models\Objetos\DataEmail.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Models\TypeUser.cs" />
     <Compile Include="Models\UserApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
