@@ -161,7 +161,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\DataEmail.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\DevicesCompany.cs" />
+    <Compile Include="Models\Objetos\DataEmail.cs" />
+    <Compile Include="Models\TypeUser.cs" />
     <Compile Include="Models\UserApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

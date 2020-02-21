@@ -11,6 +11,10 @@ namespace BusinessWebApi.Engine
     {
         public EngineContext() : base("CNX_DB") { }
         public DbSet<UserApi> UserApi { get; set; }
+        public DbSet<Company> Company{ get; set; }
+        public DbSet<DevicesCompany> DeviceCompany { get; set; }
+        public DbSet<TypeUser> TypeUser { get; set; }
+
         // 1. Instalar Entity Framework
         // 2. Crear clase que herede de DbContext
         // 3. Ejecutar enable-migratios
