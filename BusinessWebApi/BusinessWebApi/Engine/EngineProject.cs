@@ -1,10 +1,10 @@
-﻿using BusinessWeb.Engine.Interfaces;
+﻿using BusinessWebApi.Engine.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BusinessWeb.Engine
+namespace BusinessWebApi.Engine
 {
     public class EngineProject: IEngineProject
     {

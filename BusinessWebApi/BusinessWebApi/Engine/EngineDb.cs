@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessWebApi.Engine
 {
-    public class EngineNotify:IEngineNotify
+    public class EngineDb: IEngineDb
     {
     }
 }
