@@ -29,14 +29,16 @@ namespace BusinessWebApi.Models
         [StringLength(200)]
         public string Password { get; set; }
 
-        [Column(Order = 5, TypeName = "VARCHAR")]
-        [StringLength(200)]
-        public string Company { get; set; }
+        [Column(Order = 5, TypeName = "INT")]
+        public int Company { get; set; }
 
         [Column(Order = 6, TypeName = "DATETIME")]
         public DateTime CreateDate { get; set; }
 
         [Column(Order = 7, TypeName = "BIT")]
         public bool Status { get; set; }
+
+        [Column(Order = 8, TypeName = "INT")]
+        public int TypeUser { get; set; }
     }
 }
