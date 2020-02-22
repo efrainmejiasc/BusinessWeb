@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\EngineData.cs" />
+    <Compile Include="Engine\EngineHttp.cs" />
+    <Compile Include="Engine\EngineProcesor.cs" />
+    <Compile Include="Engine\EngineProject.cs" />
+    <Compile Include="Engine\Interfaces\IEngineHttp.cs" />
+    <Compile Include="Engine\Interfaces\IEngineProject.cs" />
     <Compile Include="Formularios\AppMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +72,9 @@
     <EmbeddedResource Include="Formularios\AppMenu.resx">
       <DependentUpon>AppMenu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\UploadPerson.resx">
+      <DependentUpon>UploadPerson.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -72,6 +84,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -85,8 +98,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Engine\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
