@@ -17,7 +17,7 @@ namespace BusinessDeskTop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UploadPersons());
+            Application.Run(new AppMenu());
         }
     }
 }

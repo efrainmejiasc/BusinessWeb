@@ -46,16 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Formularios\UploadPersons.cs">
+    <Compile Include="Formularios\AppMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Formularios\UploadPersons.Designer.cs">
-      <DependentUpon>UploadPersons.cs</DependentUpon>
+    <Compile Include="Formularios\AppMenu.Designer.cs">
+      <DependentUpon>AppMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\UploadPerson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\UploadPerson.Designer.cs">
+      <DependentUpon>UploadPerson.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Formularios\UploadPersons.resx">
-      <DependentUpon>UploadPersons.cs</DependentUpon>
+    <EmbeddedResource Include="Formularios\AppMenu.resx">
+      <DependentUpon>AppMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

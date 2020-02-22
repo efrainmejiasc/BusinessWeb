@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BusinessDeskTop.Formularios
 {
-    public partial class UploadPersons : Form
+    public partial class UploadPerson : Form
     {
-        public UploadPersons()
+        public UploadPerson()
         {
             InitializeComponent();
         }
