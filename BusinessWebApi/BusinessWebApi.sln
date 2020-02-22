@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessWebApi", "BusinessW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessWebSite", "BusinessWebSite\BusinessWebSite.csproj", "{67F46D39-1AD5-4783-A386-F4FE3C964CA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessDeskTop", "BusinessDeskTop\BusinessDeskTop.csproj", "{10CED3F5-B565-4C98-B5AE-36A87FF4851D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{67F46D39-1AD5-4783-A386-F4FE3C964CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67F46D39-1AD5-4783-A386-F4FE3C964CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67F46D39-1AD5-4783-A386-F4FE3C964CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10CED3F5-B565-4C98-B5AE-36A87FF4851D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10CED3F5-B565-4C98-B5AE-36A87FF4851D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10CED3F5-B565-4C98-B5AE-36A87FF4851D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10CED3F5-B565-4C98-B5AE-36A87FF4851D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

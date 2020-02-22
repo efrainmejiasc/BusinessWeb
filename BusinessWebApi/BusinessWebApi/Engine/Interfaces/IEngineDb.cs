@@ -10,6 +10,8 @@ namespace BusinessWebApi.Engine.Interfaces
     { 
         bool CreateUser(UserApi user);
         int GetCompanyId(string nameCompany);
+        bool CreatePerson(List<Person> persons);
+        bool UpdatePerson(List<Person> persons);
         UserApi GetUser(string password, string password2);
     }
 }

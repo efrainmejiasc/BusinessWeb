@@ -37,6 +37,7 @@ namespace BusinessWebApi.Engine
             catch { }
             return resultado;
         }
+
         public UserApi GetUser(string password , string password2)
         {
             UserApi user = null;
@@ -67,5 +68,59 @@ namespace BusinessWebApi.Engine
             catch { }
             return 0;
         }
+
+        public bool CreatePerson (List<Person> persons)
+        {
+            bool resultado = false;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    foreach(Person person in persons)
+                    {
+                        context.Person.Add(person);
+                        context.SaveChanges();
+                    }
+                }
+                resultado = true;
+            }
+            catch { }
+            return resultado;
+        }
+
+        public bool UpdatePerson(List<Person> persons)
+        {
+            bool resultado = false;
+            Person C = new Person();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    foreach (Person person in persons)
+                    { 
+                        C = Context.Person.Where(s => s.Dni == person.Dni).FirstOrDefault();
+                        Context.Person.Attach(C);
+                        C.Nombre = person.Nombre;
+                        C.Apellido = person.Apellido;
+                        C.Company = person.Company;
+                        C.Date = DateTime.UtcNow;
+                        C.Email = person.Email;
+                        C.Foto = person.Foto;
+                        C.Qr = person.Qr;
+                        C.Rh = person.Rh;
+                        C.Grado = person.Grado;
+                        C.Grupo = person.Grupo;
+                        C.Matricula = person.Matricula;
+                        C.Status = person.Status;
+                        Context.Configuration.ValidateOnSaveEnabled = false;
+                        Context.SaveChanges();
+                    }
+                    resultado = true;
+                }
+            }
+            catch { }
+            return resultado;
+        }
+
     }
 }

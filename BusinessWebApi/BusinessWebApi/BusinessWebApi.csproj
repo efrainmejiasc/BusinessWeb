@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\PersonApiController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Engine\EngineContext.cs" />
     <Compile Include="Engine\EngineData.cs" />
