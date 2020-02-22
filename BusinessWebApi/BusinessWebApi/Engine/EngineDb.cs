@@ -23,6 +23,8 @@ namespace BusinessWebApi.Engine
             bool resultado = false;
             user.CreateDate = DateTime.UtcNow;
             user.Password = Tool.ConvertirBase64(user.Email + user.Password);
+            user.Password2 = Tool.ConvertirBase64(user.User + user.Password);
+            user.IdCompany =  GetCompanyId(user.Company);
             try
             {
                 using (EngineContext context = new EngineContext())
@@ -35,20 +37,35 @@ namespace BusinessWebApi.Engine
             catch { }
             return resultado;
         }
-        public UserApi GetUser(string password)
+        public UserApi GetUser(string password , string password2)
         {
             UserApi user = null;
             try
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    user = context.UserApi.Where(s => s.Password == password).FirstOrDefault();
+                    user = context.UserApi.Where(s => (s.Password == password || s.Password2 == password2) && s.Status == true).FirstOrDefault();
                     if (user != null)
                         return user;
                 }
             }
             catch { }
             return null;
+        }
+
+        public int GetCompanyId(string nameCompany)
+        {
+            Company company = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.NameCompany == nameCompany).FirstOrDefault();
+                        return company.Id;
+                }
+            }
+            catch { }
+            return 0;
         }
     }
 }

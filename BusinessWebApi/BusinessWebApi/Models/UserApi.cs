@@ -40,5 +40,11 @@ namespace BusinessWebApi.Models
 
         [Column(Order = 8, TypeName = "INT")]
         public int IdTypeUser { get; set; }
+
+        [Column(Order = 9, TypeName = "VARCHAR")]
+        [StringLength(200)]
+        public string Password2 { get; set; }
+
+        public string Company { get; set; }
     }
 }

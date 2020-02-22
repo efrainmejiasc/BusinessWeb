@@ -38,7 +38,7 @@ namespace BusinessWebApi.Controllers
         public HttpResponseMessage CreateUser([FromBody] UserApi user)
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-            if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password))
+            if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.User))
             {
                 response = new HttpResponseMessage(HttpStatusCode.BadRequest);
                 response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
@@ -73,8 +73,9 @@ namespace BusinessWebApi.Controllers
         public IHttpActionResult Login([FromBody] UserApi login)
         {
             IHttpActionResult response = Unauthorized();
-            string password64 = Tool.ConvertirBase64(login.Email + login.Password);
-            UserApi user = Metodo.GetUser(password64);
+            string password1_64 = Tool.ConvertirBase64(login.Email + login.Password);
+            string password2_64 = Tool.ConvertirBase64(login.User + login.Password);
+            UserApi user = Metodo.GetUser(password1_64, password2_64);
             if (user == null)
                 return response;
 
@@ -86,7 +87,7 @@ namespace BusinessWebApi.Controllers
             response = Ok(new
             {
                 access_token = tokenString,
-                expire_token = "3000",
+                expire_token = "20000",
                 type_token = "Bearer",
                 refresh_token = unicoIdentificador,
             });
@@ -125,7 +126,5 @@ namespace BusinessWebApi.Controllers
             string token = tokenHandler.WriteToken(jwtSecurityToken);
             return token;
         }
-
-
     }
 }

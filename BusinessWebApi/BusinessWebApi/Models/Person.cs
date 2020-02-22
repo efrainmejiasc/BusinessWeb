@@ -15,49 +15,70 @@ namespace BusinessWebApi.Models
         [Column(Order = 1, TypeName = "INT")]
         public int Id { get; set; }
 
-        [Index(IsUnique = true)]
         [Column(Order = 2, TypeName = "VARCHAR")]
-        [StringLength(50)]
-        [Required]
-        public string Email { get; set; }
-
-        [Index(IsUnique = true)]
-        [Column(Order = 3, TypeName = "VARCHAR")]
-        [StringLength(50)]
-        [Required]
-        public string User { get; set; }
-
-        [Column(Order = 4, TypeName = "VARCHAR")]
-        [StringLength(200)]
-        [Required]
-        public string Password { get; set; }
-
-        [Column(Order = 5, TypeName = "INT")]
-        [Required]
-        public int IdCompany { get; set; }
-
-        [Column(Order = 6, TypeName = "DATETIME")]
-        public DateTime CreateDate { get; set; }
-
-        [Column(Order = 7, TypeName = "BIT")]
-        public bool Status { get; set; }
-
-        [Column(Order = 8, TypeName = "INT")]
-        public int IdTypeUser { get; set; }
-
-        [Column(Order = 9, TypeName = "VARCHAR")]
         [StringLength(50)]
         [Required]
         public string Nombre { get; set; }
 
-        [Column(Order = 10, TypeName = "VARCHAR")]
+        [Column(Order = 3, TypeName = "VARCHAR")]
         [StringLength(50)]
         [Required]
         public string Apellido { get; set; }
 
-        [Column(Order = 11, TypeName = "VARCHAR")]
+        [Column(Order = 4, TypeName = "VARCHAR")]
         [StringLength(50)]
         [Required]
         public string Dni { get; set; }
+
+        [Column(Order = 5, TypeName = "VARCHAR")]
+        [StringLength(50)]
+        [Required]
+        public string Matricula { get; set; }
+
+        [Column(Order = 6, TypeName = "VARCHAR")]
+        [StringLength(20)]
+        [Required]
+        public string Rh { get; set; }
+
+        [Column(Order = 7, TypeName = "VARCHAR")]
+        [StringLength(20)]
+        [Required]
+        public string Grado { get; set; }
+
+        [Column(Order = 8, TypeName = "VARCHAR")]
+        [StringLength(20)]
+        [Required]
+        public string Grupo { get; set; }
+
+        [Index(IsUnique = true)]
+        [Column(Order = 9, TypeName = "VARCHAR")]
+        [StringLength(50)]
+        [Required]
+        public string Email { get; set; }
+
+        [Column(Order = 10, TypeName = "INT")]
+        public int IdCompany { get; set; }
+
+        [Column(Order = 11, TypeName = "VARCHAR")]
+        [StringLength(200)]
+        [Required]
+        public string Company { get; set; }
+
+        [Column(Order = 12, TypeName = "DATETIME")]
+        public DateTime Date { get; set; }
+
+        [Column(Order = 13, TypeName = "BIT")]
+        public bool Status { get; set; }
+
+        [Column(Order = 14, TypeName = "VARCHAR")]
+        [StringLength(4000)]
+        [Required]
+        public string Foto { get; set; }
+
+        [Column(Order = 15, TypeName = "VARCHAR")]
+        [StringLength(4000)]
+        [Required]
+        public string Qr{ get; set; }
+
     }
 }
