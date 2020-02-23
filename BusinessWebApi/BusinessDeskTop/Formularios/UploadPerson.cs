@@ -51,9 +51,7 @@ namespace BusinessDeskTop.Formularios
             EngineTool Tool = new EngineTool();
             EngineProcesor Proceso = new EngineProcesor(FuncionHttp ,Funcion,Tool);
             try {
-                result = Proceso.LeerArchivo(pathArchivo);
-                dgv.DataSource = Valor.GetDt();
-                dgv.ClearSelection();
+                result = Proceso.ProcesarArchivo(pathArchivo,dgv);
                 result = true;
             }
             catch (Exception ex)

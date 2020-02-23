@@ -9,6 +9,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Data;
 using System.IO;
 using BusinessDeskTop.Modelo;
+using System.Windows.Forms;
 
 namespace BusinessDeskTop.Engine
 {
@@ -17,6 +18,7 @@ namespace BusinessDeskTop.Engine
         private EngineData Valor = EngineData.Instance();
         public List<Person> LeerArchivo(string pathArchivo , IEngineTool Tool)
         {
+        
             DataTable dt = new DataTable();
             dt = BuildColumnDataTable(dt);
             Person p = new Person();
@@ -25,6 +27,7 @@ namespace BusinessDeskTop.Engine
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(pathArchivo);
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
+            xlApp.DisplayAlerts = false;
             int rowCount = xlRange.Rows.Count;
             int colCount = xlRange.Columns.Count;
             string strValue = string.Empty;
@@ -149,9 +152,77 @@ namespace BusinessDeskTop.Engine
             return dt;
         }
 
-        public bool CreateFileXlsx (List<Person> p , string pathFile)
+        public bool CreateFileXlsx (List<Person> persons , string pathFile,IEngineTool Tool)
         {
+            bool resultado = false;
 
+            Excel.Application excel = default(Excel.Application);       
+            Excel.Workbook libro = default(Excel.Workbook);
+            Excel.Worksheet hoja = default(Excel.Worksheet);
+            excel = new Excel.Application();
+            excel.DisplayAlerts = false;
+            try
+            {
+                libro = excel.Workbooks.Add();
+                hoja = libro.Worksheets[1];
+                hoja.Activate();
+
+                hoja.Range["A1"].Value = "FOTO";
+                hoja.Range["B1"].Value = "NOMBRE";
+                hoja.Range["C1"].Value = "APELLIDO";
+                hoja.Range["D1"].Value = "DNI";
+                hoja.Range["E1"].Value = "MATRICULA";
+                hoja.Range["F1"].Value = "RH";
+                hoja.Range["G1"].Value = "GRADO";
+                hoja.Range["H1"].Value = "GRUPO";
+                hoja.Range["I1"].Value = "EMAIL";
+                hoja.Range["J1"].Value = "EMPRESA";
+                hoja.Range["K1"].Value = "QR";
+                hoja.Range["L1"].Value = "FOTO64";
+                hoja.Range["M1"].Value = "QR64";
+
+                int n = 2;
+                string foto64 = string.Empty;
+                string sourceQr = string.Empty;
+                string qr64 = string.Empty;
+
+                foreach (Person p in persons)
+                {
+                    foto64 = Tool.ConvertImgTo64Img(p.Foto);
+                    sourceQr = p.Nombre + p.Apellido + p.Dni;
+                    sourceQr = Tool.ConvertirBase64(sourceQr);
+                    p.Qr = Tool.CreateQrCode(sourceQr, @"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + "_QR\\" + p.Dni + ".png");
+                    qr64 = Tool.ConvertImgTo64Img(@"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + "_QR\\" + p.Dni + ".png");
+
+                    hoja.Range["A" + n].Value = p.Foto;
+                    hoja.Range["B" + n].Value = p.Nombre;
+                    hoja.Range["C" + n].Value = p.Apellido;
+                    hoja.Range["D" + n].Value = p.Dni;
+                    hoja.Range["E" + n].Value = p.Matricula;
+                    hoja.Range["F" + n].Value = p.Rh;
+                    hoja.Range["G" + n].Value = p.Grado;
+                    hoja.Range["H" + n].Value = p.Grupo;
+                    hoja.Range["I" + n].Value = p.Email;
+                    hoja.Range["J" + n].Value = p.Company;
+                    hoja.Range["K" + n].Value = p.Qr;
+                    hoja.Range["L" + n].Value = foto64;
+                    hoja.Range["M" + n].Value = qr64;
+                    n++;
+                }
+                excel.ActiveWindow.Zoom = 100;
+                excel.Columns.AutoFit();
+                excel.Rows.AutoFit();
+                libro.SaveAs(pathFile);
+                ReadWriteTxt(pathFile);
+
+                resultado = true;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error:  " + ex.ToString());
+            }
+   
+            return resultado;
         }
 
         

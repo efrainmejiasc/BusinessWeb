@@ -22,19 +22,26 @@ namespace BusinessDeskTop.Engine
             Tool = _Tool;
         }
 
-        public  bool LeerArchivo (string pathArchivo)
+        public  bool ProcesarArchivo  (string pathArchivo,DataGridView dgv)
         {
             bool resultado = false;
             List<Person> persons = Funcion.LeerArchivo(pathArchivo,Tool);
             resultado = Tool.CreateFolder(@"C:\QR_ARCHIVOS");
             resultado = Tool.CreateFolder(@"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa);
+            resultado = Tool.CreateFolder(@"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + "_QR");
+            dgv.DataSource = Valor.GetDt();
+            dgv.ClearSelection();
             if (persons.Count == 0)
             {
                 MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return true;
             }
+            string path = @"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + DateTime.Now.ToString().Replace("\\", "").Replace(' ', '_').Replace(":", "") + ".xlsx";
+            path = path.Replace("/", "");
+            resultado = Funcion.CreateFileXlsx(persons, path,Tool); 
+            if (resultado)
+                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            //DateTime.Now.ToString().Replace(' ', '_').Replace(":", "");
             return resultado;
         } 
     }

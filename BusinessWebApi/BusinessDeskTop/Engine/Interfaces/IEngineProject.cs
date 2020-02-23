@@ -11,5 +11,6 @@ namespace BusinessDeskTop.Engine.Interfaces
     public interface IEngineProject
     {
         List<Person> LeerArchivo(string pathArchivo, IEngineTool tool);
+        bool CreateFileXlsx(List<Person> persons, string pathFile, IEngineTool Tool);
     }
 }

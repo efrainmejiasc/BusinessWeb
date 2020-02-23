@@ -13,6 +13,8 @@ namespace BusinessDeskTop.Engine.Interfaces
         bool DeletFile(string pathArchivo);
         bool CreateFile(string pathArchivo);
         bool ExistsFile(string pathArchivo);
+        string ConvertirBase64(string cadena);
         string ConvertImgTo64Img(string pathFile);
+        string CreateQrCode(string source, string pathFile);
     }
 }
