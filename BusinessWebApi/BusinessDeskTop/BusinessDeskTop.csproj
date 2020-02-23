@@ -53,8 +53,10 @@
     <Compile Include="Engine\EngineHttp.cs" />
     <Compile Include="Engine\EngineProcesor.cs" />
     <Compile Include="Engine\EngineProject.cs" />
+    <Compile Include="Engine\EngineTool.cs" />
     <Compile Include="Engine\Interfaces\IEngineHttp.cs" />
     <Compile Include="Engine\Interfaces\IEngineProject.cs" />
+    <Compile Include="Engine\Interfaces\IEngineTool.cs" />
     <Compile Include="Formularios\AppMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +69,7 @@
     <Compile Include="Formularios\UploadPerson.Designer.cs">
       <DependentUpon>UploadPerson.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Formularios\AppMenu.resx">

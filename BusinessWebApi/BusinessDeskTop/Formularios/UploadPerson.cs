@@ -13,15 +13,11 @@ namespace BusinessDeskTop.Formularios
 {
     public partial class UploadPerson : Form
     {
+        private EngineData Valor = EngineData.Instance();
         private string tipo = string.Empty;
         public UploadPerson()
         {
             InitializeComponent();
-        }
-
-        public UploadPerson(string _tipo)
-        {
-            this.tipo = _tipo;
         }
 
         private void UploadPerson_Load(object sender, EventArgs e)
@@ -42,8 +38,18 @@ namespace BusinessDeskTop.Formularios
             bool result = false;
             EngineProject Funcion = new EngineProject();
             EngineHttp FuncionHttp = new EngineHttp();
-            EngineProcesor Proceso = new EngineProcesor(FuncionHttp ,Funcion);
-            result = Proceso.LeerArchivo(pathArchivo);
+            EngineTool Tool = new EngineTool();
+            EngineProcesor Proceso = new EngineProcesor(FuncionHttp ,Funcion,Tool);
+            try {
+                result = Proceso.LeerArchivo(pathArchivo);
+                dgv.DataSource = Valor.GetDt();
+                dgv.ClearSelection();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             return result;
         }
     }

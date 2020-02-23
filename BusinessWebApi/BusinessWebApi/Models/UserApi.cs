@@ -45,6 +45,7 @@ namespace BusinessWebApi.Models
         [StringLength(200)]
         public string Password2 { get; set; }
 
+        [NotMapped]
         public string Company { get; set; }
     }
 }
