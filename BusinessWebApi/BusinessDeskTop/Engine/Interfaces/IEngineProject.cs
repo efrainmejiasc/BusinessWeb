@@ -8,5 +8,6 @@ namespace BusinessDeskTop.Engine.Interfaces
 {
     public interface IEngineProject
     {
+        void LeerArchivo(string pathArchivo);
     }
 }

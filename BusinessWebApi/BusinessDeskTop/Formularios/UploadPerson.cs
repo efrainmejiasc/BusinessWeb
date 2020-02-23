@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessDeskTop.Engine;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,8 +33,18 @@ namespace BusinessDeskTop.Formularios
             string pathArchivo = openFileDialog1.FileName;
             if (!string.IsNullOrEmpty(pathArchivo))
             {
-
+                LeerArchivo(pathArchivo);
             }
+        }
+
+        private bool LeerArchivo (string pathArchivo)
+        {
+            bool result = false;
+            EngineProject Funcion = new EngineProject();
+            EngineHttp FuncionHttp = new EngineHttp();
+            EngineProcesor Proceso = new EngineProcesor(FuncionHttp ,Funcion);
+            result = Proceso.LeerArchivo(pathArchivo);
+            return result;
         }
     }
 }

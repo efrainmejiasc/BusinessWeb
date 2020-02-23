@@ -17,6 +17,11 @@ namespace BusinessDeskTop.Engine
             Funcion = _Funcion;
         }
 
-
+        public  bool LeerArchivo (string pathArchivo)
+        {
+            bool resultado = false;
+            Funcion.LeerArchivo(pathArchivo);
+            return resultado;
+        } 
     }
 }
