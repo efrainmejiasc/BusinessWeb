@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessDeskTop.Modelo;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -20,8 +21,9 @@ namespace BusinessDeskTop.Engine
             return valor;
         }
 
-        private DataTable dt = new DataTable();
+        public string NombreEmpresa {get;set; }
 
+        private DataTable dt = new DataTable();
         public void SetDt (DataTable _dt)
         {
             dt = _dt;
@@ -30,6 +32,17 @@ namespace BusinessDeskTop.Engine
         public DataTable GetDt()
         {
             return dt;
+        }
+
+        private List<Person> persons = new List<Person>();
+        public void SetPersons(List<Person> _persons)
+        {
+            persons = _persons;
+        }
+
+        public List<Person> GetPersons()
+        {
+            return persons;
         }
     }
 }

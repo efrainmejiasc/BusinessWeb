@@ -13,5 +13,6 @@ namespace BusinessDeskTop.Engine.Interfaces
         bool DeletFile(string pathArchivo);
         bool CreateFile(string pathArchivo);
         bool ExistsFile(string pathArchivo);
+        string ConvertImgTo64Img(string pathFile);
     }
 }

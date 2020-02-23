@@ -21,7 +21,17 @@ namespace BusinessDeskTop.Formularios
         }
 
         private void UploadPerson_Load(object sender, EventArgs e)
+        {       
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtEmpresa.Text))
+            {
+                MessageBox.Show("Ingrese nombre empresa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            Valor.NombreEmpresa = txtEmpresa.Text.Replace(' ', '_') ;
             this.openFileDialog1.FileName = string.Empty;
             this.openFileDialog1.Filter = "Archivo Excel (*.xlsx)|*.xlsx| Archivo Excel *.xls)|*.xls|Todos los archivos (*.*)|*.*";
             this.openFileDialog1.Title = "Buscar lista";
@@ -52,5 +62,12 @@ namespace BusinessDeskTop.Formularios
             }
             return result;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+      
     }
 }

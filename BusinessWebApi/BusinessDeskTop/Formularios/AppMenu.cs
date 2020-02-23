@@ -21,7 +21,7 @@ namespace BusinessDeskTop.Formularios
         {
             UploadPerson upload = new UploadPerson();
             upload.Show();
-            this.Hide();
+            //this.Hide();
         }
     }
 }

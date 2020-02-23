@@ -29,18 +29,37 @@ namespace BusinessDeskTop.Engine
             int colCount = xlRange.Columns.Count;
             string strValue = string.Empty;
             int idx = 0;
+            bool existeFoto = false;
             for (int fila  = 2; fila <= rowCount; fila++)
             {
-                for (int columna = 1; columna <= colCount; columna++)
+                for (int columna = 1; columna <= colCount - 1 ; columna++)
                 {
                     if (xlRange.Cells[fila, columna] != null && xlRange.Cells[fila, columna].Value != null)
-                        strValue = strValue + xlRange.Cells[fila, columna].Value.ToString()  + "#" ;
-                    else
-                        strValue = strValue + "NO_DEFINIDO" + "#";
-
-                    if (columna == colCount)
                     {
-                        if (!strValue.Contains("NO_DEFINIDO"))
+                        if (columna == 1)
+                        {
+                            existeFoto = Tool.ExistsFile(xlRange.Cells[fila, columna].Value.ToString());
+                            if (!existeFoto)
+                            {
+                               strValue = strValue + "NO_FOTO" + "#";
+                            }
+                            else
+                            {
+                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                            }
+                        }
+                        else
+                        {
+                            strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                        }   
+                    }
+                    else
+                    {
+                        strValue = strValue + "NO_DEFINIDO" + "#";
+                    }
+                    if (columna == colCount - 1)
+                    {
+                        if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO"))
                         {
                             p = SetListPerson(strValue,Tool);
                             if (!string.IsNullOrEmpty(p.Email))
@@ -71,7 +90,6 @@ namespace BusinessDeskTop.Engine
             xlApp.Quit();
             Marshal.ReleaseComObject(xlApp);
             ReadWriteTxt(pathArchivo);
-
             Valor.SetDt(dt);
             return lp;
         }
@@ -118,7 +136,7 @@ namespace BusinessDeskTop.Engine
             p.Email = string.Empty;
 
             p.Company = x[9];
-            p.Qr = x[10];
+            p.Qr = string.Empty;
 
 
             return p;
@@ -127,8 +145,15 @@ namespace BusinessDeskTop.Engine
         public DataTable SetDataTable(string strValue, DataTable dt , int idx)
         {
             string[] x = strValue.Split('#');
-            dt.Rows.Add(idx, x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10]);
+            dt.Rows.Add(idx, x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], string.Empty);
             return dt;
         }
+
+        public bool CreateFileXlsx (List<Person> p , string pathFile)
+        {
+
+        }
+
+        
     }
 }

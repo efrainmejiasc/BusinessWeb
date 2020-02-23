@@ -74,5 +74,12 @@ namespace BusinessDeskTop.Engine
             catch { }
             return resultado;
         }
+
+        public  string ConvertImgTo64Img(string pathFile)
+        {
+            byte[] imageArray = System.IO.File.ReadAllBytes(pathFile);
+            string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+            return base64ImageRepresentation;
+        }
     }
 }
