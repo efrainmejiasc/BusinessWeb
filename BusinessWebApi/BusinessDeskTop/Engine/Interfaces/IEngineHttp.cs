@@ -8,5 +8,8 @@ namespace BusinessDeskTop.Engine.Interfaces
 {
     public interface IEngineHttp
     {
+        Task<string> GetAccessToken (string jsonData);
+        Task<bool> CreateCompany(string strToken, string jsonData);
+        Task<bool> UploadPersonToApi(string strToken, string jsonData);
     }
 }

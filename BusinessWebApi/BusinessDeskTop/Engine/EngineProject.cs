@@ -10,6 +10,7 @@ using System.Data;
 using System.IO;
 using BusinessDeskTop.Modelo;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace BusinessDeskTop.Engine
 {
@@ -185,14 +186,34 @@ namespace BusinessDeskTop.Engine
                 string foto64 = string.Empty;
                 string sourceQr = string.Empty;
                 string qr64 = string.Empty;
-
+                byte[] byteFoto;
+                byte[] byteQr;
                 foreach (Person p in persons)
                 {
-                    foto64 = Tool.ConvertImgTo64Img(p.Foto);
+                    using (Image imagen = Image.FromFile(p.Foto))
+                    {
+                        using (MemoryStream m = new MemoryStream())
+                        {
+                            imagen.Save(m, imagen.RawFormat);
+                            byteFoto = m.ToArray();
+                            foto64 = Convert.ToBase64String(byteFoto);
+                        }
+                    }
+                    //foto64 = Tool.ConvertImgTo64Img(p.Foto);
                     sourceQr = p.Nombre + p.Apellido + p.Dni;
                     sourceQr = Tool.ConvertirBase64(sourceQr);
                     p.Qr = Tool.CreateQrCode(sourceQr, Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
-                    qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
+
+                    using (Image imagen = Image.FromFile(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png"))
+                    {
+                        using (MemoryStream m = new MemoryStream())
+                        {
+                            imagen.Save(m, imagen.RawFormat);
+                            byteQr = m.ToArray();
+                            qr64 = Convert.ToBase64String(byteQr);
+                        }
+                    }
+                    // qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
 
                     hoja.Range["A" + n].Value = p.Foto;
                     hoja.Range["B" + n].Value = p.Nombre;
@@ -227,6 +248,13 @@ namespace BusinessDeskTop.Engine
             }
    
             return resultado;
+        }
+
+        public async Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion)
+        {
+            string strValid = Tool.DataLoginUserApi();
+            strValid = await HttpFuncion.GetAccessToken(strValid);
+            return strValid;
         }
 
         

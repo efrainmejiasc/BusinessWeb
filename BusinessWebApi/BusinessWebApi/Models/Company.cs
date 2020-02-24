@@ -37,5 +37,10 @@ namespace BusinessWebApi.Models
 
         [Column(Order = 7, TypeName = "INT")]
         public int NumberDevices{ get; set; }
+
+        [Index(IsUnique = true)]
+        [Column(Order = 8, TypeName = "VARCHAR")]
+        [StringLength(50)]
+        public string Ref{ get; set; }
     }
 }

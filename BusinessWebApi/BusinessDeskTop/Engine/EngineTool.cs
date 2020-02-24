@@ -1,6 +1,8 @@
 ﻿using BusinessDeskTop.Engine.Interfaces;
+using BusinessDeskTop.Modelo;
 using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,6 +17,19 @@ namespace BusinessDeskTop.Engine
 {
     public class EngineTool : IEngineTool
     {
+        public Image ByteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            return Image.FromStream(ms);
+        }
+
+        public  byte[] ImageToByteArray(Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, ImageFormat.Jpeg);
+            return ms.ToArray();
+        }
+
         public bool EmailEsValido(string email)
         {
             string expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
@@ -106,6 +121,17 @@ namespace BusinessDeskTop.Engine
             imagen.Save(pathFile, ImageFormat.Png);
 
             return pathFile;
+        }
+
+        public string DataLoginUserApi()
+        {
+            UserApi userApi = new UserApi()
+            {
+                User = "giovanni",
+                Password = "1234giovanni",
+                Email = "creativarionegro@gmail.com",
+            };
+            return JsonConvert.SerializeObject(userApi);
         }
     }
 }

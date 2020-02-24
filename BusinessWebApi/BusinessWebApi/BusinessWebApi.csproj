@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CompanyApiController.cs" />
     <Compile Include="Controllers\PersonApiController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Engine\EngineContext.cs" />
@@ -154,6 +155,14 @@
     <Compile Include="Engine\TokenValidationHandler .cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002241458183_INIT.cs" />
+    <Compile Include="Migrations\202002241458183_INIT.designer.cs">
+      <DependentUpon>202002241458183_INIT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002242123506_INIT1.cs" />
+    <Compile Include="Migrations\202002242123506_INIT1.designer.cs">
+      <DependentUpon>202002242123506_INIT1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Company.cs" />
@@ -175,6 +184,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202002241458183_INIT.resx">
+      <DependentUpon>202002241458183_INIT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002242123506_INIT1.resx">
+      <DependentUpon>202002242123506_INIT1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

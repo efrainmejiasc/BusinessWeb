@@ -22,9 +22,12 @@ namespace BusinessWebApi.Engine
         {
             bool resultado = false;
             user.CreateDate = DateTime.UtcNow;
-            user.Password = Tool.ConvertirBase64(user.Email + user.Password);
-            user.Password2 = Tool.ConvertirBase64(user.User + user.Password);
+            string pass1= Tool.ConvertirBase64(user.Email + user.Password);
+            string pass2 = Tool.ConvertirBase64(user.User + user.Password);
+            user.Password = pass1;
+            user.Password2 = pass2;
             user.IdCompany =  GetCompanyId(user.Company);
+            user.Status = true;
             try
             {
                 using (EngineContext context = new EngineContext())
@@ -34,7 +37,7 @@ namespace BusinessWebApi.Engine
                 }
                 resultado = true;
             }
-            catch { }
+            catch (Exception ex) { }
             return resultado;
         }
 
@@ -50,7 +53,7 @@ namespace BusinessWebApi.Engine
                         return user;
                 }
             }
-            catch { }
+            catch (Exception ex) { }
             return null;
         }
 
@@ -65,7 +68,7 @@ namespace BusinessWebApi.Engine
                         return company.Id;
                 }
             }
-            catch { }
+            catch (Exception ex){ }
             return 0;
         }
 
@@ -78,13 +81,15 @@ namespace BusinessWebApi.Engine
                 {
                     foreach(Person person in persons)
                     {
+                        person.Date = DateTime.UtcNow;
+                        person.Status = true;
                         context.Person.Add(person);
                         context.SaveChanges();
                     }
                 }
                 resultado = true;
             }
-            catch { }
+            catch (Exception ex) { }
             return resultado;
         }
 
@@ -118,7 +123,25 @@ namespace BusinessWebApi.Engine
                     resultado = true;
                 }
             }
-            catch { }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool CreateCompany( Company company)
+        {
+            bool resultado = false;
+            company.Status = true;
+            company.CreateDate = DateTime.UtcNow;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    context.Company.Add(company);
+                    context.SaveChanges();
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
             return resultado;
         }
 

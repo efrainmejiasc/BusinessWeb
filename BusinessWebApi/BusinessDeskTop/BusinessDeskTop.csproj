@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +42,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,6 +63,12 @@
     <Compile Include="Engine\Interfaces\IEngineHttp.cs" />
     <Compile Include="Engine\Interfaces\IEngineProject.cs" />
     <Compile Include="Engine\Interfaces\IEngineTool.cs" />
+    <Compile Include="Formularios\AddCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\AddCompany.Designer.cs">
+      <DependentUpon>AddCompany.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\AppMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,9 +81,15 @@
     <Compile Include="Formularios\UploadPerson.Designer.cs">
       <DependentUpon>UploadPerson.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\Company.cs" />
     <Compile Include="Modelo\Person.cs" />
+    <Compile Include="Modelo\TicketAcceso.cs" />
+    <Compile Include="Modelo\UserApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Formularios\AddCompany.resx">
+      <DependentUpon>AddCompany.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AppMenu.resx">
       <DependentUpon>AppMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,6 +147,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessWebApi\BusinessWebApi.csproj">
+      <Project>{22a69675-12e6-46fe-a4e4-feee5f95e6ae}</Project>
+      <Name>BusinessWebApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

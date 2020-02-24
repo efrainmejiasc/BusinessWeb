@@ -45,7 +45,8 @@ namespace BusinessWebApi.Models
         [StringLength(200)]
         public string Password2 { get; set; }
 
-        [NotMapped]
+        [Column(Order = 10, TypeName = "VARCHAR")]
+        [StringLength(200)]
         public string Company { get; set; }
     }
 }

@@ -71,14 +71,13 @@ namespace BusinessWebApi.Models
         public bool Status { get; set; }
 
         [Column(Order = 14, TypeName = "VARCHAR")]
-        [StringLength(4000)]
         [Required]
         public string Foto { get; set; }
 
         [Column(Order = 15, TypeName = "VARCHAR")]
-        [StringLength(4000)]
         [Required]
-        public string Qr{ get; set; }
+        public string Qr { get; set; }
+
 
     }
 }

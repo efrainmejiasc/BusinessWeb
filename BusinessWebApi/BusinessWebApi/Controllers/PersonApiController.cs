@@ -23,7 +23,7 @@ namespace BusinessWebApi.Controllers
 
         [HttpPost]
         [ActionName("CreatePerson")]
-        public HttpResponseMessage CreatePerson (List<Person> persons)
+        public HttpResponseMessage CreatePerson ([FromBody] List<Person> persons)
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
             if (persons.Count == 0)
@@ -48,7 +48,7 @@ namespace BusinessWebApi.Controllers
 
         [HttpPut]
         [ActionName("UpdatePerson")]
-        public HttpResponseMessage UpdatePerson(List<Person> persons)
+        public HttpResponseMessage UpdatePerson([FromBody]  List<Person> persons)
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
             if (persons.Count == 0)

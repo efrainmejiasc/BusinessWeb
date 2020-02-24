@@ -1,5 +1,6 @@
 ﻿using BusinessDeskTop.Engine.Interfaces;
 using BusinessDeskTop.Modelo;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,15 +40,56 @@ namespace BusinessDeskTop.Engine
             string pathFileXlsx = Valor.PathFileXlsx();//path del archivo excel 
             resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool); 
             if (resultado)
-            {
-                //persons.Clear();
-                persons = Valor.GetPersons();
-                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-                
-
+                UploadPersonToApi();
+            
             return resultado;
         } 
+
+        
+        public async Task  UploadPersonToApi()
+        {
+            bool resultado = false;
+            string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
+            if (!string.IsNullOrEmpty(token))
+            {
+                List<Person> persons = Valor.GetPersons();
+                string personas = JsonConvert.SerializeObject(persons);
+                resultado = await HttpFuncion.UploadPersonToApi(token, personas);
+            }
+            if (resultado)
+                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+
+        public void Company(string nombre, string email, string rif, string tlf, string devices)
+        {
+            AddCompany(nombre, email, rif, tlf, devices);
+        }
+
+        public async Task AddCompany (string nombre, string email , string rif , string tlf, string devices)
+        {
+            bool resultado = false;
+            string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
+            if (!string.IsNullOrEmpty(token))
+            {
+                Company company = new Company() { 
+                    NameCompany = nombre,
+                    Email = email,
+                    Ref = rif,
+                    Phone = tlf,
+                    NumberDevices = Convert.ToInt32(devices)
+
+                };
+
+                string empresa= JsonConvert.SerializeObject(company);
+                resultado = await HttpFuncion.CreateCompany(token, empresa);
+                if (resultado)
+                    MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

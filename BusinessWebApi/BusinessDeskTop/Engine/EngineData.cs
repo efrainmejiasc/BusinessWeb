@@ -21,6 +21,7 @@ namespace BusinessDeskTop.Engine
             return valor;
         }
 
+        public bool ResultAsync { get; set; }
         public  string NombreEmpresa {get;set; }
 
         public  string PathFolderFotos = @"C:\Fotos\";

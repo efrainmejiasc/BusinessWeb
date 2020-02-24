@@ -60,8 +60,9 @@
             // agregarEmpresaToolStripMenuItem
             // 
             this.agregarEmpresaToolStripMenuItem.Name = "agregarEmpresaToolStripMenuItem";
-            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.agregarEmpresaToolStripMenuItem.Text = "Agregar Empresa";
+            this.agregarEmpresaToolStripMenuItem.Click += new System.EventHandler(this.agregarEmpresaToolStripMenuItem_Click);
             // 
             // listasToolStripMenuItem
             // 
