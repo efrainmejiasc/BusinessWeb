@@ -26,9 +26,9 @@ namespace BusinessDeskTop.Engine
         {
             bool resultado = false;
             List<Person> persons = Funcion.LeerArchivo(pathArchivo,Tool);
-            resultado = Tool.CreateFolder(@"C:\QR_ARCHIVOS");
-            resultado = Tool.CreateFolder(@"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa);
-            resultado = Tool.CreateFolder(@"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + "_QR");
+            resultado = Tool.CreateFolder(Valor.FolderFile); //path carpeta archivos 
+            resultado = Tool.CreateFolder(Valor.PathFolderFileEmpresa()); // path carpeta archivos empresa
+            resultado = Tool.CreateFolder(Valor.PathFolderImageQr()); // path carpeta qr empresa
             dgv.DataSource = Valor.GetDt();
             dgv.ClearSelection();
             if (persons.Count == 0)
@@ -36,11 +36,16 @@ namespace BusinessDeskTop.Engine
                 MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return true;
             }
-            string path = @"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + DateTime.Now.ToString().Replace("\\", "").Replace(' ', '_').Replace(":", "") + ".xlsx";
-            path = path.Replace("/", "");
-            resultado = Funcion.CreateFileXlsx(persons, path,Tool); 
+            string pathFileXlsx = Valor.PathFileXlsx();//path del archivo excel 
+            resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool); 
             if (resultado)
+            {
+                //persons.Clear();
+                persons = Valor.GetPersons();
                 MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+                
 
             return resultado;
         } 

@@ -191,8 +191,8 @@ namespace BusinessDeskTop.Engine
                     foto64 = Tool.ConvertImgTo64Img(p.Foto);
                     sourceQr = p.Nombre + p.Apellido + p.Dni;
                     sourceQr = Tool.ConvertirBase64(sourceQr);
-                    p.Qr = Tool.CreateQrCode(sourceQr, @"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + "_QR\\" + p.Dni + ".png");
-                    qr64 = Tool.ConvertImgTo64Img(@"C:\QR_ARCHIVOS\" + Valor.NombreEmpresa + "\\" + Valor.NombreEmpresa + "_QR\\" + p.Dni + ".png");
+                    p.Qr = Tool.CreateQrCode(sourceQr, Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
+                    qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
 
                     hoja.Range["A" + n].Value = p.Foto;
                     hoja.Range["B" + n].Value = p.Nombre;
@@ -207,6 +207,9 @@ namespace BusinessDeskTop.Engine
                     hoja.Range["K" + n].Value = p.Qr;
                     hoja.Range["L" + n].Value = foto64;
                     hoja.Range["M" + n].Value = qr64;
+
+                    p.Foto = foto64;
+                    p.Qr = qr64;
                     n++;
                 }
                 excel.ActiveWindow.Zoom = 100;
@@ -214,7 +217,8 @@ namespace BusinessDeskTop.Engine
                 excel.Rows.AutoFit();
                 libro.SaveAs(pathFile);
                 ReadWriteTxt(pathFile);
-
+                excel.Quit();
+                Valor.SetPersons(persons);
                 resultado = true;
             }
             catch(Exception ex)

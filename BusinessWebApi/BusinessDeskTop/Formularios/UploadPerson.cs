@@ -31,7 +31,7 @@ namespace BusinessDeskTop.Formularios
                 MessageBox.Show("Ingrese nombre empresa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            Valor.NombreEmpresa = txtEmpresa.Text.Replace(' ', '_') ;
+            Valor.NombreEmpresa = txtEmpresa.Text.Trim().Replace(' ', '_') ;
             this.openFileDialog1.FileName = string.Empty;
             this.openFileDialog1.Filter = "Archivo Excel (*.xlsx)|*.xlsx| Archivo Excel *.xls)|*.xls|Todos los archivos (*.*)|*.*";
             this.openFileDialog1.Title = "Buscar lista";

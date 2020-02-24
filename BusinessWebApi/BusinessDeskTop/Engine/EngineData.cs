@@ -21,7 +21,38 @@ namespace BusinessDeskTop.Engine
             return valor;
         }
 
-        public string NombreEmpresa {get;set; }
+        public  string NombreEmpresa {get;set; }
+
+        public  string PathFolderFotos = @"C:\Fotos\";
+
+
+        public string FolderFile = @"C:\APPArchivosExcel\";
+        private string pathFolderFile = string.Empty;
+
+        public string PathFolderFileEmpresa()
+        {
+            pathFolderFile = FolderFile + NombreEmpresa;
+            return pathFolderFile;
+        }
+
+        private string pathFolderQr = string.Empty;
+        public string PathFolderImageQr()
+        {
+            pathFolderQr = FolderFile + NombreEmpresa + @"\" + NombreEmpresa + "_QR";
+            return pathFolderQr;
+        }
+
+        private string pathFileXlsx = string.Empty;
+
+        public string PathFileXlsx()
+        {
+            string diferenciador = DateTime.Now.ToString().Replace("/", "");
+            diferenciador = diferenciador.Replace("\\", "");
+            diferenciador = diferenciador.Replace(":", "");
+            diferenciador = diferenciador.Replace(" ", "_");
+            pathFileXlsx = FolderFile + NombreEmpresa + @"\" + NombreEmpresa + diferenciador + ".xlsx" ;
+            return pathFileXlsx;
+        }
 
         private DataTable dt = new DataTable();
         public void SetDt (DataTable _dt)
