@@ -14,7 +14,9 @@ namespace BusinessDeskTop.Formularios
     public partial class UploadPerson : Form
     {
         private EngineData Valor = EngineData.Instance();
-        private string tipo = string.Empty;
+        private EngineProject Funcion = new EngineProject();
+        private EngineHttp FuncionHttp = new EngineHttp();
+        private EngineTool Tool = new EngineTool();
         public UploadPerson()
         {
             InitializeComponent();
@@ -26,6 +28,7 @@ namespace BusinessDeskTop.Formularios
 
         private void button1_Click(object sender, EventArgs e)
         {
+            lblMsj.Text = string.Empty;
             if (string.IsNullOrEmpty(txtEmpresa.Text))
             {
                 MessageBox.Show("Ingrese nombre empresa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -46,12 +49,9 @@ namespace BusinessDeskTop.Formularios
         private bool ProcesarArchivo(string pathArchivo)
         {
             bool result = false;
-            EngineProject Funcion = new EngineProject();
-            EngineHttp FuncionHttp = new EngineHttp();
-            EngineTool Tool = new EngineTool();
             EngineProcesor Proceso = new EngineProcesor(FuncionHttp ,Funcion,Tool);
             try {
-                result = Proceso.ProcesarArchivo(pathArchivo,dgv);
+                result = Proceso.ProcesarArchivo(pathArchivo,dgv,lblMsj);
                 result = true;
             }
             catch (Exception ex)
@@ -68,10 +68,15 @@ namespace BusinessDeskTop.Formularios
 
         private void button3_Click(object sender, EventArgs e)
         {
-            EngineProject Funcion = new EngineProject();
-            EngineHttp FuncionHttp = new EngineHttp();
-            EngineTool Tool = new EngineTool();
+            if (dgv.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para exortar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             EngineProcesor Proceso = new EngineProcesor(FuncionHttp, Funcion, Tool);
+            DataTable dt = new DataTable();
+            dt = (DataTable) dgv.DataSource;
+            Proceso.ExportarErrores(dt);
         }
     }
 }

@@ -9,8 +9,7 @@ namespace BusinessWebApi.Engine.Interfaces
     public interface IEngineDb
     { 
         bool CreateUser(UserApi user);
-        //bool CreateCompany(Company company);
-        int CreateCompany(Company company);
+        bool CreateCompany(Company company);
         int GetCompanyId(string nameCompany);
         bool CreatePerson(List<Person> persons);
         bool UpdatePerson(List<Person> persons);

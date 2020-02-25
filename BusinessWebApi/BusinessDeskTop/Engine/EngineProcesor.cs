@@ -3,6 +3,7 @@ using BusinessDeskTop.Modelo;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace BusinessDeskTop.Engine
             Tool = _Tool;
         }
 
-        public  bool ProcesarArchivo  (string pathArchivo,DataGridView dgv)
+        #region UPLOADLISTA
+        public bool ProcesarArchivo (string pathArchivo,DataGridView dgv,Label lbl)
         {
             bool resultado = false;
             List<Person> persons = Funcion.LeerArchivo(pathArchivo,Tool);
@@ -37,16 +39,19 @@ namespace BusinessDeskTop.Engine
                 MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return true;
             }
+            lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine + 
+                       "Insertando datos en Db" + Environment.NewLine + "Espere un momento, esto puede tardar unos segundos";
+
             string pathFileXlsx = Valor.PathFileXlsx();//path del archivo excel 
             resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool); 
             if (resultado)
-                UploadPersonToApi();
+                UploadPersonToApi(lbl);
             
             return resultado;
         } 
 
         
-        public async Task  UploadPersonToApi()
+        public async Task  UploadPersonToApi(Label lbl)
         {
             bool resultado = false;
             string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
@@ -60,9 +65,26 @@ namespace BusinessDeskTop.Engine
                 MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            lbl.Text = string.Empty;
+        }
+        public bool ExportarErrores(DataTable dt)
+        {
+            bool resultado = false;
+            resultado = Funcion.CreateFileXlsx(dt);
+            if (resultado)
+                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            return resultado;
         }
 
+        #endregion
 
+
+
+        #region ADDCOMPANY
         public void Company(string nombre, string email, string rif, string tlf, string devices)
         {
             AddCompany(nombre, email, rif, tlf, devices);
@@ -91,5 +113,7 @@ namespace BusinessDeskTop.Engine
                     MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        #endregion
     }
 }

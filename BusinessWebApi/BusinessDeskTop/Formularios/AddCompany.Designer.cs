@@ -161,7 +161,7 @@
             this.Controls.Add(this.txtName);
             this.Name = "AddCompany";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddCompany";
+            this.Text = "Nueva Empresa";
             this.ResumeLayout(false);
             this.PerformLayout();
 

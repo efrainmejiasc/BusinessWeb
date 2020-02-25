@@ -41,6 +41,11 @@ namespace BusinessDeskTop.Formularios
                 return;
             }
              Proceso.Company(txtName.Text, txtEmail.Text, txtRef.Text, txtTlf.Text, txtDevice.Text);
+             txtName.Text = string.Empty; 
+             txtEmail.Text = string.Empty;
+             txtRef.Text = string.Empty;
+             txtTlf.Text = string.Empty;
+             txtDevice.Text = string.Empty;
         }
     }
 }

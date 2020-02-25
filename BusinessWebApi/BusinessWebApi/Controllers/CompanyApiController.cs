@@ -39,15 +39,15 @@ namespace BusinessWebApi.Controllers
                 response.Content = new StringContent(EngineData.emailNoValido, Encoding.Unicode);
                 return response;
             }
-            int r = Metodo.CreateCompany(company);
-            if (r == 0)
+            resultado = Metodo.CreateCompany(company);
+            if (!resultado)
             {
                 response.Content = new StringContent(EngineData.falloCrearCompany, Encoding.Unicode);
             }
             else
             {
                 response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
-                response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlCompany + "/" + r.ToString());
+                response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlCompany);
             }
             return response;
         }

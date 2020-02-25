@@ -61,6 +61,7 @@ namespace BusinessDeskTop.Engine
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
+                    //string urlValidacion = response.Headers.Location.ToString();
                     return true;
                 }
             }

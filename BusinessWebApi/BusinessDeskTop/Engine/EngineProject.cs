@@ -250,6 +250,63 @@ namespace BusinessDeskTop.Engine
             return resultado;
         }
 
+        public bool CreateFileXlsx(DataTable dt)
+        {
+            bool resultado = false;
+
+            Excel.Application excel = default(Excel.Application);
+            Excel.Workbook libro = default(Excel.Workbook);
+            Excel.Worksheet hoja = default(Excel.Worksheet);
+            excel = new Excel.Application();
+            excel.DisplayAlerts = false;
+            try
+            {
+                libro = excel.Workbooks.Add();
+                hoja = libro.Worksheets[1];
+                hoja.Activate();
+
+                hoja.Range["A1"].Value = "FOTO";
+                hoja.Range["B1"].Value = "NOMBRE";
+                hoja.Range["C1"].Value = "APELLIDO";
+                hoja.Range["D1"].Value = "DNI";
+                hoja.Range["E1"].Value = "MATRICULA";
+                hoja.Range["F1"].Value = "RH";
+                hoja.Range["G1"].Value = "GRADO";
+                hoja.Range["H1"].Value = "GRUPO";
+                hoja.Range["I1"].Value = "EMAIL";
+                hoja.Range["J1"].Value = "EMPRESA";
+
+                int n = 2;
+               
+                foreach (DataRow p in dt.Rows)
+                {
+                    hoja.Range["A" + n].Value = p[1];
+                    hoja.Range["B" + n].Value = p[2];
+                    hoja.Range["C" + n].Value = p[3];
+                    hoja.Range["D" + n].Value = p[4];
+                    hoja.Range["E" + n].Value = p[5];
+                    hoja.Range["F" + n].Value = p[6];
+                    hoja.Range["G" + n].Value = p[7];
+                    hoja.Range["H" + n].Value = p[8];
+                    hoja.Range["I" + n].Value = p[9];
+                    hoja.Range["J" + n].Value = p[10];
+                    n++;
+                }
+                excel.ActiveWindow.Zoom = 100;
+                excel.Columns.AutoFit();
+                excel.Rows.AutoFit();
+                excel.Visible = true;
+                resultado = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error:  " + ex.ToString());
+            }
+
+            return resultado;
+        }
+
+
         public async Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion)
         {
             string strValid = Tool.DataLoginUserApi();
