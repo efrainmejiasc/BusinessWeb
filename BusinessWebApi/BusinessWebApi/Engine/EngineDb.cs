@@ -127,9 +127,8 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-        public bool CreateCompany( Company company)
+        public int CreateCompany( Company company)
         {
-            bool resultado = false;
             company.Status = true;
             company.CreateDate = DateTime.UtcNow;
             try
@@ -138,11 +137,11 @@ namespace BusinessWebApi.Engine
                 {
                     context.Company.Add(company);
                     context.SaveChanges();
+                    return company.Id;
                 }
-                resultado = true;
             }
             catch (Exception ex) { }
-            return resultado;
+            return 0;
         }
 
     }
