@@ -76,14 +76,14 @@
             // actualizarListaToolStripMenuItem
             // 
             this.actualizarListaToolStripMenuItem.Name = "actualizarListaToolStripMenuItem";
-            this.actualizarListaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.actualizarListaToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.actualizarListaToolStripMenuItem.Text = "Actualizar Lista";
             this.actualizarListaToolStripMenuItem.Click += new System.EventHandler(this.actualizarListaToolStripMenuItem_Click);
             // 
             // subirListaToolStripMenuItem
             // 
             this.subirListaToolStripMenuItem.Name = "subirListaToolStripMenuItem";
-            this.subirListaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.subirListaToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.subirListaToolStripMenuItem.Text = "Subir Lista";
             this.subirListaToolStripMenuItem.Click += new System.EventHandler(this.subirListaToolStripMenuItem_Click);
             // 
@@ -97,6 +97,7 @@
             this.Name = "AppMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu principal";
+            this.Load += new System.EventHandler(this.AppMenu_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

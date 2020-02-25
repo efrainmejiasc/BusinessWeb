@@ -35,5 +35,15 @@ namespace BusinessDeskTop.Formularios
             UpdatePerson upload = new UpdatePerson();
             upload.Show();
         }
+
+        private void AppMenu_Load(object sender, EventArgs e)
+        {
+            if (DateTime.Now.Date >= Convert.ToDateTime("28/02/2020"))
+            {
+                MessageBox.Show("El Tiempo de prueba expiro", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Application.Exit();
+            }
+
+        }
     }
 }
