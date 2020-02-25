@@ -60,7 +60,7 @@
             // agregarEmpresaToolStripMenuItem
             // 
             this.agregarEmpresaToolStripMenuItem.Name = "agregarEmpresaToolStripMenuItem";
-            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.agregarEmpresaToolStripMenuItem.Text = "Agregar Empresa";
             this.agregarEmpresaToolStripMenuItem.Click += new System.EventHandler(this.agregarEmpresaToolStripMenuItem_Click);
             // 
@@ -76,13 +76,14 @@
             // actualizarListaToolStripMenuItem
             // 
             this.actualizarListaToolStripMenuItem.Name = "actualizarListaToolStripMenuItem";
-            this.actualizarListaToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.actualizarListaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.actualizarListaToolStripMenuItem.Text = "Actualizar Lista";
+            this.actualizarListaToolStripMenuItem.Click += new System.EventHandler(this.actualizarListaToolStripMenuItem_Click);
             // 
             // subirListaToolStripMenuItem
             // 
             this.subirListaToolStripMenuItem.Name = "subirListaToolStripMenuItem";
-            this.subirListaToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.subirListaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.subirListaToolStripMenuItem.Text = "Subir Lista";
             this.subirListaToolStripMenuItem.Click += new System.EventHandler(this.subirListaToolStripMenuItem_Click);
             // 

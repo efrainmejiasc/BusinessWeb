@@ -1,6 +1,7 @@
 ﻿using BusinessDeskTop.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace BusinessDeskTop.Engine
             return valor;
         }
 
+        public static string UrlBase = ConfigurationManager.AppSettings["URL_BASE"];
         public bool ResultAsync { get; set; }
         public  string NombreEmpresa {get;set; }
 

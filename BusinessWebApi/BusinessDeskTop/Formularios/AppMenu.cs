@@ -29,5 +29,11 @@ namespace BusinessDeskTop.Formularios
             AddCompany company = new AddCompany();
             company.Show();
         }
+
+        private void actualizarListaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdatePerson upload = new UpdatePerson();
+            upload.Show();
+        }
     }
 }

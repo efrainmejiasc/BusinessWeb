@@ -11,19 +11,20 @@ using System.Windows.Forms;
 
 namespace BusinessDeskTop.Formularios
 {
-    public partial class UploadPerson : Form
+    public partial class UpdatePerson : Form
     {
         private EngineData Valor = EngineData.Instance();
         private EngineProject Funcion = new EngineProject();
         private EngineHttp FuncionHttp = new EngineHttp();
         private EngineTool Tool = new EngineTool();
-        public UploadPerson()
+        public UpdatePerson()
         {
             InitializeComponent();
         }
 
-        private void UploadPerson_Load(object sender, EventArgs e)
-        {       
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -34,7 +35,7 @@ namespace BusinessDeskTop.Formularios
                 MessageBox.Show("Ingrese nombre empresa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            Valor.NombreEmpresa = txtEmpresa.Text.Trim().Replace(' ', '_') ;
+            Valor.NombreEmpresa = txtEmpresa.Text.Trim().Replace(' ', '_');
             this.openFileDialog1.FileName = string.Empty;
             this.openFileDialog1.Filter = "Archivo Excel (*.xlsx)|*.xlsx| Archivo Excel *.xls)|*.xls|Todos los archivos (*.*)|*.*";
             this.openFileDialog1.Title = "Buscar lista";
@@ -42,16 +43,17 @@ namespace BusinessDeskTop.Formularios
             string pathArchivo = openFileDialog1.FileName;
             if (!string.IsNullOrEmpty(pathArchivo))
             {
-               ProcesarArchivo(pathArchivo);
+                ProcesarArchivoActualizar(pathArchivo);
             }
         }
 
-        private bool ProcesarArchivo(string pathArchivo)
+        private bool ProcesarArchivoActualizar(string pathArchivo)
         {
             bool result = false;
-            EngineProcesor Proceso = new EngineProcesor(FuncionHttp ,Funcion,Tool);
-            try {
-                result = Proceso.ProcesarArchivo(pathArchivo,dgv,lblMsj);
+            EngineProcesor Proceso = new EngineProcesor(FuncionHttp, Funcion, Tool);
+            try
+            {
+                result = Proceso.ProcesarArchivoActualizar(pathArchivo, dgv, lblMsj);
                 result = true;
             }
             catch (Exception ex)
@@ -59,11 +61,6 @@ namespace BusinessDeskTop.Formularios
                 MessageBox.Show(ex.ToString());
             }
             return result;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -75,7 +72,7 @@ namespace BusinessDeskTop.Formularios
             }
             EngineProcesor Proceso = new EngineProcesor(FuncionHttp, Funcion, Tool);
             DataTable dt = new DataTable();
-            dt = (DataTable) dgv.DataSource;
+            dt = (DataTable)dgv.DataSource;
             Proceso.ExportarErrores(dt);
         }
     }

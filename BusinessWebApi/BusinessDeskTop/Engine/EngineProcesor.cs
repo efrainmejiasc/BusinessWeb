@@ -45,13 +45,13 @@ namespace BusinessDeskTop.Engine
             string pathFileXlsx = Valor.PathFileXlsx();//path del archivo excel 
             resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool); 
             if (resultado)
-                UploadPersonToApi(lbl);
+                UploadPersonToApi(lbl,"INSERT");
             
             return resultado;
         } 
 
         
-        public async Task  UploadPersonToApi(Label lbl)
+        public async Task  UploadPersonToApi(Label lbl,string tipo)
         {
             bool resultado = false;
             string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
@@ -59,7 +59,10 @@ namespace BusinessDeskTop.Engine
             {
                 List<Person> persons = Valor.GetPersons();
                 string personas = JsonConvert.SerializeObject(persons);
-                resultado = await HttpFuncion.UploadPersonToApi(token, personas);
+                if (tipo == "INSERT")
+                  resultado = await HttpFuncion.UploadPersonToApi(token, personas);
+                else
+                  resultado = await HttpFuncion.UploadPersonToApiUpdate(token, personas);
             }
             if (resultado)
                 MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -82,7 +85,33 @@ namespace BusinessDeskTop.Engine
 
         #endregion
 
+        #region ACTUALIZAR LISTA
+        public bool ProcesarArchivoActualizar(string pathArchivo, DataGridView dgv, Label lbl)
+        {
+            bool resultado = false;
+            List<Person> persons = Funcion.LeerArchivo(pathArchivo, Tool);
+            resultado = Tool.CreateFolder(Valor.FolderFile); //path carpeta archivos 
+            resultado = Tool.CreateFolder(Valor.PathFolderFileEmpresa()); // path carpeta archivos empresa
+            resultado = Tool.CreateFolder(Valor.PathFolderImageQr()); // path carpeta qr empresa
+            dgv.DataSource = Valor.GetDt();
+            dgv.ClearSelection();
+            if (persons.Count == 0)
+            {
+                MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return true;
+            }
+            lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine +
+                       "( Insertando/Actualizando ) datos en Db" + Environment.NewLine + "Espere un momento, esto puede tardar unos segundos";
 
+            string pathFileXlsx = Valor.PathFileXlsx();//path del archivo excel 
+            resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool);
+            if (resultado)
+                UploadPersonToApi(lbl,"UPDATE");
+
+            return resultado;
+        }
+
+        #endregion
 
         #region ADDCOMPANY
         public void Company(string nombre, string email, string rif, string tlf, string devices)

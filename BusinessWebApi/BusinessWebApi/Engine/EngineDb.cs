@@ -57,6 +57,22 @@ namespace BusinessWebApi.Engine
             return null;
         }
 
+        public UserApi GetUserSuspended(string password, string password2)
+        {
+            UserApi user = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    user = context.UserApi.Where(s => (s.Password == password || s.Password2 == password2) && s.Status == false).FirstOrDefault();
+                    if (user != null)
+                        return user;
+                }
+            }
+            catch (Exception ex) { }
+            return null;
+        }
+
         public int GetCompanyId(string nameCompany)
         {
             Company company = null;
@@ -64,7 +80,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    company = context.Company.Where(s => s.NameCompany == nameCompany).FirstOrDefault();
+                    company = context.Company.Where(s => s.NameCompany == nameCompany.Trim()).FirstOrDefault();
                         return company.Id;
                 }
             }
@@ -72,20 +88,33 @@ namespace BusinessWebApi.Engine
             return 0;
         }
 
-        public bool CreatePerson (List<Person> persons)
+        public bool CreatePerson(List<Person> persons)
+        {
+            bool resultado = false;
+            try
+            {
+                foreach (Person person in persons)
+                {
+                    person.IdCompany = GetCompanyId(person.Company);
+                    CreatePerson(person);
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool CreatePerson (Person person)
         {
             bool resultado = false;
             try
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    foreach(Person person in persons)
-                    {
-                        person.Date = DateTime.UtcNow;
-                        person.Status = true;
-                        context.Person.Add(person);
-                        context.SaveChanges();
-                    }
+                    person.Date = DateTime.UtcNow;
+                    person.Status = true;
+                    context.Person.Add(person);
+                    context.SaveChanges();
                 }
                 resultado = true;
             }
@@ -99,27 +128,46 @@ namespace BusinessWebApi.Engine
             Person C = new Person();
             try
             {
+                foreach (Person person in persons)
+                {
+                    UpdatePerson(person);
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool UpdatePerson(Person person)
+        {
+            bool resultado = false;
+            Person C = new Person();
+            try
+            {
                 using (EngineContext Context = new EngineContext())
                 {
-                    foreach (Person person in persons)
-                    { 
-                        C = Context.Person.Where(s => s.Dni == person.Dni).FirstOrDefault();
-                        Context.Person.Attach(C);
-                        C.Nombre = person.Nombre;
-                        C.Apellido = person.Apellido;
-                        C.Company = person.Company;
-                        C.Date = DateTime.UtcNow;
-                        C.Email = person.Email;
-                        C.Foto = person.Foto;
-                        C.Qr = person.Qr;
-                        C.Rh = person.Rh;
-                        C.Grado = person.Grado;
-                        C.Grupo = person.Grupo;
-                        C.Matricula = person.Matricula;
-                        C.Status = person.Status;
-                        Context.Configuration.ValidateOnSaveEnabled = false;
-                        Context.SaveChanges();
+                    C = Context.Person.Where(s => s.Dni == person.Dni).FirstOrDefault();
+                    if (C == null)
+                    {
+                        CreatePerson(person);
+                        return true;
                     }
+                    Context.Person.Attach(C);
+                    C.Nombre = person.Nombre;
+                    C.Apellido = person.Apellido;
+                    C.Company = person.Company;
+                    C.Date = DateTime.UtcNow;
+                    C.Email = person.Email;
+                    C.Foto = person.Foto;
+                    C.Qr = person.Qr;
+                    C.Rh = person.Rh;
+                    C.Grado = person.Grado;
+                    C.Grupo = person.Grupo;
+                    C.Matricula = person.Matricula;
+                    C.Status = person.Status;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+
                     resultado = true;
                 }
             }

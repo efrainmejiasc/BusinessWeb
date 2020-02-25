@@ -33,7 +33,7 @@ namespace BusinessDeskTop.Engine
             int colCount = xlRange.Columns.Count;
             string strValue = string.Empty;
             int idx = 0;
-            bool existeFoto = false;
+            bool validate = false;
             for (int fila  = 2; fila <= rowCount; fila++)
             {
                 for (int columna = 1; columna <= colCount - 1 ; columna++)
@@ -42,10 +42,22 @@ namespace BusinessDeskTop.Engine
                     {
                         if (columna == 1)
                         {
-                            existeFoto = Tool.ExistsFile(xlRange.Cells[fila, columna].Value.ToString());
-                            if (!existeFoto)
+                            validate = Tool.ExistsFile(xlRange.Cells[fila, columna].Value.ToString());
+                            if (!validate)
                             {
                                strValue = strValue + "NO_FOTO" + "#";
+                            }
+                            else
+                            {
+                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                            }
+                        }
+                        else if (columna == 9)
+                        {
+                            validate = Tool.EmailEsValido(xlRange.Cells[fila, columna].Value.ToString());
+                            if (!validate)
+                            {
+                                strValue = strValue + "EMAIL_NO_VALIDO" + "#";
                             }
                             else
                             {
@@ -63,7 +75,7 @@ namespace BusinessDeskTop.Engine
                     }
                     if (columna == colCount - 1)
                     {
-                        if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO"))
+                        if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO") && !strValue.Contains("EMAIL_NO_VALIDO"))
                         {
                             p = SetListPerson(strValue,Tool);
                             if (!string.IsNullOrEmpty(p.Email))
@@ -73,12 +85,12 @@ namespace BusinessDeskTop.Engine
                             }
                             else
                             {
-                                dt = SetDataTable(strValue, dt, fila - 1);
+                                dt = SetDataTable(strValue, dt, fila);
                             }
                         }
                         else
                         {
-                            dt = SetDataTable(strValue, dt, fila - 1);
+                            dt = SetDataTable(strValue, dt, fila);
                         }
                     }
                 }
@@ -87,12 +99,12 @@ namespace BusinessDeskTop.Engine
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            Marshal.ReleaseComObject(xlRange);
-            Marshal.ReleaseComObject(xlWorksheet);
+            while (Marshal.ReleaseComObject(xlRange) != 0) ;
+            while (Marshal.ReleaseComObject(xlWorksheet) != 0) ;
             xlWorkbook.Close();
-            Marshal.ReleaseComObject(xlWorkbook);
+            while (Marshal.ReleaseComObject(xlWorkbook) != 0) ;
             xlApp.Quit();
-            Marshal.ReleaseComObject(xlApp);
+            while (Marshal.ReleaseComObject(xlApp) != 0) ;
             ReadWriteTxt(pathArchivo);
             Valor.SetDt(dt);
             return lp;
@@ -190,30 +202,11 @@ namespace BusinessDeskTop.Engine
                 byte[] byteQr;
                 foreach (Person p in persons)
                 {
-                    using (Image imagen = Image.FromFile(p.Foto))
-                    {
-                        using (MemoryStream m = new MemoryStream())
-                        {
-                            imagen.Save(m, imagen.RawFormat);
-                            byteFoto = m.ToArray();
-                            foto64 = Convert.ToBase64String(byteFoto);
-                        }
-                    }
-                    //foto64 = Tool.ConvertImgTo64Img(p.Foto);
+                    foto64 = Tool.ConvertImgTo64Img(p.Foto);
                     sourceQr = p.Nombre + p.Apellido + p.Dni;
                     sourceQr = Tool.ConvertirBase64(sourceQr);
                     p.Qr = Tool.CreateQrCode(sourceQr, Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
-
-                    using (Image imagen = Image.FromFile(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png"))
-                    {
-                        using (MemoryStream m = new MemoryStream())
-                        {
-                            imagen.Save(m, imagen.RawFormat);
-                            byteQr = m.ToArray();
-                            qr64 = Convert.ToBase64String(byteQr);
-                        }
-                    }
-                    // qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
+                    qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
 
                     hoja.Range["A" + n].Value = p.Foto;
                     hoja.Range["B" + n].Value = p.Nombre;
