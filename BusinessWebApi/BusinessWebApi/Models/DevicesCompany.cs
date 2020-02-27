@@ -18,29 +18,21 @@ namespace BusinessWebApi.Models
         [Column(Order = 2, TypeName = "INT")]
         public int IdCompany { get; set; }
 
-        [Column(Order = 3, TypeName = "DATETIME")]
-        public DateTime CreateDate { get; set; }
+        [Column(Order = 3, TypeName = "INT")]
+        public int IdUserApi { get; set; }
 
-        [Index(IsUnique = true)]
-        [Column(Order = 4, TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string Email { get; set; }
-
-        [Index(IsUnique = true)]
-        [Column(Order = 5, TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string User { get; set; }
-
-        [Column(Order = 6, TypeName = "VARCHAR")]
-        [StringLength(200)]
-        public string Password { get; set; }
-
-        [Column(Order = 7, TypeName = "INT")]
+        [Column(Order = 4, TypeName = "INT")]
         public int IdTypeUser { get; set; }
 
-        [Index(IsUnique = true)]
-        [Column(Order = 8, TypeName = "VARCHAR")]
+        [Column(Order = 5, TypeName = "VARCHAR")]
+        [StringLength(50)]
+        public string Dni { get; set; }
+
+        [Column(Order = 6, TypeName = "VARCHAR")]
         [StringLength(50)]
         public string Phone { get; set; }
+
+        [Column(Order = 7, TypeName = "DATETIME")]
+        public DateTime CreateDate { get; set; }
     }
 }

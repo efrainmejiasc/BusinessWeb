@@ -138,6 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AsistenciaClaseApiController.cs" />
+    <Compile Include="Controllers\AsistenciaComedorApiController.cs" />
     <Compile Include="Controllers\CompanyApiController.cs" />
     <Compile Include="Controllers\PersonApiController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
@@ -165,6 +167,8 @@
       <DependentUpon>202002242123506_INIT1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AsistenciaClase.cs" />
+    <Compile Include="Models\AsistenciaComedor.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DevicesCompany.cs" />
     <Compile Include="Models\Objetos\DataEmail.cs" />

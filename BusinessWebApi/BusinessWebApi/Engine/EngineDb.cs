@@ -194,5 +194,67 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
+        public bool NewAsistenciaClase (List<AsistenciaClase> asistencias)
+        {
+            bool resultado = false;
+            try
+            {
+                foreach (AsistenciaClase asistencia in asistencias)
+                {
+                    NewAsistenciaClase(asistencia);
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool NewAsistenciaClase (AsistenciaClase asistencia)
+        {
+            bool resultado = false;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    context.AsistenciaClase.Add(asistencia);
+                    context.SaveChanges();
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias)
+        {
+            bool resultado = false;
+            try
+            {
+                foreach (AsistenciaComedor asistencia in asistencias)
+                {
+                    NewAsistenciaComedor(asistencia);
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool NewAsistenciaComedor(AsistenciaComedor asistencia)
+        {
+            bool resultado = false;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    context.AsistenciaComedor.Add(asistencia);
+                    context.SaveChanges();
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
     }
 }

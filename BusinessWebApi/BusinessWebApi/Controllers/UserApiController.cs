@@ -90,6 +90,11 @@ namespace BusinessWebApi.Controllers
                 expire_token = "20000",
                 type_token = "Bearer",
                 refresh_token = unicoIdentificador,
+                email = user.Email,
+                user = user.User,
+                idCompany = user.IdCompany,
+                stauts = user.Status,
+                idTypeUser =user.IdTypeUser,
             });
 
             return response;
