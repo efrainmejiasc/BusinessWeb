@@ -162,6 +162,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataEmail.cs" />
+    <Compile Include="Models\DeviceUser.cs" />
     <Compile Include="Models\UserApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
