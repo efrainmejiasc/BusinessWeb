@@ -24,7 +24,12 @@ namespace BusinessWebApi.Engine
         public static string Audience = ConfigurationManager.AppSettings["JWT_AUDIENCE_TOKEN"];
         public static string Issuer = ConfigurationManager.AppSettings["JWT_ISSUER_TOKEN"];
         public static int ExpireToken = Convert.ToInt32(ConfigurationManager.AppSettings["JWT_EXPIRE_MINUTES"]);
-        public static string UrlLogin = "api/User/Login";
+
+        public static string UrlLogin = "api/UserApi/Login";
+        public static string UrlPersons = "api/PersonApi/QueryPersonas";
+        public static string UrlCompany = "api/CompanyApi/QueryCompany";
+        public static string UrlAsistenciaClase = "api/PersonApi/QueryAsistenciaClase";
+        public static string UrlAsistenciaComedor= "api/CompanyApi/QueryAsistenciaComedor";
 
         public static string modeloImcompleto = "modelo incompleto";
         public static string emailNoValido = "email no valido";
@@ -33,6 +38,9 @@ namespace BusinessWebApi.Engine
         public static string transaccionExitosa = "transaccion exitosa";
         public static string transaccionFallida = "transaccion fallida";
         public static string noExisteUsuario = "no existe usuario";
+        public static string falloCrearPersonas = "error al crear personas";
+        public static string falloUpdatePersonas = "error al actualizar personas";
+        public static string falloCrearCompany = "error al crear company";
 
         public static string Client = "DataCompany/GetClient?nameCompany=";
         public static string NoData = "No Existen Registros";
