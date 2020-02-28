@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusinessWebSite.Engine.Interfaces
 {
-    public interface IEngineDb
+    public interface IEngineProcesor
     {
+        Task GetTicketAccesoAsync(string jsonUserApi, IEngineHttp FuncionHttp);
     }
 }

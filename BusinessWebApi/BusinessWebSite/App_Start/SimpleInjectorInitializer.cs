@@ -4,7 +4,8 @@ namespace BusinessWebSite.App_Start
 {
     using System.Reflection;
     using System.Web.Mvc;
-
+    using BusinessWebSite.Engine;
+    using BusinessWebSite.Engine.Interfaces;
     using SimpleInjector;
     using SimpleInjector.Integration.Web;
     using SimpleInjector.Integration.Web.Mvc;
@@ -28,7 +29,10 @@ namespace BusinessWebSite.App_Start
      
         private static void InitializeContainer(Container container)
         {
-
+            container.Register<IEngineHttp, EngineHttp>(Lifestyle.Transient);
+            container.Register<IEngineProject, EngineProject>(Lifestyle.Transient);
+            //container.Register<IEngineNotify, EngineNotify>(Lifestyle.Transient);
+            container.Register<IEngineTool, EngineTool>(Lifestyle.Transient);
             // For instance:
             // container.Register<IUserRepository, SqlUserRepository>(Lifestyle.Scoped);
         }

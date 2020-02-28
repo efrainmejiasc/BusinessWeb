@@ -136,11 +136,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Engine\EngineDb.cs" />
-    <Compile Include="Engine\Interfaces\IEngineDb.cs" />
+    <Compile Include="Engine\EngineData.cs" />
+    <Compile Include="Engine\EngineHttp.cs" />
+    <Compile Include="Engine\EngineProcesor.cs" />
+    <Compile Include="Engine\EngineProject.cs" />
+    <Compile Include="Engine\EngineTool.cs" />
+    <Compile Include="Engine\Interfaces\IEngineProcesor.cs" />
+    <Compile Include="Engine\Interfaces\IEngineProject.cs" />
+    <Compile Include="Engine\Interfaces\IEngineHttp.cs" />
+    <Compile Include="Engine\Interfaces\IEngineTool.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\TicketAcceso.cs" />
+    <Compile Include="Models\UserApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +159,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\global.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -285,7 +295,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
