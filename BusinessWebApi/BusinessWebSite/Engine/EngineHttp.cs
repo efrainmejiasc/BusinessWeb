@@ -16,7 +16,7 @@ namespace BusinessWebSite.Engine
 {
     public class EngineHttp :IEngineHttp
     {
-        public async Task<string> GetAccessToken(string jsonData)
+        public async Task<TicketAcceso> GetAccessToken(string jsonData)
         {
             TicketAcceso ticketAcceso = new TicketAcceso();
             string respuesta = string.Empty;
@@ -29,12 +29,9 @@ namespace BusinessWebSite.Engine
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
                     ticketAcceso = JsonConvert.DeserializeObject<TicketAcceso>(respuesta);
-                }else
-                {
-                    respuesta = response.StatusCode.ToString();
                 }
+                return ticketAcceso;
             }
-            return ticketAcceso.access_token;
         }
     }
 }

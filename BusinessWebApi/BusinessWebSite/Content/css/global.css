@@ -18,3 +18,18 @@
 .cBtn {
     color: darkgray;
 }
+
+input:invalid {
+    border: 1px solid red;
+}
+
+input:valid {
+    border: 1px solid green;
+}
+
+.lblMsj {
+    margin-left: 2%;
+    color: silver;
+    font-size: smaller;
+    font-family: 'Times New Roman';
+}

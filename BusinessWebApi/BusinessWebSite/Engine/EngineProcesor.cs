@@ -10,9 +10,10 @@ namespace BusinessWebSite.Engine
 {
     public class EngineProcesor : IEngineProcesor
     {
-        public async Task GetTicketAccesoAsync(string jsonUserApi,IEngineHttp FuncionHttp)
+        public async Task<TicketAcceso> GetTicketAccesoAsync(string jsonUserApi,IEngineHttp FuncionHttp)
         {
-           string ticket = await FuncionHttp.GetAccessToken(jsonUserApi);
+            TicketAcceso ticket = await FuncionHttp.GetAccessToken(jsonUserApi);
+            return ticket;
         }
     }
 }

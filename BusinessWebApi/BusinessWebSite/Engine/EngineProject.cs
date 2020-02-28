@@ -26,6 +26,7 @@ namespace BusinessWebSite.Engine
                 modelo.Email = "A";
             }
             modelo.Password = password;
+            System.Web.HttpContext.Current.Session["User"] = user;
             return JsonConvert.SerializeObject(modelo);
         }
     }

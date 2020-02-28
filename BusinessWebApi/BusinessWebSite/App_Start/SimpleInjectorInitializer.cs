@@ -33,6 +33,7 @@ namespace BusinessWebSite.App_Start
             container.Register<IEngineProject, EngineProject>(Lifestyle.Transient);
             //container.Register<IEngineNotify, EngineNotify>(Lifestyle.Transient);
             container.Register<IEngineTool, EngineTool>(Lifestyle.Transient);
+            container.Register<IEngineProcesor, EngineProcesor>(Lifestyle.Transient);
             // For instance:
             // container.Register<IUserRepository, SqlUserRepository>(Lifestyle.Scoped);
         }

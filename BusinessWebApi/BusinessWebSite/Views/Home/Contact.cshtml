@@ -1,17 +1,77 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Registro de usuario";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+<link href="~/Content/css/global.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
+<script src="/Content/js/global.js" type="text/javascript"></script>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div class="divBan container">
+    <div class="col-md-4 container">
+        <h4>Registro de Usuario</h4><br>
+        <input type="text" id="UserName" name="UserName" placeholder="Ingrese Nombre de Usuario" required class="form-control" />
+        <input type="email" id="Email" name="Email" placeholder="Ingrese Email" required class="form-control" />
+        <label id="msjEmail" class="validacionField"></label>
+        <input type="password" id="password" name="password" placeholder="Ingrese Password" required class="form-control" />
+        <label id="msjPassword" class="lblMsj">10 caracteres minimo combinando letras y numeros</label>
+        <input type="password" id="password2" name="password2" placeholder="Confime Password" required class="form-control" /><br />
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+        <label class="checkbox-inline"><input type="checkbox" id="check" required class="btn btn-primary" /> No soy un robot</label><br /><br />
+        <input type="submit" id="registrar" value="Registrar" class="voton btn btn-primary" />
+        <input type="reset" id="cancelar" value="Cancelar" onClick="NavPage('/Home/Index');" class="voton btn btn-primary" />
+    </div>
+</div>
+<script>
+    $("#frmAbout").submit(function (e) {
+
+        var email = $('#mail').val();
+        var email2 = $('#email').val();
+
+
+        var a = $('#password').val();
+        var b = $('#password2').val();
+        if (a.indexOf(' ') !== -1) {
+            CancelarSubmit(e, 'La contraseña no debe tener espacios en blanco')
+            return false;
+        }
+        if (a.length < 10) {
+            CancelarSubmit(e, 'La contraseña debe tener 10 caracteres minimo')
+            return false;
+        }
+        if (a != b) {
+            CancelarSubmit(e, 'Las contraseñas deben ser identicas')
+            return false;
+        }
+
+        var mayuscula = false;
+        var minuscula = false;
+        var numero = false;
+        for (var i = 0; i < a.length; i++) {
+            if (a.charCodeAt(i) >= 65 && a.charCodeAt(i) <= 90)
+                mayuscula = true;
+            else if (a.charCodeAt(i) >= 97 && a.charCodeAt(i) <= 122)
+                minuscula = true;
+            else if (a.charCodeAt(i) >= 48 && a.charCodeAt(i) <= 57)
+                numero = true;
+        }
+
+        if (minuscula === false && mayuscula === false) {
+            CancelarSubmit(e, 'La contraseña debe contener letras')
+            return false;
+        }
+        if (numero === false) {
+            CancelarSubmit(e, 'La contraseña debe contener numeros')
+            return false;
+        }
+    });
+
+    function CancelarSubmit(e, msj) {
+        document.getElementById('validacion').innerHTML = msj;
+        document.getElementById('validacion').style.display = 'block';
+        e.preventDefault();
+        setTimeout(OcultarValidacion, 4000);
+    }
+</script>

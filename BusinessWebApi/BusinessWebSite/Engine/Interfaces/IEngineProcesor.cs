@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessWebSite.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace BusinessWebSite.Engine.Interfaces
 {
     public interface IEngineProcesor
     {
-        Task GetTicketAccesoAsync(string jsonUserApi, IEngineHttp FuncionHttp);
+        Task <TicketAcceso> GetTicketAccesoAsync(string jsonUserApi, IEngineHttp FuncionHttp);
     }
 }
