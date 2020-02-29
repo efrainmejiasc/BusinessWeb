@@ -15,5 +15,10 @@ namespace BusinessWebSite.Engine
             TicketAcceso ticket = await FuncionHttp.GetAccessToken(jsonUserApi);
             return ticket;
         }
+
+        public async Task<bool> CreateUserApi (string jsonUserApi, IEngineHttp FuncionHttp)
+        {
+            return await FuncionHttp.CreateUserApi(jsonUserApi);
+        }
     }
 }

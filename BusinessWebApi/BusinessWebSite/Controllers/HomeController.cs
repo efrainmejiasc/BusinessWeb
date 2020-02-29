@@ -41,14 +41,36 @@ namespace BusinessWebSite.Controllers
             {
                 respuesta.Descripcion = "Autentificacion Exitosa";
                 respuesta.Resultado = true;
+                System.Web.HttpContext.Current.Session["User"] = user;
+                System.Web.HttpContext.Current.Session["AccessToken"] = ticket.access_token;
             }
             else
             {
                 respuesta.Descripcion = "Autentificacion Fallida";
                 respuesta.Resultado = false;
                 System.Web.HttpContext.Current.Session["User"] = null;
+                System.Web.HttpContext.Current.Session["AccessToken"] = null;
             }
             return Json(respuesta);
+        }
+
+        public async Task<ActionResult> Contact (string user,string email,string password, string password2)
+        {
+            ViewBag.Response = null;
+            if (Request.HttpMethod == "GET" || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return View();
+   
+            bool result = Tool.EmailEsValido(email);
+            if (!result)
+                ViewBag.Response = "Email no valido";
+
+            string jsonUserApi = Funcion.BuildCreateUserApiStr(user,email,password, Tool);
+            bool resultado = await Proceso.CreateUserApi(jsonUserApi, FuncionHttp);
+            if (resultado)
+                ViewBag.Response = "Registro satisfactorio";
+            else
+                ViewBag.Response = "Registro fallidfo";
+            return View();
         }
 
         public ActionResult About()
@@ -58,11 +80,5 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
-        public ActionResult Contact(string user,string email,string password, string password2 , string codigo)
-        {
-     
-
-            return View();
-        }
     }
 }

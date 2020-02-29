@@ -20,7 +20,6 @@
           <input type="password" id="password" name="password" placeholder="Ingrese Password" required class="form-control" />
           <label id="msjPassword" class="lblMsj">10 caracteres minimo combinando letras y numeros</label>
           <input type="password" id="password2" name="password2" placeholder="Confime Password" required class="form-control" /><br />
-          <input type="text" id="codigo" name="codigo" placeholder="Codigo afiliacion (Opcional)" class="form-control" /><br />
 
           <label class="checkbox-inline"><input type="checkbox" id="check" required class="btn btn-primary" /> No soy un robot</label><br /><br />
           <input type="submit" id="registrar" value="Registrar" class="voton btn btn-primary" />
@@ -32,6 +31,9 @@
 
     $(document).ready(function () {
         document.documentElement.style.overflowX = 'hidden';
+        let respuesta = '@ViewBag.Response';
+        if (respuesta != '')
+            alert(respuesta);
     });
 
     $("#frmContact").submit(function (e) {

@@ -9,6 +9,7 @@ namespace BusinessWebSite.Engine.Interfaces
 {
     public interface IEngineHttp
     {
+        Task<bool> CreateUserApi(string jsonData);
         Task<TicketAcceso> GetAccessToken(string jsonData);
     }
 }

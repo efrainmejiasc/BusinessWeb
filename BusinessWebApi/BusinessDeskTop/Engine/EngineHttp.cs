@@ -43,7 +43,8 @@ namespace BusinessDeskTop.Engine
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    return true;
+                    if (respuesta == "transaccion exitosa")
+                        return true;
                 }
             }
             return false;
@@ -61,7 +62,8 @@ namespace BusinessDeskTop.Engine
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
-                    return true;
+                    if (respuesta == "transaccion exitosa")
+                        return true;
                 }
             }
             return false;
@@ -80,7 +82,8 @@ namespace BusinessDeskTop.Engine
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
                     //string urlValidacion = response.Headers.Location.ToString();
-                    return true;
+                    if (respuesta == "transaccion exitosa")
+                        return true;
                 }
             }
             return false;

@@ -26,7 +26,17 @@ namespace BusinessWebSite.Engine
                 modelo.Email = "A";
             }
             modelo.Password = password;
-            System.Web.HttpContext.Current.Session["User"] = user;
+            return JsonConvert.SerializeObject(modelo);
+        }
+
+        public string BuildCreateUserApiStr(string user, string email, string password,IEngineTool Tool)
+        {
+            UserApi modelo = new UserApi()
+            {
+                User = user,
+                Email = email,
+                Password = password
+            };
             return JsonConvert.SerializeObject(modelo);
         }
     }

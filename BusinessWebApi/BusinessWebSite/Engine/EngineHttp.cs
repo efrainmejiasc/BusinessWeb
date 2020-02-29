@@ -33,5 +33,23 @@ namespace BusinessWebSite.Engine
                 return ticketAcceso;
             }
         }
+
+        public async Task<bool> CreateUserApi(string jsonData)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.PostAsync(EngineData.UrlBase + "UserApi/CreateUser", new StringContent(jsonData, Encoding.UTF8, "application/json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    if (respuesta == "transaccion exitosa") 
+                        return true;
+                }
+            }
+            return false;
+        }
     }
 }

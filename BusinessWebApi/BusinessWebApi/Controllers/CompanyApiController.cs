@@ -15,10 +15,12 @@ namespace BusinessWebApi.Controllers
     {
         private readonly IEngineTool Tool;
         private readonly IEngineDb Metodo;
-        public CompanyApiController(IEngineTool _tool, IEngineDb _metodo)
+        private readonly IEngineNotify Notificacion;
+        public CompanyApiController(IEngineTool _tool, IEngineDb _metodo, IEngineNotify _notificacion)
         {
             Tool = _tool;
             Metodo = _metodo;
+            Notificacion = _notificacion;
         }
 
         [HttpPost]
@@ -46,6 +48,7 @@ namespace BusinessWebApi.Controllers
             }
             else
             {
+                Notificacion.EnviarEmail(company.Email, Tool.ConstruirCodigo(), company.NameCompany);
                 response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
                 response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlCompany);
             }
