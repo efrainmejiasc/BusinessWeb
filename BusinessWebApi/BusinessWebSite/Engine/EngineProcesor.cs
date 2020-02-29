@@ -20,5 +20,10 @@ namespace BusinessWebSite.Engine
         {
             return await FuncionHttp.CreateUserApi(jsonUserApi);
         }
+
+        public async Task<bool> RegisterDevice(string jsonData, string accessToken , IEngineHttp FuncionHttp)
+        {
+            return await FuncionHttp.RegisterDevice(jsonData,accessToken);
+        }
     }
 }

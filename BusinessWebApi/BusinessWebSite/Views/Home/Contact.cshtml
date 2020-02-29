@@ -23,7 +23,7 @@
 
           <label class="checkbox-inline"><input type="checkbox" id="check" required class="btn btn-primary" /> No soy un robot</label><br /><br />
           <input type="submit" id="registrar" value="Registrar" class="voton btn btn-primary" />
-          <input type="reset" id="cancelar" value="Cancelar" onClick="NavPage('/Home/Index');" class="voton btn btn-primary" />
+          <input type="reset" id="cancelar" value="Cancelar" onClick="NavePage('/Home/Index');" class="voton btn btn-primary" />
        </div>
     }
 </div>
@@ -32,8 +32,11 @@
     $(document).ready(function () {
         document.documentElement.style.overflowX = 'hidden';
         let respuesta = '@ViewBag.Response';
-        if (respuesta != '')
+        if (respuesta != '') {
             alert(respuesta);
+            if (respuesta == 'Registro satisfactorio')
+                NavePage('/Home/Index')
+        }     
     });
 
     $("#frmContact").submit(function (e) {

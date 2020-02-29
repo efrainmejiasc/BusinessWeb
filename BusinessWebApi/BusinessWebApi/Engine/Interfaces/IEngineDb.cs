@@ -17,6 +17,8 @@ namespace BusinessWebApi.Engine.Interfaces
         bool CreateCompany(Company company);
         int GetCompanyId(string nameCompany);
         bool ExistsCodeCompany(string codigo);
+        int NumberDeviceRegister(int idCompany);
+        Company GetCompanyCodigo(string codigo);
         bool CreatePerson(List<Person> persons);
         bool UpdatePerson(List<Person> persons);
         bool RegisterDevice(DevicesCompany device);

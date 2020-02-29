@@ -28,8 +28,9 @@ namespace BusinessWebApi.Models
         [StringLength(50)]
         public string Dni { get; set; }
 
+        [Index(IsUnique = true)]
         [Column(Order = 6, TypeName = "VARCHAR")]
-        [StringLength(50)]
+        [StringLength(200)]
         public string Phone { get; set; }
 
         [Column(Order = 7, TypeName = "DATETIME")]

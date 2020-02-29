@@ -9,6 +9,7 @@ namespace BusinessWebApi.Engine.Interfaces
 {
     public interface IEngineProject
     {
-        DevicesCompany BuilDeviceCompany(List<RegisterDevice> listDevice, RegisterDevice device, IEngineDb Metodo);
+        DevicesCompany BuilDeviceCompany(Company company, RegisterDevice device, IEngineDb Metodo);
+        DevicesCompany BuilDeviceCompany(List<RegisterDevice> listDevice, RegisterDevice device, IEngineDb Metodo);    
     }
 }

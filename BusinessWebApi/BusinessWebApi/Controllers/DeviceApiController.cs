@@ -35,29 +35,48 @@ namespace BusinessWebApi.Controllers
                 response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
                 return response;
             }
-            int numDevices = Metodo.NumberDevice(device.Codigo);
-            if (numDevices == 0)
+
+            Company company = Metodo.GetCompanyCodigo(device.Codigo);
+            if (company == null || company.Id == 0)
             {
-                response.Content = new StringContent("no existe el codigo", Encoding.Unicode);
+                response.Content = new StringContent("No existe el codigo ingresado", Encoding.Unicode);
+                return response;
+            }
+            DevicesCompany deviceCompany = new DevicesCompany();
+            int countDevice = Metodo.NumberDeviceRegister(company.Id);
+            if (countDevice == 0)
+            {
+                deviceCompany = Funcion.BuilDeviceCompany(company, device, Metodo);
             }
             else
             {
                 List<RegisterDevice> listDevice = Metodo.GetListDevicesRegistered(device.Codigo);
-                if (listDevice.Count == numDevices)
+                if (listDevice.Count < countDevice)
                 {
-                    response.Content = new StringContent("limite para registrar alcanzado", Encoding.Unicode);
+                    response.Content = new StringContent("Limite para registrar dispositivos superado", Encoding.Unicode);
+                    return response;
                 }
                 else
                 {
-                    DevicesCompany deviceCompany = Funcion.BuilDeviceCompany(listDevice, device, Metodo);
-                    bool resultado = Metodo.RegisterDevice(deviceCompany);
-                    if (resultado)
-                        response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
-                    else
-                        response.Content = new StringContent(EngineData.transaccionFallida, Encoding.Unicode);
-
-                    response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlDevices);
-                }    
+                    deviceCompany = Funcion.BuilDeviceCompany(listDevice, device, Metodo);
+                    if (deviceCompany == null)
+                    {
+                        response.Content = new StringContent("El usuario no existe", Encoding.Unicode);
+                        return response;
+                    }
+                } 
+            }
+            bool resultado = Metodo.RegisterDevice(deviceCompany);
+            if (resultado) 
+            {
+                Metodo.UpdateUserApi(company.Id, company.NameCompany, device.User, device.Email);
+                response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
+                response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlDevices);
+            }       
+            else 
+            { 
+                response.Content = new StringContent(EngineData.transaccionFallida, Encoding.Unicode);
+                response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlDevices);
             }
             return response;
         }

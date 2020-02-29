@@ -21,7 +21,12 @@ namespace BusinessDeskTop.Formularios
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // this.Close();
+            txtName.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            txtRef.Text = string.Empty;
+            txtTlf.Text = string.Empty;
+            txtDevice.Text = string.Empty;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -41,11 +46,11 @@ namespace BusinessDeskTop.Formularios
                 return;
             }
              Proceso.Company(txtName.Text, txtEmail.Text, txtRef.Text, txtTlf.Text, txtDevice.Text);
-             txtName.Text = string.Empty; 
+             /*txtName.Text = string.Empty; 
              txtEmail.Text = string.Empty;
              txtRef.Text = string.Empty;
              txtTlf.Text = string.Empty;
-             txtDevice.Text = string.Empty;
+             txtDevice.Text = string.Empty;*/
         }
     }
 }

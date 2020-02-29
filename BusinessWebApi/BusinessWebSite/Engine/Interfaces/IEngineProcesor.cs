@@ -11,5 +11,6 @@ namespace BusinessWebSite.Engine.Interfaces
     {
         Task<bool> CreateUserApi(string jsonUserApi, IEngineHttp FuncionHttp);
         Task <TicketAcceso> GetTicketAccesoAsync(string jsonUserApi, IEngineHttp FuncionHttp);
+        Task<bool> RegisterDevice(string jsonData, string accessToken, IEngineHttp FuncionHttp);
     }
 }

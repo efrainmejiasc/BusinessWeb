@@ -30,7 +30,7 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost] //LOGIN DE USUARIO
         public async Task<ActionResult> LoginUser(string user, string password)
         {
             Respuesta respuesta = new Respuesta();
@@ -41,7 +41,8 @@ namespace BusinessWebSite.Controllers
             {
                 respuesta.Descripcion = "Autentificacion Exitosa";
                 respuesta.Resultado = true;
-                System.Web.HttpContext.Current.Session["User"] = user;
+                System.Web.HttpContext.Current.Session["User"] = ticket.user;
+                System.Web.HttpContext.Current.Session["Email"] = ticket.email;
                 System.Web.HttpContext.Current.Session["AccessToken"] = ticket.access_token;
             }
             else
@@ -49,12 +50,13 @@ namespace BusinessWebSite.Controllers
                 respuesta.Descripcion = "Autentificacion Fallida";
                 respuesta.Resultado = false;
                 System.Web.HttpContext.Current.Session["User"] = null;
+                System.Web.HttpContext.Current.Session["Email"] = null;
                 System.Web.HttpContext.Current.Session["AccessToken"] = null;
             }
             return Json(respuesta);
         }
 
-        public async Task<ActionResult> Contact (string user,string email,string password, string password2)
+        public async Task<ActionResult> Contact (string user,string email,string password, string password2) //REGISTRO DE USUARIO
         {
             ViewBag.Response = null;
             if (Request.HttpMethod == "GET" || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -64,19 +66,34 @@ namespace BusinessWebSite.Controllers
             if (!result)
                 ViewBag.Response = "Email no valido";
 
-            string jsonUserApi = Funcion.BuildCreateUserApiStr(user,email,password, Tool);
+            string jsonUserApi = Funcion.BuildCreateUserApiStr(user,email,password);
             bool resultado = await Proceso.CreateUserApi(jsonUserApi, FuncionHttp);
             if (resultado)
                 ViewBag.Response = "Registro satisfactorio";
             else
-                ViewBag.Response = "Registro fallidfo";
+                ViewBag.Response = "Registro fallido";
             return View();
         }
 
-        public ActionResult About()
+        public async Task<ActionResult> About(string phone,string dni,string codigo) //REGISTRO DE DISPOSITIVO
         {
-            ViewBag.Message = "Your application description page.";
+             if (System.Web.HttpContext.Current.Session["User"] == null)
+                 Response.Redirect("Index");
 
+            ViewBag.Response = null;
+            if (Request.HttpMethod == "GET" || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(dni) || string.IsNullOrEmpty(codigo) || 
+                                                                           System.Web.HttpContext.Current.Session["User"] == null || System.Web.HttpContext.Current.Session["Email"] == null)
+                return View();
+
+            string user = System.Web.HttpContext.Current.Session["User"].ToString();
+            string email = System.Web.HttpContext.Current.Session["Email"].ToString();
+            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni);
+            bool resultado = await Proceso.RegisterDevice(jsonData, token, FuncionHttp);
+            if (resultado)
+                ViewBag.Response = "Registro satisfactorio";
+            else
+                ViewBag.Response = "Registro fallido";
             return View();
         }
 

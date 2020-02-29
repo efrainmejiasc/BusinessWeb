@@ -12,11 +12,32 @@ namespace BusinessWebApi.Engine
     {
         public DevicesCompany BuilDeviceCompany(List<RegisterDevice> listDevice, RegisterDevice device,IEngineDb Metodo)
         {
-            string[] arrayUser = { listDevice[0].Email, listDevice[0].User };
+            string[] arrayUser = { device.Email, device.User };
+            UserApi userApi = Metodo.GetUser(arrayUser);
+            if (userApi != null)
+            {
+                DevicesCompany devicesCompany = new DevicesCompany()
+                {
+                    IdCompany = listDevice[0].IdCompany,
+                    IdUserApi = userApi.Id,
+                    IdTypeUser = 2,
+                    CreateDate = DateTime.UtcNow,
+                    Phone = device.Phone,
+                    Dni = device.Dni
+                };
+                return devicesCompany;
+            }
+
+            return null;
+        }
+
+        public DevicesCompany BuilDeviceCompany(Company company, RegisterDevice device,IEngineDb Metodo)
+        {
+            string[] arrayUser = { device.Email, device.User};
             UserApi userApi = Metodo.GetUser(arrayUser);
             DevicesCompany devicesCompany = new DevicesCompany()
             {
-                IdCompany = listDevice[0].IdCompany,
+                IdCompany = company.Id,
                 IdUserApi = userApi.Id,
                 IdTypeUser = 2,
                 CreateDate = DateTime.UtcNow,

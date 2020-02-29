@@ -61,11 +61,13 @@ namespace BusinessWebApi.Engine
         public UserApi GetUser(string [] userApi)
         {
             UserApi user = null;
+            string email = userApi[0];
+            string usuario = userApi[1];
             try
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    user = context.UserApi.Where(s => s.Email == userApi[0] && s.User == userApi[1]).FirstOrDefault();
+                    user = context.UserApi.Where(s => s.Email == email  && s.User == usuario ).FirstOrDefault();
                     if (user != null)
                         return user;
                 }
@@ -103,6 +105,20 @@ namespace BusinessWebApi.Engine
             }
             catch (Exception ex){ }
             return 0;
+        }
+
+        public Company GetCompanyCodigo(string codigo)
+        {
+            Company company = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Codigo == codigo.Trim()).FirstOrDefault();
+                }
+            }
+            catch (Exception ex) { }
+            return company;
         }
 
         public bool CreatePerson(List<Person> persons)
@@ -290,7 +306,6 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-
         public int NumberDevice (string codigo)
         {
             Company company = new Company();
@@ -305,6 +320,22 @@ namespace BusinessWebApi.Engine
             catch (Exception ex) { }
             return 0;
         }
+
+        public int NumberDeviceRegister(int idCompany)
+        {
+            int count = 0;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                     count = (from DeviceCompany in context.DeviceCompany where DeviceCompany.IdCompany == idCompany from s in context.DeviceCompany select s).Count();
+                     return count;
+                }
+            }
+            catch (Exception ex) { }
+            return 0;
+        }
+
         public List<RegisterDevice> GetListDevicesRegistered(string codigo)
         {
             List<RegisterDevice> device = new List<RegisterDevice>();
@@ -312,6 +343,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
+
                    device = (from Company in context.Company join DevicesCompany in context.DeviceCompany 
                                                              on Company.Id equals DevicesCompany.IdCompany
                                                              where Company.Codigo == codigo && Company.Status == true
@@ -354,6 +386,7 @@ namespace BusinessWebApi.Engine
                     Context.UserApi.Attach(C);
                     C.IdCompany = idCompany;
                     C.Company = nameCompany;
+                    C.IdTypeUser = 2;
                     Context.Configuration.ValidateOnSaveEnabled = false;
                     Context.SaveChanges();
 

@@ -29,7 +29,7 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
-        public string BuildCreateUserApiStr(string user, string email, string password,IEngineTool Tool)
+        public string BuildCreateUserApiStr(string user, string email, string password)
         {
             UserApi modelo = new UserApi()
             {
@@ -39,5 +39,20 @@ namespace BusinessWebSite.Engine
             };
             return JsonConvert.SerializeObject(modelo);
         }
+
+        public string BuildRegisterDeviceStr(string user, string email, string codigo , string phone,string dni)
+        {
+            RegisterDevice modelo = new RegisterDevice()
+            {
+                User = user,
+                Email = email,
+                Codigo = codigo,
+                Phone = phone,
+                Dni = dni
+            };
+            return JsonConvert.SerializeObject(modelo);
+        }
+
+
     }
 }
