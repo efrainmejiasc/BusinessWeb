@@ -30,6 +30,7 @@ namespace BusinessWebApi.Engine
         public static string UrlCompany = "api/CompanyApi/QueryCompany";
         public static string UrlAsistenciaClase = "api/PersonApi/QueryAsistenciaClase";
         public static string UrlAsistenciaComedor= "api/CompanyApi/QueryAsistenciaComedor";
+        public static string UrlDevices = "api/DevicesApi/QueryDevicesApi";
 
         public static string modeloImcompleto = "modelo incompleto";
         public static string emailNoValido = "email no valido";

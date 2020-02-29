@@ -1,5 +1,6 @@
 ﻿using BusinessWebApi.Engine.Interfaces;
 using BusinessWebApi.Models;
+using BusinessWebApi.Models.Objetos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,22 @@ namespace BusinessWebApi.Engine
                 using (EngineContext context = new EngineContext())
                 {
                     user = context.UserApi.Where(s => (s.Password == password || s.Password2 == password2) && s.Status == true).FirstOrDefault();
+                    if (user != null)
+                        return user;
+                }
+            }
+            catch (Exception ex) { }
+            return null;
+        }
+
+        public UserApi GetUser(string [] userApi)
+        {
+            UserApi user = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    user = context.UserApi.Where(s => s.Email == userApi[0] && s.User == userApi[1]).FirstOrDefault();
                     if (user != null)
                         return user;
                 }
@@ -251,6 +268,97 @@ namespace BusinessWebApi.Engine
                     context.SaveChanges();
                 }
                 resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool ExistsCodeCompany(string codigo)
+        {
+            bool resultado = false;
+            Company company = new Company();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Codigo == codigo).FirstOrDefault();
+                    if (company.Id > 0)
+                        resultado = true;
+                }
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+
+        public int NumberDevice (string codigo)
+        {
+            Company company = new Company();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Codigo == codigo).FirstOrDefault();
+                    return company.NumberDevices;
+                }
+            }
+            catch (Exception ex) { }
+            return 0;
+        }
+        public List<RegisterDevice> GetListDevicesRegistered(string codigo)
+        {
+            List<RegisterDevice> device = new List<RegisterDevice>();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                   device = (from Company in context.Company join DevicesCompany in context.DeviceCompany 
+                                                             on Company.Id equals DevicesCompany.IdCompany
+                                                             where Company.Codigo == codigo && Company.Status == true
+                                                             select new RegisterDevice() 
+                                                             { 
+                                                                IdCompany = Company.Id,
+                                                                NameCompany = Company.NameCompany,
+                                                                NumberDevice = Company.NumberDevices
+                                                             }).ToList();
+                }
+            }
+            catch (Exception ex) { }
+            return device;
+        }
+        public bool RegisterDevice (DevicesCompany device)
+        {
+            bool resultado = false;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    context.DeviceCompany.Add(device);
+                    context.SaveChanges();
+                }
+                resultado = true;
+            }
+            catch (Exception ex) { }
+            return resultado;
+        }
+
+        public bool UpdateUserApi (int idCompany , string nameCompany ,string user,string email)
+        {
+            bool resultado = false;
+            UserApi C = new UserApi();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == user && s.Email == email).FirstOrDefault();
+                    Context.UserApi.Attach(C);
+                    C.IdCompany = idCompany;
+                    C.Company = nameCompany;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+
+                    resultado = true;
+                }
             }
             catch (Exception ex) { }
             return resultado;

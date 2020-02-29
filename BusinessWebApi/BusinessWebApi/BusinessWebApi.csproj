@@ -141,6 +141,7 @@
     <Compile Include="Controllers\AsistenciaClaseApiController.cs" />
     <Compile Include="Controllers\AsistenciaComedorApiController.cs" />
     <Compile Include="Controllers\CompanyApiController.cs" />
+    <Compile Include="Controllers\DeviceApiController.cs" />
     <Compile Include="Controllers\PersonApiController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Engine\EngineContext.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DevicesCompany.cs" />
     <Compile Include="Models\Objetos\DataEmail.cs" />
+    <Compile Include="Models\Objetos\RegisterDevice.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\TypeUser.cs" />
     <Compile Include="Models\UserApi.cs" />

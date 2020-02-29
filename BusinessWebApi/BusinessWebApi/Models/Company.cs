@@ -42,5 +42,9 @@ namespace BusinessWebApi.Models
         [Column(Order = 8, TypeName = "VARCHAR")]
         [StringLength(50)]
         public string Ref{ get; set; }
+
+        [Column(Order = 9, TypeName = "VARCHAR")]
+        [StringLength(50)]
+        public string Codigo { get; set; }
     }
 }

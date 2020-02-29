@@ -41,6 +41,7 @@ namespace BusinessWebApi.Controllers
                 response.Content = new StringContent(EngineData.emailNoValido, Encoding.Unicode);
                 return response;
             }
+            company.Codigo = Tool.ConstruirCodigo();
             resultado = Metodo.CreateCompany(company);
             if (!resultado)
             {
@@ -48,7 +49,7 @@ namespace BusinessWebApi.Controllers
             }
             else
             {
-                Notificacion.EnviarEmail(company.Email, Tool.ConstruirCodigo(), company.NameCompany);
+                Notificacion.EnviarEmail(company.Email, company.Codigo, company.NameCompany);
                 response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
                 response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlCompany);
             }
