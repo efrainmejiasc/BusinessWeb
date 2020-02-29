@@ -5,7 +5,7 @@ function LoginUser() {
     var password = $('#password').val();
     var flag = $('#check:checked').val();
     console.log(flag);
-    if (user === '' || password === ''|| flag != 'on') {
+    if (user === '' || password === ''|| flag !== 'on') {
         alert('Todos los campos son obligatorios');
         return false;
     }
@@ -27,4 +27,14 @@ function LoginUser() {
             console.log('LOGINUSER');
         }
     });
+}
+
+function OcultarValidacion() {
+    document.getElementById('validacion').style.display = 'none';
+    $('#password').val('');
+    $('#password2').val('');
+}
+
+function NavePage(page) {
+    window.location.href = page;
 }

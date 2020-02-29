@@ -27,6 +27,14 @@ input:valid {
     border: 1px solid green;
 }
 
+.validacionField {
+    margin-left: 2%;
+    color: red;
+    font-size: smaller;
+    font-family: 'Times New Roman';
+    display: none;
+}
+
 .lblMsj {
     margin-left: 2%;
     color: silver;

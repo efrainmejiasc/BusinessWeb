@@ -58,9 +58,9 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Contact(string user,string email,string password, string password2 , string codigo)
         {
-            ViewBag.Message = "Your contact page.";
+     
 
             return View();
         }
