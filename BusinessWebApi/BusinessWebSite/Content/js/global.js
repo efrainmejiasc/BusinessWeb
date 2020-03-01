@@ -18,7 +18,6 @@ function LoginUser() {
         success: function (data) {
             if (data.Descripcion === "Autentificacion Exitosa") {
                 alert(data.Descripcion);
-                window.location.href = "/Home/About";
             } else {
                 alert(data.Descripcion);
             }

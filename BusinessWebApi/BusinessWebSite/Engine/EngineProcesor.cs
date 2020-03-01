@@ -25,5 +25,10 @@ namespace BusinessWebSite.Engine
         {
             return await FuncionHttp.RegisterDevice(jsonData,accessToken);
         }
+
+        public async Task<string> GetPerson(string dni, string accessToken, IEngineHttp FuncionHttp)
+        {
+            return await FuncionHttp.GetPerson(dni, accessToken);
+        }
     }
 }

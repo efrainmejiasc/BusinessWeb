@@ -1,6 +1,7 @@
 ﻿using BusinessWebApi.Engine;
 using BusinessWebApi.Engine.Interfaces;
 using BusinessWebApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +69,14 @@ namespace BusinessWebApi.Controllers
                 response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlPersons);
             }
             return response;
+        }
+
+        [HttpGet]
+        [ActionName("GetPerson")]
+        public Person GetPerson(string dni)
+        {
+            Person person = Metodo.GetPerson(dni); 
+            return person;
         }
     }
 }

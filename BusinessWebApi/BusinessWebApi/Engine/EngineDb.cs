@@ -38,7 +38,10 @@ namespace BusinessWebApi.Engine
                 }
                 resultado = true;
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/CreateUser*" + " "));
+            }
             return resultado;
         }
 
@@ -54,7 +57,10 @@ namespace BusinessWebApi.Engine
                         return user;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetUser1*" + password));
+            }
             return null;
         }
 
@@ -72,7 +78,10 @@ namespace BusinessWebApi.Engine
                         return user;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetUser2*" + user));
+            }
             return null;
         }
 
@@ -88,7 +97,10 @@ namespace BusinessWebApi.Engine
                         return user;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetUserSuspend*" + password));
+            }
             return null;
         }
 
@@ -103,7 +115,10 @@ namespace BusinessWebApi.Engine
                         return company.Id;
                 }
             }
-            catch (Exception ex){ }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetCompanyId*" + nameCompany));
+            }
             return 0;
         }
 
@@ -117,7 +132,10 @@ namespace BusinessWebApi.Engine
                     company = context.Company.Where(s => s.Codigo == codigo.Trim()).FirstOrDefault();
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetCompanyCodigo*" + codigo));
+            }
             return company;
         }
 
@@ -151,7 +169,10 @@ namespace BusinessWebApi.Engine
                 }
                 resultado = true;
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/CreatePerson*" + person.Email));
+            }
             return resultado;
         }
 
@@ -204,11 +225,14 @@ namespace BusinessWebApi.Engine
                     resultado = true;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdatePerson*" + person.Email));
+            }
             return resultado;
         }
 
-        public bool CreateCompany( Company company)
+        public bool CreateCompany(Company company)
         {
             bool resultado = false;
             company.Status = true;
@@ -223,7 +247,10 @@ namespace BusinessWebApi.Engine
                 }
                 resultado = true;
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/CreateCompany*" + company.Email));
+            }
             return resultado;
         }
 
@@ -254,7 +281,10 @@ namespace BusinessWebApi.Engine
                 }
                 resultado = true;
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewAsistenciaClase*" + asistencia.Dni));
+            }
             return resultado;
         }
 
@@ -285,7 +315,10 @@ namespace BusinessWebApi.Engine
                 }
                 resultado = true;
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewAsistenciaComedor*" + asistencia.Dni));
+            }
             return resultado;
         }
 
@@ -302,7 +335,10 @@ namespace BusinessWebApi.Engine
                         resultado = true;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/ExistsCodeCompany*" + codigo));
+            }
             return resultado;
         }
 
@@ -317,7 +353,10 @@ namespace BusinessWebApi.Engine
                     return company.NumberDevices;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NumberDevice*" + codigo));
+            }
             return 0;
         }
 
@@ -332,7 +371,10 @@ namespace BusinessWebApi.Engine
                      return count;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NumberDeviceRegister*" + idCompany.ToString()));
+            }
             return 0;
         }
 
@@ -355,7 +397,10 @@ namespace BusinessWebApi.Engine
                                                              }).ToList();
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetListDevicesRegistered*" + codigo));
+            }
             return device;
         }
         public bool RegisterDevice (DevicesCompany device)
@@ -370,7 +415,10 @@ namespace BusinessWebApi.Engine
                 }
                 resultado = true;
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/RegisterDevice*" + device.IdUserApi.ToString()));
+            }
             return resultado;
         }
 
@@ -393,7 +441,45 @@ namespace BusinessWebApi.Engine
                     resultado = true;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
+            }
+            return resultado;
+        }
+
+        public Person GetPerson (string dni)
+        {
+           Person person = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    person = context.Person.Where(s => s.Dni == dni ).FirstOrDefault();
+                    if (person != null)
+                        return person;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPerson*" + dni));
+            }
+            return null;
+        }
+
+        public bool InsertarSucesoLog(SucesoLog model)
+        {
+            bool resultado = false;
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    Context.SucesoLog.Add(model);
+                    Context.SaveChanges();
+                    resultado = true;
+                }
+            }
+            catch { }
             return resultado;
         }
 

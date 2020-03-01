@@ -1,5 +1,4 @@
-﻿using BusinessWebApi.Engine;
-using BusinessWebApi.Models;
+﻿
 using BusinessWebSite.Engine.Interfaces;
 using BusinessWebSite.Models;
 using Newtonsoft.Json;
@@ -88,5 +87,24 @@ namespace BusinessWebSite.Engine
             }
             return false;
         }
+
+        public async Task<string> GetPerson (string dni,string strToken)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "PersonApi/GetPerson?dni=" + dni);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+
+            }
+            return respuesta;
+        }
+
     }
 }

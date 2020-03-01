@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Cargar archivo";
+}
+
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+<link href="~/Content/css/global.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
+<script src="/Content/js/global.js" type="text/javascript"></script>
+
+<div style="margin-top:7%;font-size:12px;">
+    <h4 class="text-black-50" id="file">Cargar archivo excel</h4>
+    @using (Html.BeginForm("UploadFile", "Procesor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <label for="file">Archivo .xlsx | .xls</label><br />
+        <input type="file" name="file" id="file" style="width:800px;"/><br /><br />
+        <input type="submit" value="Subir Archivo" class="btn-primary"  style="font-size:14px;"/>
+    }
+</div>
+<script>
+        $(document).ready(function () {
+        document.documentElement.style.overflowX = 'hidden';
+        let respuesta = '@ViewBag.Response';
+        if (respuesta != '') {
+            alert(respuesta);
+        }     
+    });
+</script>

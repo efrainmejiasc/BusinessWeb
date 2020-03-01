@@ -9,6 +9,7 @@ namespace BusinessWebApi.Engine.Interfaces
 {
     public interface IEngineDb
     {
+        Person GetPerson(string dni);
         bool CreateUser(UserApi user);
         int NumberDevice(string codigo);
         bool UpdatePerson(Person person);

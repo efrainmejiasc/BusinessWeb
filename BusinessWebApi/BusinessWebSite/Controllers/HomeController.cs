@@ -71,7 +71,7 @@ namespace BusinessWebSite.Controllers
             if (resultado)
                 ViewBag.Response = "Registro satisfactorio";
             else
-                ViewBag.Response = "Registro fallido";
+                ViewBag.Response = "Registro fallido. Intente con otro usuario y asegurese de que su email no este registrado";
             return View();
         }
 

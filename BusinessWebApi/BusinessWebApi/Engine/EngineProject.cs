@@ -46,5 +46,18 @@ namespace BusinessWebApi.Engine
             };
             return devicesCompany;
         }
+
+        public SucesoLog ConstruirSucesoLog(string cadena)
+        {
+            string[] x = cadena.Split('*');
+            SucesoLog modelo = new SucesoLog()
+            {
+                Fecha = DateTime.UtcNow,
+                Excepcion = x[0],
+                Metodo = x[1],
+                Email = x[2]
+            };
+            return modelo;
+        }
     }
 }

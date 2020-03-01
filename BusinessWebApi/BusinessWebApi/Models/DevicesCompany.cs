@@ -30,10 +30,14 @@ namespace BusinessWebApi.Models
 
         [Index(IsUnique = true)]
         [Column(Order = 6, TypeName = "VARCHAR")]
-        [StringLength(200)]
+        [StringLength(50)]
         public string Phone { get; set; }
 
-        [Column(Order = 7, TypeName = "DATETIME")]
+        [Column(Order = 7, TypeName = "VARCHAR")]
+        [StringLength(100)]
+        public string Imei { get; set; }
+
+        [Column(Order = 8, TypeName = "DATETIME")]
         public DateTime CreateDate { get; set; }
     }
 }

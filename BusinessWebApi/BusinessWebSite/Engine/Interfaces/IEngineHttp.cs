@@ -12,6 +12,7 @@ namespace BusinessWebSite.Engine.Interfaces
         Task<bool> CreateUserApi(string jsonData);
         Task<string> GetRefreshToken(string jsonData);
         Task<TicketAcceso> GetAccessToken(string jsonData);
+        Task<string> GetPerson(string dni, string strToken);
         Task<bool> RegisterDevice(string jsonData, string strToken);
     }
 }

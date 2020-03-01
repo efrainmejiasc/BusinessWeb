@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+<link href="~/Content/css/global.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
+<script src="/Content/js/global.js" type="text/javascript"></script>
+
+<div class="divBan container">
+  
+        <div class="col-md-4 container">
+            <h4>Alumno</h4>
+            <input type="text" id="dni" name="dni" placeholder="Ingrese Documento de Identidad" required class="form-control" /><br />
+
+            <input type="submit" id="buscar" value="Buscar" class="voton btn btn-primary"  onclick="BuscarPersona();"/>
+            <input type="reset" id="cancelar" value="Cancelar" onClick="NavePage('/Home/Index');" class="voton btn btn-primary" />
+        </div>
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span id="cerrar" class="close" onclick="CerrarModal();">&times;</span>
+            <img id="alumno" class="imgCarnet">
+            <img id="qr" class="imgQr">
+            <label id="nombre"></label>
+            <label id="apellido"></label>
+            <label id="di"></label>
+            <label id="grado"></label>
+            <label id="grupo"></label>
+            <label id="rh"></label>
+        </div>
+    </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+        document.documentElement.style.overflowX = 'hidden';
+        let respuesta = '@ViewBag.Response';
+        if (respuesta != '') {
+          alert(respuesta);
+        }
+  });
+
+    
+function BuscarPersona() {
+    var dni = $('#dni').val();
+
+    if (dni === '') {
+        alert('Ingrese numero de documento de identidad');
+        return false;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/BuscarPersona",
+        data: {dni: dni},
+        datatype: "json",
+        success: function (data) {
+            console.log(data);
+
+            try {
+                var I = JSON.parse(data);
+                $('#nombre').html(I.Nombre);
+                $('#apellido').html(I.Apellido);
+                $('#di').html(I.Dni);
+                $('#matricula').html(I.Matricula);
+                $('#grado').html(I.Grado);
+                $('#grupo').html(I.Grupo);
+                $('#rh').html(I.Rh);
+                document.getElementById('alumno').setAttribute('src', 'data:image/png;base64,' + I.Foto);
+                document.getElementById('qr').setAttribute('src', 'data:image/png;base64,' + I.Qr);
+                MostrarModal();
+            } catch(error){ alert('Numero documento identidad ' + dni + ' no encontrado');}
+        
+        },
+        complete: function () {
+   
+            console.log('BUSCARPERSONA');
+        }
+    });
+}
+
+    function MostrarModal() {
+        var modal = document.getElementById('myModal');
+        modal.style.display  = 'block';
+    }
+
+    function CerrarModal () {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none";
+    }
+</script>
