@@ -86,6 +86,7 @@ namespace BusinessWebSite.Controllers
             Person persona = new Person();
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
             string jsonPerson = await Proceso.GetPerson(dni, token, FuncionHttp);
+
             return Json(jsonPerson);
         }
     }

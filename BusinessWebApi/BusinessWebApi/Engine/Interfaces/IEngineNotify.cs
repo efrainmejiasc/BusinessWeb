@@ -10,5 +10,6 @@ namespace BusinessWebApi.Engine.Interfaces
     {
         bool EnviarEmail(DataEmail model);
         bool EnviarEmail(string emailTo, string codigo, string empresa);
+        void EnviarEmailNoAsistentes(List<DataEmailNoAsistencia> emailNoAsistentes);
     }
 }

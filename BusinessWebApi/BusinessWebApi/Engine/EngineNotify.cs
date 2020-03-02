@@ -41,7 +41,7 @@ namespace BusinessWebApi.Engine
 
             MailMessage mensaje = new MailMessage();
             SmtpClient servidor = new SmtpClient();
-            mensaje.From = new MailAddress("Digital Comerce<sudokuparatodos@gmail.com>");
+            mensaje.From = new MailAddress("Solo Educativas <sudokuparatodos@gmail.com>");
             mensaje.Subject = "Codigo para registro de equipo telefonicos (Digital Comerce)";
             mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
             mensaje.Body = Mensaje(empresa,codigo);
@@ -67,6 +67,45 @@ namespace BusinessWebApi.Engine
 
             return "Saludos: " + "Autoridades de " + empresa + "</br></br>   Su codigo para registro de equipos es el siguiente: <h4>" + codigo + "</h4></br>   " +
                     "comparta este codigo para registrar dispositivos desde nuestra aplicacion movil o sitio web.";
+        }
+
+        public void EnviarEmailNoAsistentes (List<DataEmailNoAsistencia> emailNoAsistentes)
+        {
+          string body = string.Empty;
+          foreach(DataEmailNoAsistencia i in emailNoAsistentes)
+          {
+                body = "Saludos... </br> + Hoy: " + i.Fecha + "<br>     Por medio del presente notificamos la ausencia de: <strong>" +
+                        i.Nombre + " " + i.Apellido + " </strong> documeto de identidad: <strong>" + i.Dni +
+                       "</strong>  </br></br> ATT: Solo Educativas";
+                EnviarEmail(i.Email, body);
+                body = string.Empty;        
+          }
+        }
+
+        public bool EnviarEmail(string emailTo, string body)
+        {
+            bool result = false;
+
+            MailMessage mensaje = new MailMessage();
+            SmtpClient servidor = new SmtpClient();
+            mensaje.From = new MailAddress("Solo Educativas <sudokuparatodos@gmail.com>");
+            mensaje.Subject = "Notificacion de inasistencia";
+            mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
+            mensaje.Body = body;
+            mensaje.BodyEncoding = System.Text.Encoding.UTF8;
+            mensaje.IsBodyHtml = true;
+            mensaje.To.Add(new MailAddress(emailTo));
+            //if (pathAdjunto != string.Empty) { mensaje.Attachments.Add(new Attachment(pathAdjunto)); }
+            servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos@gmail.com", "1234santiago");
+            servidor.Port = 587;
+            servidor.Host = "smtp.gmail.com";
+            servidor.EnableSsl = true;
+            servidor.Send(mensaje);
+            mensaje.Dispose();
+            result = true;
+
+            return result;
+
         }
     }
 }

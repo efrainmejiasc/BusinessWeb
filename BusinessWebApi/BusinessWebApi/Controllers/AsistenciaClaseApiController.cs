@@ -1,6 +1,7 @@
 ﻿using BusinessWebApi.Engine;
 using BusinessWebApi.Engine.Interfaces;
 using BusinessWebApi.Models;
+using BusinessWebApi.Models.Objetos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,14 @@ namespace BusinessWebApi.Controllers
     {
         private readonly IEngineTool Tool;
         private readonly IEngineDb Metodo;
-        public AsistenciaClaseApiController(IEngineTool _tool, IEngineDb _metodo)
+        private readonly IEngineProject Funcion;
+        private readonly IEngineNotify Notify;
+        public AsistenciaClaseApiController(IEngineTool _tool, IEngineDb _metodo, IEngineProject _funcion , IEngineNotify _notyfy)
         {
             Tool = _tool;
             Metodo = _metodo;
+            Funcion = _funcion;
+            Notify = _notyfy;
         }
 
         [AllowAnonymous]
@@ -35,8 +40,18 @@ namespace BusinessWebApi.Controllers
                 return response;
             }
 
-            bool resultado = false;
-            resultado = Metodo.NewAsistenciaClase(model);
+            bool resultado = true;
+            try 
+            {
+                Metodo.NewAsistenciaClase(model);
+                List<AsistenciaClase> noAsistentes = Metodo.StudentsNonAttending();
+                List<Person> personas = Metodo.GetPerson(noAsistentes);
+                List<DataEmailNoAsistencia> emailNoAsistentes = Funcion.BuildDataEmailNoAsistencia(personas);
+                Notify.EnviarEmailNoAsistentes(emailNoAsistentes);
+                Metodo.UpdateAsistencia(noAsistentes);
+            }
+            catch {resultado = false;}
+            
             if (!resultado)
             {
                 response.Content = new StringContent(EngineData.falloCrearUsuario, Encoding.Unicode);

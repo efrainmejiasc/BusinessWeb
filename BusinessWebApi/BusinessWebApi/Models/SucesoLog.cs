@@ -27,7 +27,7 @@ namespace BusinessWebApi.Models
         public string Excepcion { get; set; }
 
         [Column(Order = 5, TypeName = "VARCHAR")]
-        [StringLength(50)]
+        [StringLength(100)]
         public string Email { get; set; }
     }
 }

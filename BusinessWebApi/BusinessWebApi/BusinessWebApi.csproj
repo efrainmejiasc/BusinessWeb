@@ -173,6 +173,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DevicesCompany.cs" />
     <Compile Include="Models\Objetos\DataEmail.cs" />
+    <Compile Include="Models\Objetos\DataEmailNoAsistencia.cs" />
     <Compile Include="Models\Objetos\RegisterDevice.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\SucesoLog.cs" />

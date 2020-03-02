@@ -100,6 +100,9 @@ namespace BusinessWebSite.Engine
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
+                }else
+                {
+                    respuesta = "NO AUTORIZADO";
                 }
 
             }

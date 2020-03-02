@@ -60,7 +60,10 @@ function BuscarPersona() {
         datatype: "json",
         success: function (data) {
             console.log(data);
-
+            if (data == "NO AUTORIZADO") {
+                alert("Sesion expirada , debe volver a autentificarse")
+                NavePage('/Home/Index')
+            }
             try {
                 var I = JSON.parse(data);
                 $('#nombre').html(I.Nombre);

@@ -274,6 +274,7 @@ namespace BusinessWebApi.Engine
             bool resultado = false;
             try
             {
+                asistencia.CreateDate = DateTime.UtcNow.Date;
                 using (EngineContext context = new EngineContext())
                 {
                     context.AsistenciaClase.Add(asistencia);
@@ -286,6 +287,16 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewAsistenciaClase*" + asistencia.Dni));
             }
             return resultado;
+        }
+
+        public List<AsistenciaClase> StudentsNonAttending()
+        {
+            List<AsistenciaClase> noAsistentes = new List<AsistenciaClase>();
+            using (EngineContext context = new EngineContext())
+            {
+               noAsistentes = context.AsistenciaClase.Where(x => x.Status == false && x.CreateDate == DateTime.UtcNow.Date && x.EmailSend == false).ToList();
+            }
+            return noAsistentes;
         }
 
         public bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias)
@@ -446,6 +457,45 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
             }
             return resultado;
+        }
+
+        public bool UpdateAsistencia(List<AsistenciaClase> asis)
+        {
+            bool resultado = false;
+            AsistenciaClase C = new AsistenciaClase();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    foreach (AsistenciaClase a in asis)
+                    {
+                        C = Context.AsistenciaClase.Where(s => s.Dni == a.Dni && s.CreateDate == a.CreateDate && s.EmailSend == false && s.Status == false).FirstOrDefault();
+                        Context.AsistenciaClase.Attach(C);
+                        C.EmailSend = true;
+                        Context.Configuration.ValidateOnSaveEnabled = false;
+                        Context.SaveChanges();
+
+                        resultado = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string refe = asis[0].IdCompany.ToString() + " " + asis[0].Materia + " " + DateTime.UtcNow.Date.ToString();
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateAsistencia*" + refe));
+            }
+            return resultado;
+        }
+
+
+        public List<Person> GetPerson(List<AsistenciaClase> asis)
+        {
+            List<Person> personas = new List<Person>();
+            foreach(AsistenciaClase i in asis)
+            {
+                personas.Add(GetPerson(i.Dni));
+            }
+            return personas;
         }
 
         public Person GetPerson (string dni)

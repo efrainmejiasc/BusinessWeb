@@ -38,8 +38,10 @@ namespace BusinessWebApi.Models
         [StringLength(50)]
         public string Materia { get; set; }
 
-        [Column(Order = 8, TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string Turno { get; set; }
+        [Column(Order = 8, TypeName = "INT")]
+        public int Turno { get; set; }
+
+        [Column(Order = 9, TypeName = "BIT")]
+        public bool EmailSend  { get; set; }
     }
 }

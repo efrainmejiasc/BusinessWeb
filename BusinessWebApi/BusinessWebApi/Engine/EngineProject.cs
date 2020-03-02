@@ -47,6 +47,25 @@ namespace BusinessWebApi.Engine
             return devicesCompany;
         }
 
+        public List<DataEmailNoAsistencia> BuildDataEmailNoAsistencia(List<Person> personas)
+        {
+            List<DataEmailNoAsistencia> list = new List<DataEmailNoAsistencia>();
+            DataEmailNoAsistencia s = new DataEmailNoAsistencia();
+            foreach(Person i in personas)
+            {
+                s = new DataEmailNoAsistencia()
+                {
+                    Nombre = i.Nombre,
+                    Apellido = i.Apellido,
+                    Dni = i.Dni,
+                    Email = i.Email,
+                    Fecha = DateTime.UtcNow.Date
+                };
+                list.Add(s);
+            }
+            return list; 
+        }
+
         public SucesoLog ConstruirSucesoLog(string cadena)
         {
             string[] x = cadena.Split('*');
