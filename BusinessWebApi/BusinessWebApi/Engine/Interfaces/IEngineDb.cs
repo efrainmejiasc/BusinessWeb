@@ -23,6 +23,7 @@ namespace BusinessWebApi.Engine.Interfaces
         bool CreatePerson(List<Person> persons);
         bool UpdatePerson(List<Person> persons);
         bool RegisterDevice(DevicesCompany device);
+        object GetDniUserApi(int id, int idCompany);
         List<AsistenciaClase> StudentsNonAttending();
         bool UpdateAsistencia(List<AsistenciaClase> asis);
         List<Person> GetPerson(List<AsistenciaClase> asis);

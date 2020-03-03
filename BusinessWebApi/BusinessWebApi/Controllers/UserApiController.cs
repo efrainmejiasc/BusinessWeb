@@ -79,6 +79,12 @@ namespace BusinessWebApi.Controllers
             if (user == null)
                 return response;
 
+            string DNI = string.Empty;
+            if(user.IdTypeUser <= 2)
+            {
+                DNI= Metodo.GetDniUserApi(user.Id, user.IdCompany).ToString();
+            }
+
             string unicoIdentificador = Guid.NewGuid().ToString();
             int expire = EngineData.ExpireToken;
             DateTime time = DateTime.UtcNow;
@@ -95,6 +101,8 @@ namespace BusinessWebApi.Controllers
                 idCompany = user.IdCompany,
                 stauts = user.Status,
                 idTypeUser =user.IdTypeUser,
+                id = user.Id,
+                dni = DNI // if idTypeUser <= 2 else is string.empty
             });
 
             return response;

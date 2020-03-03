@@ -414,6 +414,30 @@ namespace BusinessWebApi.Engine
             }
             return device;
         }
+        public object GetDniUserApi (int id , int idCompany)
+        {
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    var dni = (from A in context.DeviceCompany
+                               join B in context.UserApi
+                               on A.IdUserApi equals id
+                               where A.IdCompany == idCompany
+                               select new
+                               {
+                                   A.Dni
+
+                               }).FirstOrDefault();
+                    return dni;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetDniUser*" + id.ToString()));
+            }
+            return string.Empty;
+        }
         public bool RegisterDevice (DevicesCompany device)
         {
             bool resultado = false;
