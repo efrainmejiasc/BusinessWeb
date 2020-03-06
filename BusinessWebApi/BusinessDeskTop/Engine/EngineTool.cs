@@ -127,9 +127,9 @@ namespace BusinessDeskTop.Engine
         {
             UserApi userApi = new UserApi()
             {
-                User = "giovanni",
-                Password = "1234giovanni",
-                Email = "creativarionegro@gmail.com",
+                User = "desktop",
+                Password = "1234Desktop",
+                Email = "desktop@gmail.com",
             };
             return JsonConvert.SerializeObject(userApi);
         }

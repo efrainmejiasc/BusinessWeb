@@ -28,7 +28,7 @@ namespace BusinessWebApi.Engine
         public static string UrlLogin = "api/UserApi/Login";
         public static string UrlPersons = "api/PersonApi/QueryPersonas";
         public static string UrlCompany = "api/CompanyApi/QueryCompany";
-        public static string UrlAsistenciaClase = "api/PersonApi/QueryAsistenciaClase";
+        public static string UrlAsistenciaClase = "api/PersonApi/NOMBREMETODO";
         public static string UrlAsistenciaComedor= "api/CompanyApi/QueryAsistenciaComedor";
         public static string UrlDevices = "api/DevicesApi/QueryDevicesApi";
 

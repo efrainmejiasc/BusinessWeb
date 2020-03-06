@@ -23,15 +23,16 @@ namespace BusinessWebApi.Engine.Interfaces
         bool CreatePerson(List<Person> persons);
         bool UpdatePerson(List<Person> persons);
         bool RegisterDevice(DevicesCompany device);
-        object GetDniUserApi(int id, int idCompany);
         List<AsistenciaClase> StudentsNonAttending();
         bool UpdateAsistencia(List<AsistenciaClase> asis);
         List<Person> GetPerson(List<AsistenciaClase> asis);
         UserApi GetUser(string password, string password2);
+        object GetDniUserApi(int id, int idCompany, string email);
         bool NewAsistenciaClase(List<AsistenciaClase> asistencias);
         UserApi GetUserSuspended(string password, string password2);
         List<RegisterDevice> GetListDevicesRegistered(string codigo);
         bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias);
         bool UpdateUserApi(int idCompany, string nameCompany, string user, string email);
+        List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno);
     }
 }

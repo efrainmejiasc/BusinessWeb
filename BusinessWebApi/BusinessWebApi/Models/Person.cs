@@ -78,6 +78,8 @@ namespace BusinessWebApi.Models
         [Required]
         public string Qr { get; set; }
 
+        [Column(Order = 16, TypeName = "INT")]
+        public int Turno { get; set; }
 
     }
 }

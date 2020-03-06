@@ -34,8 +34,7 @@ namespace BusinessWebApi.Models
         [Required]
         public string DniAdm { get; set; }
 
-        [Column(Order = 7, TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string Turno { get; set; }
+        [Column(Order = 7, TypeName = "INT")]
+        public int Turno { get; set; }
     }
 }

@@ -414,21 +414,16 @@ namespace BusinessWebApi.Engine
             }
             return device;
         }
-        public object GetDniUserApi (int id , int idCompany)
+        public object GetDniUserApi (int id , int idCompany,string email)
         {
             try
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    var dni = (from A in context.DeviceCompany
-                               join B in context.UserApi
-                               on A.IdUserApi equals id
-                               where A.IdCompany == idCompany
-                               select new
-                               {
-                                   A.Dni
-
-                               }).FirstOrDefault();
+                    var dni = (from A in context.UserApi join B in context.DeviceCompany
+                               on A.Id equals B.IdUserApi
+                               where A.Id == id && A.Email == email && B.IdCompany == idCompany
+                               select new { B.Dni }).FirstOrDefault();
                     return dni;
                 }
             }
@@ -539,6 +534,23 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPerson*" + dni));
             }
             return null;
+        }
+
+       public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
+        {
+            List<Person> persons = new List<Person>();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    persons = context.Person.Where(s => s.IdCompany == idCompany && s.Grado == grado && s.Grupo == grupo && s.Turno == idTurno).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPersonList*" + idCompany.ToString()));
+            }
+            return persons;
         }
 
         public bool InsertarSucesoLog(SucesoLog model)

@@ -34,7 +34,7 @@ namespace BusinessDeskTop.Engine
             resultado = Tool.CreateFolder(Valor.PathFolderImageQr()); // path carpeta qr empresa
             dgv.DataSource = Valor.GetDt();
             dgv.ClearSelection();
-            if (persons.Count == 0)
+           if (dgv.Rows.Count == 0)
             {
                 MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return true;
@@ -95,7 +95,7 @@ namespace BusinessDeskTop.Engine
             resultado = Tool.CreateFolder(Valor.PathFolderImageQr()); // path carpeta qr empresa
             dgv.DataSource = Valor.GetDt();
             dgv.ClearSelection();
-            if (persons.Count == 0)
+            if (dgv.Rows.Count == 0)
             {
                 MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return true;

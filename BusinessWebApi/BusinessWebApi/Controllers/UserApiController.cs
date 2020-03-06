@@ -82,7 +82,12 @@ namespace BusinessWebApi.Controllers
             string DNI = string.Empty;
             if(user.IdTypeUser <= 2)
             {
-                DNI= Metodo.GetDniUserApi(user.Id, user.IdCompany).ToString();
+                object obj = Metodo.GetDniUserApi(user.Id, user.IdCompany,user.Email);
+                if (obj != null)
+                {
+                    DNI = obj.ToString();
+                
+                }
             }
 
             string unicoIdentificador = Guid.NewGuid().ToString();
@@ -99,7 +104,7 @@ namespace BusinessWebApi.Controllers
                 email = user.Email,
                 user = user.User,
                 idCompany = user.IdCompany,
-                stauts = user.Status,
+                statuts = user.Status,
                 idTypeUser =user.IdTypeUser,
                 id = user.Id,
                 dni = DNI // if idTypeUser <= 2 else is string.empty

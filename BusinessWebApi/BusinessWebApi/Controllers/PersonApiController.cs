@@ -75,7 +75,15 @@ namespace BusinessWebApi.Controllers
         [ActionName("GetPerson")]
         public Person GetPerson(string dni)
         {
-            Person person = Metodo.GetPerson(dni); 
+            Person person = Metodo.GetPerson(dni);
+            return person;
+        }
+
+        [HttpGet]
+        [ActionName("GetPersonList")]
+        public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
+        {
+            List<Person> person = Metodo.GetPersonList(idCompany, grado, grupo, idTurno);
             return person;
         }
     }

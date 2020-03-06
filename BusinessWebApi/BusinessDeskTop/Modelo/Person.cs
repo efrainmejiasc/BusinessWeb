@@ -23,5 +23,6 @@ namespace BusinessDeskTop.Modelo
         public bool Status { get; set; }
         public string Foto { get; set; }
         public string Qr { get; set; }
+        public string  Turno { get; set; }
     }
 }

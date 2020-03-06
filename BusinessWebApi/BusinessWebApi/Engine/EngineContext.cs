@@ -10,6 +10,7 @@ namespace BusinessWebApi.Engine
     public class EngineContext:DbContext
     {
         public EngineContext() : base("CNX_DB") { }
+        public DbSet<Turno> Turno { get; set; }
         public DbSet<Person> Person { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<UserApi> UserApi { get; set; }

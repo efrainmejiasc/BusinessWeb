@@ -38,7 +38,7 @@ namespace BusinessDeskTop.Formularios
 
         private void AppMenu_Load(object sender, EventArgs e)
         {
-            if (DateTime.Now.Date >= Convert.ToDateTime("05/03/2020"))
+            if (DateTime.Now.Date >= Convert.ToDateTime("10/03/2020"))
             {
                 MessageBox.Show("El Tiempo de prueba expiro", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Application.Exit();

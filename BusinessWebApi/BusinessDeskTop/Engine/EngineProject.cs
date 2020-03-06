@@ -19,7 +19,6 @@ namespace BusinessDeskTop.Engine
         private EngineData Valor = EngineData.Instance();
         public List<Person> LeerArchivo(string pathArchivo , IEngineTool Tool)
         {
-        
             DataTable dt = new DataTable();
             dt = BuildColumnDataTable(dt);
             Person p = new Person();
@@ -34,9 +33,9 @@ namespace BusinessDeskTop.Engine
             string strValue = string.Empty;
             int idx = 0;
             bool validate = false;
-            for (int fila  = 2; fila <= rowCount; fila++)
+            for (int fila = 2; fila <= rowCount; fila++)
             {
-                for (int columna = 1; columna <= colCount - 1 ; columna++)
+                for (int columna = 1; columna <= colCount; columna++)
                 {
                     if (xlRange.Cells[fila, columna] != null && xlRange.Cells[fila, columna].Value != null)
                     {
@@ -45,7 +44,7 @@ namespace BusinessDeskTop.Engine
                             validate = Tool.ExistsFile(xlRange.Cells[fila, columna].Value.ToString());
                             if (!validate)
                             {
-                               strValue = strValue + "NO_FOTO" + "#";
+                                strValue = strValue + "NO_FOTO" + "#";
                             }
                             else
                             {
@@ -64,20 +63,31 @@ namespace BusinessDeskTop.Engine
                                 strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
                             }
                         }
+                        else if (columna == 11)
+                        {
+                            if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "MAÑANA")
+                                strValue = strValue + "1";
+                            else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "TARDE")
+                                strValue = strValue + "2";
+                            else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "NOCHE")
+                                strValue = strValue + "3";
+                            else
+                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                        }
                         else
                         {
                             strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
-                        }   
+                        }
                     }
                     else
                     {
                         strValue = strValue + "NO_DEFINIDO" + "#";
                     }
-                    if (columna == colCount - 1)
+                    if (columna == colCount)
                     {
                         if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO") && !strValue.Contains("EMAIL_NO_VALIDO"))
                         {
-                            p = SetListPerson(strValue,Tool);
+                            p = SetListPerson(strValue, Tool);
                             if (!string.IsNullOrEmpty(p.Email))
                             {
                                 lp.Insert(idx, p);
@@ -124,6 +134,7 @@ namespace BusinessDeskTop.Engine
             dt.Columns.Add("EMAIL");
             dt.Columns.Add("EMPRESA");
             dt.Columns.Add("QR");
+            dt.Columns.Add("TURNO");
             return dt;
         }
 
@@ -153,6 +164,7 @@ namespace BusinessDeskTop.Engine
 
             p.Company = x[9];
             p.Qr = string.Empty;
+            p.Turno = x[10]; ;
 
 
             return p;
@@ -161,7 +173,7 @@ namespace BusinessDeskTop.Engine
         public DataTable SetDataTable(string strValue, DataTable dt , int idx)
         {
             string[] x = strValue.Split('#');
-            dt.Rows.Add(idx, x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], string.Empty);
+            dt.Rows.Add(idx, x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], string.Empty,x[10]);
             return dt;
         }
 
@@ -190,16 +202,15 @@ namespace BusinessDeskTop.Engine
                 hoja.Range["H1"].Value = "GRUPO";
                 hoja.Range["I1"].Value = "EMAIL";
                 hoja.Range["J1"].Value = "EMPRESA";
-                hoja.Range["K1"].Value = "QR";
-                hoja.Range["L1"].Value = "FOTO64";
-                hoja.Range["M1"].Value = "QR64";
+                hoja.Range["K1"].Value = "TURNO";
+                hoja.Range["L1"].Value = "QR";
+                hoja.Range["M1"].Value = "FOTO64";
+                hoja.Range["N1"].Value = "QR64";
 
                 int n = 2;
                 string foto64 = string.Empty;
                 string sourceQr = string.Empty;
                 string qr64 = string.Empty;
-                byte[] byteFoto;
-                byte[] byteQr;
                 foreach (Person p in persons)
                 {
                     foto64 = Tool.ConvertImgTo64Img(p.Foto);
@@ -218,9 +229,10 @@ namespace BusinessDeskTop.Engine
                     hoja.Range["H" + n].Value = p.Grupo;
                     hoja.Range["I" + n].Value = p.Email;
                     hoja.Range["J" + n].Value = p.Company;
-                    hoja.Range["K" + n].Value = p.Qr;
-                    hoja.Range["L" + n].Value = foto64;
-                    hoja.Range["M" + n].Value = qr64;
+                    hoja.Range["K" + n].Value = p.Turno;
+                    hoja.Range["L" + n].Value = p.Qr;
+                    hoja.Range["M" + n].Value = foto64;
+                    hoja.Range["N" + n].Value = qr64;
 
                     p.Foto = foto64;
                     p.Qr = qr64;
@@ -268,6 +280,7 @@ namespace BusinessDeskTop.Engine
                 hoja.Range["H1"].Value = "GRUPO";
                 hoja.Range["I1"].Value = "EMAIL";
                 hoja.Range["J1"].Value = "EMPRESA";
+                hoja.Range["K1"].Value = "TURNO";
 
                 int n = 2;
                
@@ -283,6 +296,7 @@ namespace BusinessDeskTop.Engine
                     hoja.Range["H" + n].Value = p[8];
                     hoja.Range["I" + n].Value = p[9];
                     hoja.Range["J" + n].Value = p[10];
+                    hoja.Range["k" + n].Value = p[12];
                     n++;
                 }
                 excel.ActiveWindow.Zoom = 100;
