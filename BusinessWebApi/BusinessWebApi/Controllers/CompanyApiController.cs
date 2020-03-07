@@ -56,5 +56,12 @@ namespace BusinessWebApi.Controllers
             return response;
         }
 
+        [HttpGet]
+        [ActionName("GetAllCompany")]
+        public List<Company> GetAllCompany()
+        {
+            List<Company> companys = Metodo.GetAllCompany();
+            return companys;
+        }
     }
 }

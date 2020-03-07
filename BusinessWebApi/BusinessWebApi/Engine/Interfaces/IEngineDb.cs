@@ -11,6 +11,7 @@ namespace BusinessWebApi.Engine.Interfaces
     {
         Person GetPerson(string dni);
         bool CreateUser(UserApi user);
+        List<Company> GetAllCompany();
         int NumberDevice(string codigo);
         bool UpdatePerson(Person person);
         bool CreatePerson(Person person);

@@ -553,6 +553,16 @@ namespace BusinessWebApi.Engine
             return persons;
         }
 
+        public List<Company> GetAllCompany()
+        {
+            List<Company> companys = new List<Company>();
+            using (EngineContext context = new EngineContext())
+            {
+                companys = context.Company.ToList();
+            }
+            return companys;
+        }
+
         public bool InsertarSucesoLog(SucesoLog model)
         {
             bool resultado = false;
