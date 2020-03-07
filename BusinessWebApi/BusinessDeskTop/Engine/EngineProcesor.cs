@@ -36,8 +36,8 @@ namespace BusinessDeskTop.Engine
             dgv.ClearSelection();
            if (dgv.Rows.Count == 0)
             {
-                MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return true;
+               // MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //return true;
             }
             lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine + 
                        "Insertando datos en Db" + Environment.NewLine + "Espere un momento, esto puede tardar unos segundos";
@@ -65,7 +65,7 @@ namespace BusinessDeskTop.Engine
                   resultado = await HttpFuncion.UploadPersonToApiUpdate(token, personas);
             }
             if (resultado)
-                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -97,8 +97,8 @@ namespace BusinessDeskTop.Engine
             dgv.ClearSelection();
             if (dgv.Rows.Count == 0)
             {
-                MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return true;
+                //MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //return true;
             }
             lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine +
                        "( Insertando/Actualizando ) datos en Db" + Environment.NewLine + "Espere un momento, esto puede tardar unos segundos";

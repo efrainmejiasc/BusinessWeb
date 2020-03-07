@@ -20,18 +20,20 @@ namespace BusinessWebSite.Controllers
         private readonly IEngineHttp FuncionHttp;
         private readonly IEngineTool Tool;
         private readonly IEngineProcesor Proceso;
+        private readonly IEngineRead Lector;
 
-        public ProcesorController(IEngineProject _Funcion, IEngineHttp _FuncionHttp, IEngineTool _Tool, IEngineProcesor _Proceso)
+        public ProcesorController(IEngineProject _Funcion, IEngineHttp _FuncionHttp, IEngineTool _Tool, IEngineProcesor _Proceso , IEngineRead _Lector)
         {
             this.Funcion = _Funcion;
             this.FuncionHttp = _FuncionHttp;
             this.Tool = _Tool;
             this.Proceso = _Proceso;
+            this.Lector = _Lector;
         }
         public ActionResult Index()
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                Response.Redirect("Index");
+           // if (System.Web.HttpContext.Current.Session["User"] == null)
+               // Response.Redirect("Index");
 
             return View();
         }
@@ -54,7 +56,6 @@ namespace BusinessWebSite.Controllers
                     string fileName = Path.GetFileName(file.FileName);
                     string path = Path.Combine(Server.MapPath("~/FileExcel/"), fileName);
                     file.SaveAs(path);
-
                     ViewBag.Response = "Archivo " + file.FileName + " cargado correctamente";
                 }
                 catch (Exception ex)
@@ -71,8 +72,8 @@ namespace BusinessWebSite.Controllers
 
         public ActionResult Contact()
         {
-            if (System.Web.HttpContext.Current.Session["User"] == null)
-                return RedirectToAction("Index", "Home");
+            //if (System.Web.HttpContext.Current.Session["User"] == null)
+                //return RedirectToAction("Index", "Home");
 
             return View();
         }

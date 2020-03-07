@@ -166,10 +166,12 @@
     <Compile Include="Engine\EngineHttp.cs" />
     <Compile Include="Engine\EngineProcesor.cs" />
     <Compile Include="Engine\EngineProject.cs" />
+    <Compile Include="Engine\EngineRead.cs" />
     <Compile Include="Engine\EngineTool.cs" />
     <Compile Include="Engine\Interfaces\IEngineProcesor.cs" />
     <Compile Include="Engine\Interfaces\IEngineProject.cs" />
     <Compile Include="Engine\Interfaces\IEngineHttp.cs" />
+    <Compile Include="Engine\Interfaces\IEngineRead.cs" />
     <Compile Include="Engine\Interfaces\IEngineTool.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

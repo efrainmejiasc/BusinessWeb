@@ -34,6 +34,7 @@
             this.listasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actualizarListaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.subirListaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consultasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +53,8 @@
             // empresasToolStripMenuItem
             // 
             this.empresasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.agregarEmpresaToolStripMenuItem});
+            this.agregarEmpresaToolStripMenuItem,
+            this.consultasToolStripMenuItem});
             this.empresasToolStripMenuItem.Name = "empresasToolStripMenuItem";
             this.empresasToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.empresasToolStripMenuItem.Text = "Empresas";
@@ -60,7 +62,7 @@
             // agregarEmpresaToolStripMenuItem
             // 
             this.agregarEmpresaToolStripMenuItem.Name = "agregarEmpresaToolStripMenuItem";
-            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.agregarEmpresaToolStripMenuItem.Text = "Agregar Empresa";
             this.agregarEmpresaToolStripMenuItem.Click += new System.EventHandler(this.agregarEmpresaToolStripMenuItem_Click);
             // 
@@ -86,6 +88,13 @@
             this.subirListaToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.subirListaToolStripMenuItem.Text = "Subir Lista";
             this.subirListaToolStripMenuItem.Click += new System.EventHandler(this.subirListaToolStripMenuItem_Click);
+            // 
+            // consultasToolStripMenuItem
+            // 
+            this.consultasToolStripMenuItem.Name = "consultasToolStripMenuItem";
+            this.consultasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.consultasToolStripMenuItem.Text = "Consultas";
+            this.consultasToolStripMenuItem.Click += new System.EventHandler(this.consultasToolStripMenuItem_Click);
             // 
             // AppMenu
             // 
@@ -113,5 +122,6 @@
         private System.Windows.Forms.ToolStripMenuItem listasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem actualizarListaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem subirListaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem consultasToolStripMenuItem;
     }
 }

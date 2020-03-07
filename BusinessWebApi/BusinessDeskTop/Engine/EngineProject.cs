@@ -66,11 +66,11 @@ namespace BusinessDeskTop.Engine
                         else if (columna == 11)
                         {
                             if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "MAÑANA")
-                                strValue = strValue + "1";
+                                strValue = strValue + "1" + "#";
                             else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "TARDE")
-                                strValue = strValue + "2";
+                                strValue = strValue + "2" + "#";
                             else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "NOCHE")
-                                strValue = strValue + "3";
+                                strValue = strValue + "3" + "#";
                             else
                                 strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
                         }
@@ -200,17 +200,14 @@ namespace BusinessDeskTop.Engine
                 hoja.Range["F1"].Value = "RH";
                 hoja.Range["G1"].Value = "GRADO";
                 hoja.Range["H1"].Value = "GRUPO";
-                hoja.Range["I1"].Value = "EMAIL";
-                hoja.Range["J1"].Value = "EMPRESA";
-                hoja.Range["K1"].Value = "TURNO";
-                hoja.Range["L1"].Value = "QR";
-                hoja.Range["M1"].Value = "FOTO64";
-                hoja.Range["N1"].Value = "QR64";
+                hoja.Range["I1"].Value = "QR";
 
                 int n = 2;
                 string foto64 = string.Empty;
                 string sourceQr = string.Empty;
                 string qr64 = string.Empty;
+                string pathFoto = string.Empty;
+                string pathQr = string.Empty;
                 foreach (Person p in persons)
                 {
                     foto64 = Tool.ConvertImgTo64Img(p.Foto);
@@ -219,7 +216,9 @@ namespace BusinessDeskTop.Engine
                     p.Qr = Tool.CreateQrCode(sourceQr, Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
                     qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
 
-                    hoja.Range["A" + n].Value = p.Foto;
+                    var f = p.Foto.Split('\\');
+                    var q = p.Qr.Split('\\');
+                    hoja.Range["A" + n].Value = "FOTO/" + f[f.Length - 1];
                     hoja.Range["B" + n].Value = p.Nombre;
                     hoja.Range["C" + n].Value = p.Apellido;
                     hoja.Range["D" + n].Value = p.Dni;
@@ -227,12 +226,7 @@ namespace BusinessDeskTop.Engine
                     hoja.Range["F" + n].Value = p.Rh;
                     hoja.Range["G" + n].Value = p.Grado;
                     hoja.Range["H" + n].Value = p.Grupo;
-                    hoja.Range["I" + n].Value = p.Email;
-                    hoja.Range["J" + n].Value = p.Company;
-                    hoja.Range["K" + n].Value = p.Turno;
-                    hoja.Range["L" + n].Value = p.Qr;
-                    hoja.Range["M" + n].Value = foto64;
-                    hoja.Range["N" + n].Value = qr64;
+                    hoja.Range["I" + n].Value = "QR/" + q[q.Length - 1]; ;
 
                     p.Foto = foto64;
                     p.Qr = qr64;
@@ -321,6 +315,35 @@ namespace BusinessDeskTop.Engine
             return strValid;
         }
 
-        
+        public bool SetLXlsxOut (string pathArchivo)
+        {
+            bool result = false;
+            ReadWriteTxt(pathArchivo);
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(pathArchivo);
+            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlWorksheet.UsedRange;
+            xlApp.DisplayAlerts = false;
+            int rowCount = xlRange.Rows.Count;
+            int colCount = xlRange.Columns.Count;
+
+            xlWorksheet.Columns["I"].Delete();
+            xlWorksheet.Columns["J"].Delete();
+            xlWorksheet.Columns["K"].Delete();
+            xlWorksheet.Columns["M"].Delete();
+            xlWorksheet.Columns["N"].Delete();
+
+            xlWorkbook.SaveAs(pathArchivo);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            while (Marshal.ReleaseComObject(xlRange) != 0) ;
+            while (Marshal.ReleaseComObject(xlWorksheet) != 0) ;
+            xlWorkbook.Close();
+            while (Marshal.ReleaseComObject(xlWorkbook) != 0) ;
+            xlApp.Quit();
+            while (Marshal.ReleaseComObject(xlApp) != 0) ;
+         
+            return result;
+        }
     }
 }

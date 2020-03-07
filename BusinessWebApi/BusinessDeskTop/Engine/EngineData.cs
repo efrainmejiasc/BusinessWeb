@@ -49,10 +49,12 @@ namespace BusinessDeskTop.Engine
 
         public string PathFileXlsx()
         {
-            string diferenciador = DateTime.Now.ToString().Replace("/", "");
+            string diferenciador = DateTime.Now.Date.ToString().Replace("/", "");
             diferenciador = diferenciador.Replace("\\", "");
             diferenciador = diferenciador.Replace(":", "");
             diferenciador = diferenciador.Replace(" ", "_");
+            string[] p = diferenciador.Split('_');
+            diferenciador = p[0];
             pathFileXlsx = FolderFile + NombreEmpresa + @"\" + NombreEmpresa + diferenciador + ".xlsx" ;
             return pathFileXlsx;
         }

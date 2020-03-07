@@ -10,23 +10,25 @@
 <script src="/Content/js/global.js" type="text/javascript"></script>
 
 <div class="divBan container">
+
     @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { name = "frmContact", id = "frmContact" }))
     {
-       <div class="col-md-4 container">
-          <h4>Registro de Usuario</h4><br>
-          <input type="text" id="user" name="user" placeholder="Ingrese Nombre de Usuario" required class="form-control" /><br />
-          <input type="email" id="email" name="email" placeholder="Ingrese Email" required class="form-control" /><br>
-          <label id="validacion" name ="validacion" class="validacionField"></label>
-          <input type="password" id="password" name="password" placeholder="Ingrese Password" required class="form-control" />
-          <label id="msjPassword" class="lblMsj">10 caracteres minimo combinando letras y numeros</label>
-          <input type="password" id="password2" name="password2" placeholder="Confime Password" required class="form-control" /><br />
+        <div class="col-md-4 container">
+            <h4>Registro de Usuario</h4><br>
+            <input type="text" id="user" name="user" placeholder="Ingrese Nombre de Usuario" required class="form-control" /><br />
+            <input type="email" id="email" name="email" placeholder="Ingrese Email" required class="form-control" /><br>
+            <label id="validacion" name="validacion" class="validacionField"></label>
+            <input type="password" id="password" name="password" placeholder="Ingrese Password" required class="form-control" />
+            <label id="msjPassword" class="lblMsj">10 caracteres minimo combinando letras y numeros</label>
+            <input type="password" id="password2" name="password2" placeholder="Confime Password" required class="form-control" /><br />
 
-          <label class="checkbox-inline"><input type="checkbox" id="check" required class="btn btn-primary" /> No soy un robot</label><br /><br />
-          <input type="submit" id="registrar" value="Registrar" class="voton btn btn-primary" />
-          <input type="reset" id="cancelar" value="Cancelar" onClick="NavePage('/Home/Index');" class="voton btn btn-primary" />
-       </div>
-    }
-</div>
+            <label class="checkbox-inline"><input type="checkbox" id="check" required class="btn btn-primary" /> No soy un robot</label><br /><br />
+            <input type="submit" id="registrar" value="Registrar" class="voton btn btn-primary" />
+            <input type="reset" id="cancelar" value="Cancelar" onClick="NavePage('/Home/Index');" class="voton btn btn-primary" />
+        </div>
+        }
+    </div>
+
 <script>
 
     $(document).ready(function () {
