@@ -127,10 +127,10 @@
     <Compile Include="Formularios\UploadPerson.Designer.cs">
       <DependentUpon>UploadPerson.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modelo\Company.cs" />
-    <Compile Include="Modelo\Person.cs" />
-    <Compile Include="Modelo\TicketAcceso.cs" />
-    <Compile Include="Modelo\UserApi.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\TicketAcceso.cs" />
+    <Compile Include="Models\UserApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Formularios\AddCompany.resx">

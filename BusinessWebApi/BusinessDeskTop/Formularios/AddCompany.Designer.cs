@@ -46,35 +46,35 @@
             // 
             this.txtName.Location = new System.Drawing.Point(137, 26);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(300, 20);
+            this.txtName.Size = new System.Drawing.Size(520, 20);
             this.txtName.TabIndex = 0;
             // 
             // txtRef
             // 
             this.txtRef.Location = new System.Drawing.Point(137, 52);
             this.txtRef.Name = "txtRef";
-            this.txtRef.Size = new System.Drawing.Size(300, 20);
+            this.txtRef.Size = new System.Drawing.Size(520, 20);
             this.txtRef.TabIndex = 1;
             // 
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(137, 78);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(300, 20);
+            this.txtEmail.Size = new System.Drawing.Size(520, 20);
             this.txtEmail.TabIndex = 2;
             // 
             // txtTlf
             // 
             this.txtTlf.Location = new System.Drawing.Point(137, 104);
             this.txtTlf.Name = "txtTlf";
-            this.txtTlf.Size = new System.Drawing.Size(300, 20);
+            this.txtTlf.Size = new System.Drawing.Size(520, 20);
             this.txtTlf.TabIndex = 3;
             // 
             // txtDevice
             // 
             this.txtDevice.Location = new System.Drawing.Point(137, 130);
             this.txtDevice.Name = "txtDevice";
-            this.txtDevice.Size = new System.Drawing.Size(300, 20);
+            this.txtDevice.Size = new System.Drawing.Size(520, 20);
             this.txtDevice.TabIndex = 4;
             // 
             // label1
@@ -118,15 +118,15 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(25, 55);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(24, 13);
+            this.label5.Size = new System.Drawing.Size(20, 13);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Ref";
+            this.label5.Text = "Nit";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(347, 168);
+            this.button1.Location = new System.Drawing.Point(495, 168);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 23);
+            this.button1.Size = new System.Drawing.Size(162, 23);
             this.button1.TabIndex = 10;
             this.button1.Text = "Agregar";
             this.button1.UseVisualStyleBackColor = true;
@@ -136,7 +136,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(137, 168);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(90, 23);
+            this.button2.Size = new System.Drawing.Size(162, 23);
             this.button2.TabIndex = 11;
             this.button2.Text = "Cancelar";
             this.button2.UseVisualStyleBackColor = true;

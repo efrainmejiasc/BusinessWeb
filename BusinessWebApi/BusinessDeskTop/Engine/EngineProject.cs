@@ -1,4 +1,5 @@
 ﻿using BusinessDeskTop.Engine.Interfaces;
+using BusinessDeskTop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,6 @@ using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Data;
 using System.IO;
-using BusinessDeskTop.Modelo;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -320,7 +320,7 @@ namespace BusinessDeskTop.Engine
             DataTable dt = new DataTable();
             dt.Columns.Add("ID");
             dt.Columns.Add("NOMBRE EMPRESA");
-            dt.Columns.Add("RIF");
+            dt.Columns.Add("NIT");
             dt.Columns.Add("EMAIL");
             dt.Columns.Add("TELEFONO");
             dt.Columns.Add("ESTADO");
@@ -329,7 +329,7 @@ namespace BusinessDeskTop.Engine
         }
 
         public DataTable SetDtCompany (List<Company> companys , DataTable dt)
-        {
+        { 
             foreach (Company c in companys)
             {
                 dt.Rows.Add(c.Id, c.NameCompany, c.Ref, c.Email, c.Phone, c.Status, c.NumberDevices);

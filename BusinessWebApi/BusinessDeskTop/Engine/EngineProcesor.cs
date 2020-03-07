@@ -1,9 +1,10 @@
 ﻿using BusinessDeskTop.Engine.Interfaces;
-using BusinessDeskTop.Modelo;
+using BusinessDeskTop.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,10 @@ namespace BusinessDeskTop.Engine
             HttpFuncion = _HttpFuncion;
             Funcion = _Funcion;
             Tool = _Tool;
+        }
+
+        public EngineProcesor()
+        {
         }
 
         #region UPLOADLISTA
@@ -153,9 +158,24 @@ namespace BusinessDeskTop.Engine
             DataTable dt = Funcion.BuildDtComppany();
             dt = Funcion.SetDtCompany(companys, dt);
             dgv.DataSource = dt;
+            dgv = ColorFila(dgv, Color.WhiteSmoke, Color.Gainsboro);
             dgv.ClearSelection();
         }
         #endregion
 
+
+        public DataGridView ColorFila(DataGridView dgv , Color a, Color b)
+        {
+            int n = 0;
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (n % 2 == 0)
+                    row.DefaultCellStyle.BackColor = a;
+                else
+                    row.DefaultCellStyle.BackColor = b;
+                n++;
+            }
+            return dgv;
+        }
     }
 }

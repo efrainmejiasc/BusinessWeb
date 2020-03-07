@@ -1,5 +1,5 @@
 ﻿using BusinessDeskTop.Engine.Interfaces;
-using BusinessDeskTop.Modelo;
+using BusinessDeskTop.Models;
 using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
 using Newtonsoft.Json;
