@@ -56,6 +56,31 @@ namespace BusinessWebApi.Controllers
             return response;
         }
 
+        [HttpPut]
+        [ActionName("UpdateCompany")]
+        public HttpResponseMessage UpdateCompany([FromBody]  Company company)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            if (company == null)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
+                return response;
+            }
+            bool resultado = Metodo.UpdateCompany(company);
+            if (!resultado)
+            {
+                response.Content = new StringContent(EngineData.falloUpdatePersonas, Encoding.Unicode);
+            }
+            else
+            {
+                response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
+                response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlCompany);
+            }
+            return response;
+        }
+
+
         [HttpGet]
         [ActionName("GetAllCompany")]
         public List<Company> GetAllCompany()
@@ -63,5 +88,6 @@ namespace BusinessWebApi.Controllers
             List<Company> companys = Metodo.GetAllCompany();
             return companys;
         }
+
     }
 }

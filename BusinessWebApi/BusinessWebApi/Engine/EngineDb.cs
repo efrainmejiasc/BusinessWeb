@@ -563,6 +563,36 @@ namespace BusinessWebApi.Engine
             return companys;
         }
 
+
+        public bool UpdateCompany(Company company)
+        {
+            bool resultado = false;
+            Company C = new Company();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.Company.Where(s => s.Id == company.Id).FirstOrDefault();
+                    Context.Company.Attach(C);
+                    C.NameCompany = company.NameCompany;
+                    C.Ref = company.Ref;
+                    C.Phone = company.Phone;
+                    C.NumberDevices = company.NumberDevices;
+                    C.Email = company.Email;
+                    C.Status = company.Status;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+
+                    resultado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateCompany*" + company.Email));
+            }
+            return resultado;
+        }
+
         public bool InsertarSucesoLog(SucesoLog model)
         {
             bool resultado = false;

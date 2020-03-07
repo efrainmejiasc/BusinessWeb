@@ -22,6 +22,8 @@ namespace BusinessDeskTop.Engine
             return valor;
         }
 
+        public string AccesToken { get; set; }
+
         public static string UrlBase = ConfigurationManager.AppSettings["URL_BASE"];
         public bool ResultAsync { get; set; }
         public  string NombreEmpresa {get;set; }

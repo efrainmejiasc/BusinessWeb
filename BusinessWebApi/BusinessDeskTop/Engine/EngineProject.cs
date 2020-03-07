@@ -17,6 +17,14 @@ namespace BusinessDeskTop.Engine
     public class EngineProject : IEngineProject
     {
         private EngineData Valor = EngineData.Instance();
+
+        public async Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion)
+        {
+            string strValid = Tool.DataLoginUserApi();
+            strValid = await HttpFuncion.GetAccessToken(strValid);
+            Valor.AccesToken = strValid;
+            return strValid;
+        }
         public List<Person> LeerArchivo(string pathArchivo , IEngineTool Tool)
         {
             DataTable dt = new DataTable();
@@ -307,13 +315,6 @@ namespace BusinessDeskTop.Engine
             return resultado;
         }
 
-
-        public async Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion)
-        {
-            string strValid = Tool.DataLoginUserApi();
-            strValid = await HttpFuncion.GetAccessToken(strValid);
-            return strValid;
-        }
 
         public DataTable BuildDtComppany()
         {

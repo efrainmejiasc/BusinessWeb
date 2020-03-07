@@ -16,6 +16,7 @@ namespace BusinessWebApi.Engine.Interfaces
         bool UpdatePerson(Person person);
         bool CreatePerson(Person person);
         UserApi GetUser(string[] userApi);
+        bool UpdateCompany(Company company);
         bool CreateCompany(Company company);
         int GetCompanyId(string nameCompany);
         bool ExistsCodeCompany(string codigo);
