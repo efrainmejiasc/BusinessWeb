@@ -315,6 +315,28 @@ namespace BusinessDeskTop.Engine
             return strValid;
         }
 
+        public DataTable BuildDtComppany()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ID");
+            dt.Columns.Add("NOMBRE EMPRESA");
+            dt.Columns.Add("RIF");
+            dt.Columns.Add("EMAIL");
+            dt.Columns.Add("TELEFONO");
+            dt.Columns.Add("ESTADO");
+            dt.Columns.Add("NUMERO EQUIPOS");
+            return dt;
+        }
+
+        public DataTable SetDtCompany (List<Company> companys , DataTable dt)
+        {
+            foreach (Company c in companys)
+            {
+                dt.Rows.Add(c.Id, c.NameCompany, c.Ref, c.Email, c.Phone, c.Status, c.NumberDevices);
+            }
+            return dt;
+        }
+
         public bool SetLXlsxOut (string pathArchivo)
         {
             bool result = false;

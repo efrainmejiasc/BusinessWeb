@@ -89,5 +89,24 @@ namespace BusinessDeskTop.Engine
             return false;
         }
 
+        public async Task<List<Company>> GetAllCompany(string strToken)
+        {
+            string respuesta = string.Empty;
+            List<Company> companys = new List<Company>();
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "CompanyApi/GetAllCompany");
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    companys = JsonConvert.DeserializeObject<List<Company>>(respuesta);
+                }
+            }
+            return companys;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessDeskTop.Modelo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace BusinessDeskTop.Engine.Interfaces
 {
     public interface IEngineHttp
     {
-        Task<string> GetAccessToken (string jsonData);
+        Task<string> GetAccessToken(string jsonData);
+        Task<List<Company>> GetAllCompany(string strToken);
         Task<bool> CreateCompany(string strToken, string jsonData);
         Task<bool> UploadPersonToApi(string strToken, string jsonData);
         Task<bool> UploadPersonToApiUpdate(string strToken, string jsonData);

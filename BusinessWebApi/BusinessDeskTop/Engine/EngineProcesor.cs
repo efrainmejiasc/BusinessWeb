@@ -144,5 +144,18 @@ namespace BusinessDeskTop.Engine
         }
 
         #endregion
+
+        #region QUERYCOMPANY
+        public async Task GetAllCompany(DataGridView dgv)
+        {
+            string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
+            List<Company> companys = await HttpFuncion.GetAllCompany(token);
+            DataTable dt = Funcion.BuildDtComppany();
+            dt = Funcion.SetDtCompany(companys, dt);
+            dgv.DataSource = dt;
+            dgv.ClearSelection();
+        }
+        #endregion
+
     }
 }

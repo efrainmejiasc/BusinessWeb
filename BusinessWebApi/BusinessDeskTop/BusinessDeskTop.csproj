@@ -109,6 +109,12 @@
     <Compile Include="Formularios\AppMenu.Designer.cs">
       <DependentUpon>AppMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\QueryCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\QueryCompany.Designer.cs">
+      <DependentUpon>QueryCompany.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\UpdatePerson.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\AppMenu.resx">
       <DependentUpon>AppMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\QueryCompany.resx">
+      <DependentUpon>QueryCompany.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\UpdatePerson.resx">
       <DependentUpon>UpdatePerson.cs</DependentUpon>
