@@ -161,6 +161,19 @@ namespace BusinessDeskTop.Engine
             dgv = ColorFila(dgv, Color.WhiteSmoke, Color.Gainsboro);
             dgv.ClearSelection();
         }
+
+        public async Task <bool> UpdateCompany (Company company)
+        {
+            string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
+            string jsonCompany = JsonConvert.SerializeObject(company);
+            bool resultado = await HttpFuncion.UpdateCompany(token,jsonCompany);
+            if (resultado)
+                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            return resultado;
+        }
         #endregion
 
 
@@ -177,5 +190,7 @@ namespace BusinessDeskTop.Engine
             }
             return dgv;
         }
+
+
     }
 }

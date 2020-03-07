@@ -12,6 +12,7 @@ namespace BusinessDeskTop.Engine.Interfaces
         Task<string> GetAccessToken(string jsonData);
         Task<List<Company>> GetAllCompany(string strToken);
         Task<bool> CreateCompany(string strToken, string jsonData);
+        Task<bool> UpdateCompany(string strToken, string jsonData);
         Task<bool> UploadPersonToApi(string strToken, string jsonData);
         Task<bool> UploadPersonToApiUpdate(string strToken, string jsonData);
     }

@@ -87,6 +87,8 @@ namespace BusinessDeskTop.Formularios
             else if (estado.SelectedIndex == 1)
                 c.Status = false;
 
+            EngineProcesor Proceso = new EngineProcesor(FuncionHttp, Funcion, Tool);
+            Proceso.UpdateCompany(c);
         }
     }
 }
