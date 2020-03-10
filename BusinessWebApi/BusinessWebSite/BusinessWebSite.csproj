@@ -176,6 +176,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Grado.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\RegisterDevice.cs" />
     <Compile Include="Models\Respuesta.cs" />
@@ -331,6 +332,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Procesor\Index.cshtml" />
     <Content Include="Views\Procesor\Contact.cshtml" />
+    <Content Include="Views\Procesor\ReportAssistance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

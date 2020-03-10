@@ -593,6 +593,93 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
+
+        public List<Grado> GetGrados()
+        {
+            List<Grado> grados = new List<Grado>();
+            List<Person> p = new List<Person>();
+            List<string> l = new List<string>();
+            using (EngineContext context = new EngineContext())
+            {
+                p = context.Person.ToList();
+            }
+            if (p.Count > 0)
+            {
+                Grado grado;
+                int n = 0;
+                foreach (Person i in p)
+                {
+                    grado = new Grado();
+                    grado.Id = n;
+                    grado.NombreGrado = i.Grado.Trim();
+
+                    if (!l.Contains(i.Grado.Trim()))
+                    {
+                        l.Add(grado.NombreGrado);
+                        grados.Insert(n,grado);
+                        n++;
+                    }
+                }
+            }
+            return grados;
+        }
+
+        public List<Grupo> GetGrupos()
+        {
+            List<Grupo> grupos = new List<Grupo>();
+            List<Person> p = new List<Person>();
+            List<string> l = new List<string>();
+            using (EngineContext context = new EngineContext())
+            {
+                p = context.Person.ToList();
+            }
+            if (p.Count > 0)
+            {
+                Grupo grupo;
+                int n = 0;
+                foreach (Person i in p)
+                {
+                    grupo = new Grupo();
+                    grupo.Id = n;
+                    grupo.NombreGrupo = i.Grupo.Trim();
+
+                    if (!l.Contains(i.Grupo.Trim()))
+                    {
+                        l.Add(grupo.NombreGrupo);
+                        grupos.Insert(n, grupo);
+                        n++;
+                    }
+                }
+            }
+            return grupos;
+        }
+
+        public List<Asistencia> GetAsistenciaClase (string fecha , string grado, string grupo,int idCompany)
+        {
+            List<Asistencia> lista = new List<Asistencia>();
+            DateTime date = Convert.ToDateTime(fecha);
+            using (EngineContext context = new EngineContext())
+            {
+                lista = (from P in context.Person
+                          join A in context.AsistenciaClase
+                          on P.Dni equals A.Dni
+                          where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.IdCompany == idCompany && A.IdCompany == idCompany
+                          select new Asistencia()
+                          {
+                           Nombre = P.Nombre,
+                           Apellido = P.Apellido,
+                           Status = A.Status,
+                           CreateDate = A.CreateDate,
+                           Dni = P.Dni,
+                           Email = P.Email,
+                           Grado = P.Grado,
+                           Grupo = P.Grupo,
+                           IdCompany = P.IdCompany
+                          }).ToList();
+            }
+            return lista;
+        }
+
         public bool InsertarSucesoLog(SucesoLog model)
         {
             bool resultado = false;

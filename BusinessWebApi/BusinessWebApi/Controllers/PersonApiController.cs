@@ -1,6 +1,7 @@
 ﻿using BusinessWebApi.Engine;
 using BusinessWebApi.Engine.Interfaces;
 using BusinessWebApi.Models;
+using BusinessWebApi.Models.Objetos;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -90,6 +91,23 @@ namespace BusinessWebApi.Controllers
                 i.Qr = string.Empty;
             }
             return person;
+        }
+
+        [HttpGet]
+        [ActionName("GetGrados")]
+        public List<Grado> GetGrados()
+        {
+           List<Grado> grado = Metodo.GetGrados();
+           return grado;
+        }
+
+
+        [HttpGet]
+        [ActionName("GetGrupos")]
+        public List<Grupo> GetGrupos()
+        {
+            List<Grupo> grado = Metodo.GetGrupos();
+            return grado;
         }
     }
 }

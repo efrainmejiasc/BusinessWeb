@@ -32,8 +32,8 @@ namespace BusinessWebSite.Controllers
         }
         public ActionResult Index()
         {
-           // if (System.Web.HttpContext.Current.Session["User"] == null)
-               // Response.Redirect("Index");
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                Response.Redirect("Index");
 
             return View();
         }
@@ -72,8 +72,8 @@ namespace BusinessWebSite.Controllers
 
         public ActionResult Contact()
         {
-            //if (System.Web.HttpContext.Current.Session["User"] == null)
-                //return RedirectToAction("Index", "Home");
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -84,11 +84,67 @@ namespace BusinessWebSite.Controllers
             if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
                 return RedirectToAction("Index", "Home");
 
-            Person persona = new Person();
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
             string jsonPerson = await Proceso.GetPerson(dni, token, FuncionHttp);
 
             return Json(jsonPerson);
+        }
+
+
+        public ActionResult ReportAssistance()
+        {
+            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> GetGrados()
+        {
+            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+                return RedirectToAction("Index", "Home");
+
+            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string jsonGrado = await Proceso.GetGrados(token, FuncionHttp);
+
+            return Json(jsonGrado);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetGrupos()
+        {
+            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+                return RedirectToAction("Index", "Home");
+
+            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string jsonGrado = await Proceso.GetGrupos(token, FuncionHttp);
+
+            return Json(jsonGrado);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> GetAsistencia (string fecha , string grado ,string grupo)
+        {
+            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+                return RedirectToAction("Index", "Home");
+
+            int idCompany = 0;
+            if (System.Web.HttpContext.Current.Session["IdCompany"] != null)
+            {
+                idCompany = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdCompany"]);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string jsonGrado = await Proceso.GetAsistencia (token,fecha, grado, grupo,idCompany,FuncionHttp);
+
+            return Json(jsonGrado);
         }
     }
 }

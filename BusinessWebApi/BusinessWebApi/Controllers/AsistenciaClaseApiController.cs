@@ -26,7 +26,6 @@ namespace BusinessWebApi.Controllers
             Notify = _notyfy;
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [ActionName("AsistenciaClase")]
         public HttpResponseMessage AsistenciaClase([FromBody] List<AsistenciaClase> model)
@@ -63,6 +62,15 @@ namespace BusinessWebApi.Controllers
             }
 
             return response;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [ActionName("GetAsistenciaClase")]
+        public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int idCompany)
+        {
+            List<Asistencia> lista = Metodo.GetAsistenciaClase(fecha, grado, grupo, idCompany);
+            return lista;
         }
     }
 }

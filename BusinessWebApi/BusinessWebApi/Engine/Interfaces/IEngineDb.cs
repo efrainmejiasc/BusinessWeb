@@ -9,6 +9,8 @@ namespace BusinessWebApi.Engine.Interfaces
 {
     public interface IEngineDb
     {
+        List<Grupo> GetGrupos();
+        List<Grado> GetGrados();
         Person GetPerson(string dni);
         bool CreateUser(UserApi user);
         List<Company> GetAllCompany();
@@ -36,5 +38,6 @@ namespace BusinessWebApi.Engine.Interfaces
         bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias);
         bool UpdateUserApi(int idCompany, string nameCompany, string user, string email);
         List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno);
+        List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo, int idCompany);
     }
 }

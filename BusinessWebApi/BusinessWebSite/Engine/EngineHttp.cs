@@ -28,6 +28,7 @@ namespace BusinessWebSite.Engine
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
                     ticketAcceso = JsonConvert.DeserializeObject<TicketAcceso>(respuesta);
+                    System.Web.HttpContext.Current.Session["IdCompany"] = ticketAcceso.idCompany;
                 }
                 return ticketAcceso;
             }
@@ -105,6 +106,60 @@ namespace BusinessWebSite.Engine
                     respuesta = "NO AUTORIZADO";
                 }
 
+            }
+            return respuesta;
+        }
+
+        public async Task<string> GetGrados(string strToken)
+        {
+            string respuesta = string.Empty;
+            List<Grado> grados = new List<Grado>();
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "PersonApi/GetGrados");
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+            }
+            return respuesta;
+        }
+
+        public async Task<string> GetGrupos(string strToken)
+        {
+            string respuesta = string.Empty;
+            List<Grado> grados = new List<Grado>();
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "PersonApi/GetGrupos");
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+            }
+            return respuesta;
+        }
+
+        public async Task<string> GetAsistencia (string strToken,string fecha,string grado,string grupo,int idCompany)
+        {
+            string respuesta = string.Empty;
+            List<Grado> grados = new List<Grado>();
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetAsistenciaClase?fecha=" + fecha + "&grado=" + grado + "&grupo=" + grupo + "&idCompany=" + idCompany.ToString());
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
             }
             return respuesta;
         }
