@@ -49,7 +49,7 @@ namespace BusinessDeskTop.Engine
                     {
                         if (columna == 1)
                         {
-                            validate = Tool.ExistsFile(xlRange.Cells[fila, columna].Value.ToString());
+                            validate = Tool.ExistsFile(@"C:\Users\HOME\Desktop\Carnetizacion\List\" + xlRange.Cells[fila, columna].Value.ToString().Replace("/","\\"));
                             if (!validate)
                             {
                                 strValue = strValue + "NO_FOTO" + "#";
@@ -61,14 +61,14 @@ namespace BusinessDeskTop.Engine
                         }
                         else if (columna == 9)
                         {
-                            validate = Tool.EmailEsValido(xlRange.Cells[fila, columna].Value.ToString());
+                            validate = Tool.EmailEsValido(xlRange.Cells[fila, columna].Value.ToString().ToLower());
                             if (!validate)
                             {
-                                strValue = strValue + "EMAIL_NO_VALIDO" + "#";
+                                strValue = strValue + "email@nodefinido.com" + "#";
                             }
                             else
                             {
-                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString().ToLower() + "#";
                             }
                         }
                         else if (columna == 11)
@@ -91,7 +91,9 @@ namespace BusinessDeskTop.Engine
                     {
                         strValue = strValue + "NO_DEFINIDO" + "#";
                     }
-                    if (columna == colCount)
+
+
+                 /*   if (columna == colCount)
                     {
                         if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO") && !strValue.Contains("EMAIL_NO_VALIDO"))
                         {
@@ -110,7 +112,7 @@ namespace BusinessDeskTop.Engine
                         {
                             dt = SetDataTable(strValue, dt, fila);
                         }
-                    }
+                    }*/
                 }
                 strValue = string.Empty;
             }
