@@ -133,5 +133,46 @@ namespace BusinessDeskTop.Engine
             };
             return JsonConvert.SerializeObject(userApi);
         }
+
+        public string ConstruirCodigo()
+        {
+            string codigo = string.Empty;
+            for (int i = 0; i <= 5; i++)
+            {
+                if (i % 2 == 0)
+                    codigo = codigo + AleatorioLetra(i + DateTime.Now.Millisecond);
+                else
+                    codigo = codigo + AleatorioNumero(i + DateTime.Now.Millisecond);
+            }
+            return codigo.Trim();
+        }
+
+        private string AleatorioLetra(int semilla)
+        {
+            string letra = string.Empty;
+            Random rnd = new Random(semilla);
+            int n = rnd.Next(0, 26);
+            double d = AleatorioDoble(semilla);
+            if (d >= 0.5)
+                letra = EngineData.AlfabetoG[n];
+            else
+                letra = EngineData.AlfabetoP[n];
+
+            return letra;
+        }
+
+        private string AleatorioNumero(int semilla)
+        {
+            Random rnd = new Random(semilla);
+            int n = rnd.Next(0, 9);
+            return n.ToString();
+        }
+
+        private double AleatorioDoble(int semilla)
+        {
+            Random rnd = new Random(semilla);
+            double n = rnd.NextDouble();
+            return n;
+        }
     }
 }

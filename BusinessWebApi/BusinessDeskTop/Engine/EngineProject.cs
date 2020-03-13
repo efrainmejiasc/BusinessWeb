@@ -18,7 +18,6 @@ namespace BusinessDeskTop.Engine
     {
         private EngineData Valor = EngineData.Instance();
 
-        int n = 15;
 
         public async Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion)
         {
@@ -27,7 +26,8 @@ namespace BusinessDeskTop.Engine
             Valor.AccesToken = strValid;
             return strValid;
         }
-        public List<Person> LeerArchivo(string pathArchivo , IEngineTool Tool)
+ 
+        public List<Person> LeerArchivo(string pathArchivo, IEngineTool Tool)
         {
             DataTable dt = new DataTable();
             dt = BuildColumnDataTable(dt);
@@ -47,7 +47,7 @@ namespace BusinessDeskTop.Engine
             string file = string.Empty;
             string foto = string.Empty;
             string nombre = string.Empty;
-            string apellido= string.Empty;
+            string apellido = string.Empty;
             string dni = string.Empty;
             string matricula = string.Empty;
             string rh = string.Empty;
@@ -64,9 +64,9 @@ namespace BusinessDeskTop.Engine
 
                 for (int columna = 1; columna <= colCount; columna++)
                 {
-                    try 
+                    try
                     {
-                        if (xlRange.Cells[fila, columna] != null) 
+                        if (xlRange.Cells[fila, columna] != null)
                         {
                             if (columna == 1)//foto
                             {
@@ -173,11 +173,11 @@ namespace BusinessDeskTop.Engine
                                     if (validate)
                                         email = xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim();
                                     else
-                                        email = NoDefinido(xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim());
+                                        email = NoDefinido(xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim(),Tool);
                                 }
                                 else
                                 {
-                                    email = NoDefinido("nodefinido@gmail.com");
+                                    email = NoDefinido("nodefinido@gmail.com",Tool);
                                 }
                                 strValue = strValue + email + s;
                                 email = string.Empty;
@@ -214,9 +214,9 @@ namespace BusinessDeskTop.Engine
                                 turno = string.Empty;
                             }
                         }
-                      
 
-                     
+
+
                         //*************************************************************************************************************************************************************************
                         if (columna == colCount)
                         {
@@ -231,7 +231,7 @@ namespace BusinessDeskTop.Engine
                                 }
                                 else
                                 {
-                                    p.Email = NoDefinido("nodefinido@gmail.com");
+                                    p.Email = NoDefinido("nodefinido@gmail.com",Tool);
                                     lp.Insert(idx, p);
                                     idx++;
                                 }
@@ -248,7 +248,7 @@ namespace BusinessDeskTop.Engine
                         string err = ex.ToString();
                     }
                 }
-             
+
                 strValue = string.Empty;
             }
 
@@ -265,16 +265,14 @@ namespace BusinessDeskTop.Engine
             return lp;
         }
 
-
-        public string NoDefinido (string e)
+        public string NoDefinido (string email , IEngineTool Tool)
         {
-            if (e == "nodefinido@gmail.com")
+            if (email == "nodefinido@gmail.com")
             {
-                string[] p = e.Split('@');
-                e = p[0] + n.ToString() + "@" + "gmail.com";
-                n++;
+                string[] p = email.Split('@');
+                email = p[0] + Tool.ConstruirCodigo ()+ "@" + "gmail.com";
             }
-            return e;
+            return email;
         }
 
         public DataTable BuildColumnDataTable(DataTable dt)
