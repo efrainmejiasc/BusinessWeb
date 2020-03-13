@@ -47,7 +47,7 @@ namespace BusinessDeskTop.Engine
         public bool ExistsFile(string pathArchivo)
         {
             bool resultado = false;
-            if (File.Exists(pathArchivo))
+            if (File.Exists(pathArchivo.Trim()))
                 resultado = true;
             return resultado;
         }

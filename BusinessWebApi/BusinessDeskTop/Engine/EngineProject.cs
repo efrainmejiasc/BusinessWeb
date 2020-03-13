@@ -18,6 +18,8 @@ namespace BusinessDeskTop.Engine
     {
         private EngineData Valor = EngineData.Instance();
 
+        int n = 15;
+
         public async Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion)
         {
             string strValid = Tool.DataLoginUserApi();
@@ -41,79 +43,212 @@ namespace BusinessDeskTop.Engine
             string strValue = string.Empty;
             int idx = 0;
             bool validate = false;
+
+            string file = string.Empty;
+            string foto = string.Empty;
+            string nombre = string.Empty;
+            string apellido= string.Empty;
+            string dni = string.Empty;
+            string matricula = string.Empty;
+            string rh = string.Empty;
+            string grado = string.Empty;
+            string grupo = string.Empty;
+            string email = string.Empty;
+            string empresa = string.Empty;
+            string turno = string.Empty;
+            string s = "#";
+
             for (int fila = 2; fila <= rowCount; fila++)
             {
+                strValue = string.Empty;
+
                 for (int columna = 1; columna <= colCount; columna++)
                 {
-                    if (xlRange.Cells[fila, columna] != null && xlRange.Cells[fila, columna].Value != null)
+                    try 
                     {
-                        if (columna == 1)
+                        if (xlRange.Cells[fila, columna] != null) 
                         {
-                            validate = Tool.ExistsFile(@"C:\Users\HOME\Desktop\Carnetizacion\List\" + xlRange.Cells[fila, columna].Value.ToString().Replace("/","\\"));
-                            if (!validate)
+                            if (columna == 1)//foto
                             {
-                                strValue = strValue + "NO_FOTO" + "#";
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                {
+                                    var g = (xlRange.Cells[fila, columna].Value.ToString()).Replace("/", "#").Trim();
+                                    string[] part = g.Split('#');
+                                    file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\FOTO\" + part[1].Trim();
+                                    validate = Tool.ExistsFile(file);
+                                    if (validate)
+                                    {
+                                        foto = file;
+                                    }
+                                    else
+                                    {
+                                        file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\FOTO\" + part[1].Trim();
+                                        foto = file;
+                                    }
+                                }
+                                else
+                                {
+                                    file = "NO_DEFINIDO";
+                                    foto = file;
+                                }
+                                strValue = strValue + foto + s;
+                                foto = string.Empty;
+                                file = string.Empty;
                             }
-                            else
+                            else if (columna == 2)//nombre
                             {
-                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
-                            }
-                        }
-                        else if (columna == 9)
-                        {
-                            validate = Tool.EmailEsValido(xlRange.Cells[fila, columna].Value.ToString().ToLower());
-                            if (!validate)
-                            {
-                                strValue = strValue + "email@nodefinido.com" + "#";
-                            }
-                            else
-                            {
-                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString().ToLower() + "#";
-                            }
-                        }
-                        else if (columna == 11)
-                        {
-                            if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "MAÑANA")
-                                strValue = strValue + "1" + "#";
-                            else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "TARDE")
-                                strValue = strValue + "2" + "#";
-                            else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "NOCHE")
-                                strValue = strValue + "3" + "#";
-                            else
-                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
-                        }
-                        else
-                        {
-                            strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
-                        }
-                    }
-                    else
-                    {
-                        strValue = strValue + "NO_DEFINIDO" + "#";
-                    }
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    nombre = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                else
+                                    nombre = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
 
-
-                 /*   if (columna == colCount)
-                    {
-                        if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO") && !strValue.Contains("EMAIL_NO_VALIDO"))
-                        {
-                            p = SetListPerson(strValue, Tool);
-                            if (!string.IsNullOrEmpty(p.Email))
+                                strValue = strValue + nombre + s;
+                                nombre = string.Empty;
+                            }
+                            else if (columna == 3)//apellido
                             {
-                                lp.Insert(idx, p);
-                                idx++;
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    apellido = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                else
+                                    apellido = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+
+                                strValue = strValue + apellido + s;
+                                apellido = string.Empty;
+                            }
+                            else if (columna == 4)//dni documento
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    dni = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim().Trim();
+                                else
+                                    dni = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+
+                                strValue = strValue + dni + s;
+                                dni = string.Empty;
+                            }
+                            else if (columna == 5)//matricula
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    matricula = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                else
+                                    matricula = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+
+                                strValue = strValue + matricula + s;
+                                matricula = string.Empty;
+                            }
+                            else if (columna == 6)//rh
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    rh = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                else
+                                    rh = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+
+                                strValue = strValue + rh + s;
+                                rh = string.Empty;
+                            }
+                            else if (columna == 7)//grado
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    grado = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                else
+                                    grado = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+
+                                strValue = strValue + grado + s;
+                                grado = string.Empty;
+                            }
+                            else if (columna == 8)//grupo
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    grupo = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                else
+                                    grupo = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+
+                                strValue = strValue + grupo + s;
+                                grupo = string.Empty;
+                            }
+                            else if (columna == 9)//email
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                {
+                                    validate = Tool.EmailEsValido(xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim());
+                                    if (validate)
+                                        email = xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim();
+                                    else
+                                        email = NoDefinido(xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim());
+                                }
+                                else
+                                {
+                                    email = NoDefinido("nodefinido@gmail.com");
+                                }
+                                strValue = strValue + email + s;
+                                email = string.Empty;
+                            }
+                            else if (columna == 10)//empresa
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                    empresa = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                else
+                                    empresa = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+
+                                strValue = strValue + empresa + s;
+                                empresa = string.Empty;
+                            }
+                            else if (columna == 11)//turno
+                            {
+                                if (xlRange.Cells[fila, columna].Value != null)
+                                {
+                                    if (xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim() == "MAÑANA")
+                                        turno = "1";
+                                    else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim() == "TARDE")
+                                        turno = "2";
+                                    else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim() == "NOCHE")
+                                        turno = "3";
+                                    else
+                                        turno = "1";
+                                }
+                                else
+                                {
+                                    turno = "1";
+                                }
+
+                                strValue = strValue + turno + s;
+                                turno = string.Empty;
+                            }
+                        }
+                      
+
+                     
+                        //*************************************************************************************************************************************************************************
+                        if (columna == colCount)
+                        {
+                            if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO") && !strValue.Contains("EMAIL_NO_VALIDO") && !string.IsNullOrEmpty(strValue) && strValue.Trim() != "#")
+                            {
+                                p = SetListPerson(strValue, Tool);
+
+                                if (!string.IsNullOrEmpty(p.Email))
+                                {
+                                    lp.Insert(idx, p);
+                                    idx++;
+                                }
+                                else
+                                {
+                                    p.Email = NoDefinido("nodefinido@gmail.com");
+                                    lp.Insert(idx, p);
+                                    idx++;
+                                }
                             }
                             else
                             {
                                 dt = SetDataTable(strValue, dt, fila);
                             }
                         }
-                        else
-                        {
-                            dt = SetDataTable(strValue, dt, fila);
-                        }
-                    }*/
+                        // foto = string.Empty; nombre = string.Empty; apellido = string.Empty; dni = string.Empty; matricula = string.Empty; grado = string.Empty; email = string.Empty; empresa = string.Empty; turno = string.Empty;
+                    }
+                    catch (Exception ex)
+                    {
+                        string err = ex.ToString();
+                    }
                 }
+             
                 strValue = string.Empty;
             }
 
@@ -128,6 +263,18 @@ namespace BusinessDeskTop.Engine
             ReadWriteTxt(pathArchivo);
             Valor.SetDt(dt);
             return lp;
+        }
+
+
+        public string NoDefinido (string e)
+        {
+            if (e == "nodefinido@gmail.com")
+            {
+                string[] p = e.Split('@');
+                e = p[0] + n.ToString() + "@" + "gmail.com";
+                n++;
+            }
+            return e;
         }
 
         public DataTable BuildColumnDataTable(DataTable dt)
@@ -182,8 +329,11 @@ namespace BusinessDeskTop.Engine
 
         public DataTable SetDataTable(string strValue, DataTable dt , int idx)
         {
-            string[] x = strValue.Split('#');
-            dt.Rows.Add(idx, x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], string.Empty,x[10]);
+            if (!string.IsNullOrEmpty(strValue) && strValue.Trim() != "#")
+            {
+                string[] x = strValue.Split('#');
+                dt.Rows.Add(idx, x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], string.Empty, x[10]);
+            }
             return dt;
         }
 
