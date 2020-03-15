@@ -10,6 +10,7 @@ namespace BusinessDeskTop.Engine.Interfaces
 {
     public interface IEngineProject
     {
+        DataTable BuildDtPerson();
         DataTable BuildDtComppany();
         bool CreateFileXlsx(DataTable dt);
         bool SetLXlsxOut(string pathArchivo);

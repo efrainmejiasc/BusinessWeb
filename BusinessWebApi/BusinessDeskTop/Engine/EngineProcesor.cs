@@ -30,52 +30,48 @@ namespace BusinessDeskTop.Engine
         }
 
         #region UPLOADLISTA
-        public bool ProcesarArchivo (string pathArchivo,DataGridView dgv,Label lbl)
+     
+
+        public bool ProcesarArchivo(string pathArchivo, DataGridView dgv, Label lbl)
         {
             bool resultado = false;
-            List<Person> persons = Funcion.LeerArchivo(pathArchivo,Tool);
+            List<Person> persons = Funcion.LeerArchivo(pathArchivo, Tool);
             resultado = Tool.CreateFolder(Valor.FolderFile); //path carpeta archivos 
             resultado = Tool.CreateFolder(Valor.PathFolderFileEmpresa()); // path carpeta archivos empresa
             resultado = Tool.CreateFolder(Valor.PathFolderImageQr()); // path carpeta qr empresa
             dgv.DataSource = Valor.GetDt();
             dgv.ClearSelection();
-           if (dgv.Rows.Count == 0)
+            if (dgv.Rows.Count == 0)
             {
-               // MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //return true;
             }
-            lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine + 
+            lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine +
                        "Insertando datos en Db" + Environment.NewLine + "Espere un momento, esto puede tardar unos segundos";
 
             string pathFileXlsx = Valor.PathFileXlsx();//path del archivo excel 
-            resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool); 
+            resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool);
             if (resultado)
-                UploadPersonToApi(lbl,"INSERT");
-            
-            return resultado;
-        } 
+                UploadPersonToApi(lbl, "INSERT");
 
-        
-        public async Task  UploadPersonToApi(Label lbl,string tipo)
+            return resultado;
+        }
+
+        public bool UploadPersonToApi(Label lbl, string tipo)
         {
             bool resultado = false;
-            string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
-            if (!string.IsNullOrEmpty(token))
-            {
-                List<Person> persons = Valor.GetPersons();
-                string personas = JsonConvert.SerializeObject(persons);
-                if (tipo == "INSERT")
-                  resultado = await HttpFuncion.UploadPersonToApi(token, personas);
-                else
-                  resultado = await HttpFuncion.UploadPersonToApiUpdate(token, personas);
-            }
+            List<Person> persons = Valor.GetPersons();
+            resultado = HttpFuncion.UploadPersonToApi(persons,Funcion);
+               
             if (resultado)
-              MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            lbl.Text = string.Empty;
+            return resultado;
         }
+
+
         public bool ExportarErrores(DataTable dt)
         {
             bool resultado = false;
@@ -191,6 +187,27 @@ namespace BusinessDeskTop.Engine
             return dgv;
         }
 
+        /* 
+     public async Task  UploadPersonToApi(Label lbl,string tipo)
+      {
+          bool resultado = false;
+          string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
+          if (!string.IsNullOrEmpty(token))
+          {
+              List<Person> persons = Valor.GetPersons();
+              string personas = JsonConvert.SerializeObject(persons);
+              if (tipo == "INSERT")
+                resultado = await HttpFuncion.UploadPersonToApi(token, personas);
+              else
+                resultado = await HttpFuncion.UploadPersonToApiUpdate(token, personas);
+          }
+          if (resultado)
+            MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+          else
+              MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+          lbl.Text = string.Empty;
+      }*/
 
     }
 }

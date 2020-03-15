@@ -70,11 +70,11 @@ namespace BusinessDeskTop.Engine
                         {
                             if (columna == 1)//foto
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
+                                if (xlRange.Cells[fila, columna].Value2 != null)
                                 {
-                                    var g = (xlRange.Cells[fila, columna].Value.ToString()).Replace("/", "#").Trim();
+                                    var g = (xlRange.Cells[fila, columna].Value2.ToString()).Replace("/", "#").Trim();
                                     string[] part = g.Split('#');
-                                    file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\FOTO\" + part[1].Trim();
+                                    file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\FOTOS\" + part[1].Trim();
                                     validate = Tool.ExistsFile(file);
                                     if (validate)
                                     {
@@ -82,7 +82,7 @@ namespace BusinessDeskTop.Engine
                                     }
                                     else
                                     {
-                                        file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\FOTO\" + part[1].Trim();
+                                        file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\FOTOS\" + part[1].Trim();
                                         foto = file;
                                     }
                                 }
@@ -97,118 +97,153 @@ namespace BusinessDeskTop.Engine
                             }
                             else if (columna == 2)//nombre
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    nombre = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-                                else
-                                    nombre = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                try
+                                {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        nombre = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                    else
+                                        nombre = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                }
+                                catch{
+                                    nombre = "-";
+                                }
+                            
 
                                 strValue = strValue + nombre + s;
                                 nombre = string.Empty;
                             }
                             else if (columna == 3)//apellido
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    apellido = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-                                else
-                                    apellido = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-
+                                try
+                                {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        apellido = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                    else
+                                        apellido = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                }
+                                catch { apellido = "-"; }
+                               
                                 strValue = strValue + apellido + s;
                                 apellido = string.Empty;
                             }
                             else if (columna == 4)//dni documento
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    dni = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim().Trim();
-                                else
-                                    dni = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                try {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        dni = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim().Trim();
+                                    else
+                                        dni = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                } catch { dni = "-"; }
+                                
 
                                 strValue = strValue + dni + s;
                                 dni = string.Empty;
                             }
                             else if (columna == 5)//matricula
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    matricula = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-                                else
-                                    matricula = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                try
+                                {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        matricula = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                    else
+                                        matricula = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                } catch { matricula = "-"; }
+                               
 
                                 strValue = strValue + matricula + s;
                                 matricula = string.Empty;
                             }
                             else if (columna == 6)//rh
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    rh = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-                                else
-                                    rh = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                try
+                                {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        rh = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                    else
+                                        rh = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                } catch { rh = "-"; }
+                               
 
                                 strValue = strValue + rh + s;
                                 rh = string.Empty;
                             }
                             else if (columna == 7)//grado
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    grado = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-                                else
-                                    grado = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-
+                                try {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        grado = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                    else
+                                        grado = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                } catch { grado = "-"; }
+                                
                                 strValue = strValue + grado + s;
                                 grado = string.Empty;
                             }
                             else if (columna == 8)//grupo
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    grupo = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-                                else
-                                    grupo = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                try
+                                {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        grupo = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                    else
+                                        grupo = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                } catch { grupo = "A"; }
+                              
 
                                 strValue = strValue + grupo + s;
                                 grupo = string.Empty;
                             }
                             else if (columna == 9)//email
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
+                                try
                                 {
-                                    validate = Tool.EmailEsValido(xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim());
-                                    if (validate)
-                                        email = xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim();
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                    {
+                                        email = NoDefinido(xlRange.Cells[fila, columna].Value2.ToString().ToLower().Trim(), Tool);
+                                    }
                                     else
-                                        email = NoDefinido(xlRange.Cells[fila, columna].Value.ToString().ToLower().Trim(),Tool);
-                                }
-                                else
-                                {
-                                    email = NoDefinido("nodefinido@gmail.com",Tool);
-                                }
+                                    {
+                                        email = NoDefinido("nodefinido@gmail.com", Tool);
+                                    }
+                                } catch { email = NoDefinido("nodefinido@gmail.com", Tool); }
+                              
                                 strValue = strValue + email + s;
                                 email = string.Empty;
                             }
                             else if (columna == 10)//empresa
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
-                                    empresa = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
-                                else
-                                    empresa = xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim();
+                                try {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        empresa = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                    else
+                                        empresa = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
+                                } catch { empresa = "Rosario Itagui"; }
+                                
 
                                 strValue = strValue + empresa + s;
                                 empresa = string.Empty;
                             }
                             else if (columna == 11)//turno
                             {
-                                if (xlRange.Cells[fila, columna].Value != null)
+                                try
                                 {
-                                    if (xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim() == "MAÑANA")
-                                        turno = "1";
-                                    else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim() == "TARDE")
-                                        turno = "2";
-                                    else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper().Trim() == "NOCHE")
-                                        turno = "3";
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                    {
+                                        if (xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim() == "MAÑANA")
+                                            turno = "1";
+                                        else if (xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim() == "TARDE")
+                                            turno = "2";
+                                        else if (xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim() == "NOCHE")
+                                            turno = "3";
+                                        else
+                                            turno = "1";
+                                    }
                                     else
+                                    {
                                         turno = "1";
-                                }
-                                else
-                                {
-                                    turno = "1";
-                                }
+                                    }
+                                } catch { turno = "1"; }
+                              
 
                                 strValue = strValue + turno + s;
                                 turno = string.Empty;
@@ -220,7 +255,7 @@ namespace BusinessDeskTop.Engine
                         //*************************************************************************************************************************************************************************
                         if (columna == colCount)
                         {
-                            if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO") && !strValue.Contains("EMAIL_NO_VALIDO") && !string.IsNullOrEmpty(strValue) && strValue.Trim() != "#")
+                            try
                             {
                                 p = SetListPerson(strValue, Tool);
 
@@ -231,15 +266,16 @@ namespace BusinessDeskTop.Engine
                                 }
                                 else
                                 {
-                                    p.Email = NoDefinido("nodefinido@gmail.com",Tool);
+                                    p.Email = NoDefinido("nodefinido@gmail.com", Tool);
                                     lp.Insert(idx, p);
                                     idx++;
                                 }
                             }
-                            else
+                              catch(Exception ex)
                             {
-                                dt = SetDataTable(strValue, dt, fila);
+                                string n = ex.ToString();
                             }
+                         
                         }
                         // foto = string.Empty; nombre = string.Empty; apellido = string.Empty; dni = string.Empty; matricula = string.Empty; grado = string.Empty; email = string.Empty; empresa = string.Empty; turno = string.Empty;
                     }
@@ -270,7 +306,7 @@ namespace BusinessDeskTop.Engine
             if (email == "nodefinido@gmail.com")
             {
                 string[] p = email.Split('@');
-                email = p[0] + Tool.ConstruirCodigo ()+ "@" + "gmail.com";
+                email = p[0] + Tool.ConstruirCodigo() + "@" + "gmail.com";
             }
             return email;
         }
@@ -319,7 +355,7 @@ namespace BusinessDeskTop.Engine
 
             p.Company = x[9];
             p.Qr = string.Empty;
-            p.Turno = x[10]; ;
+            p.Turno = Convert.ToInt32(x[10]); 
 
 
             return p;
@@ -368,27 +404,32 @@ namespace BusinessDeskTop.Engine
                 string pathQr = string.Empty;
                 foreach (Person p in persons)
                 {
-                    foto64 = Tool.ConvertImgTo64Img(p.Foto);
-                    sourceQr = p.Nombre + p.Apellido + p.Dni;
-                    sourceQr = Tool.ConvertirBase64(sourceQr);
-                    p.Qr = Tool.CreateQrCode(sourceQr, Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
-                    qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
+                    try
+                    {
+                        foto64 = Tool.ConvertImgTo64Img(p.Foto);
+                        sourceQr = p.Nombre + p.Apellido + p.Dni;
+                        sourceQr = Tool.ConvertirBase64(sourceQr);
+                        p.Qr = Tool.CreateQrCode(sourceQr, Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
+                        qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
 
-                    var f = p.Foto.Split('\\');
-                    var q = p.Qr.Split('\\');
-                    hoja.Range["A" + n].Value = "FOTO/" + f[f.Length - 1];
-                    hoja.Range["B" + n].Value = p.Nombre;
-                    hoja.Range["C" + n].Value = p.Apellido;
-                    hoja.Range["D" + n].Value = p.Dni;
-                    hoja.Range["E" + n].Value = p.Matricula;
-                    hoja.Range["F" + n].Value = p.Rh;
-                    hoja.Range["G" + n].Value = p.Grado;
-                    hoja.Range["H" + n].Value = p.Grupo;
-                    hoja.Range["I" + n].Value = "QR/" + q[q.Length - 1]; ;
+                        var f = p.Foto.Split('\\');
+                        var q = p.Qr.Split('\\');
+                        hoja.Range["A" + n].Value = "FOTO/" + f[f.Length - 1];
+                        hoja.Range["B" + n].Value = p.Nombre;
+                        hoja.Range["C" + n].Value = p.Apellido;
+                        hoja.Range["D" + n].Value = p.Dni;
+                        hoja.Range["E" + n].Value = p.Matricula;
+                        hoja.Range["F" + n].Value = p.Rh;
+                        hoja.Range["G" + n].Value = p.Grado;
+                        hoja.Range["H" + n].Value = p.Grupo;
+                        hoja.Range["I" + n].Value = "QR/" + q[q.Length - 1]; ;
 
-                    p.Foto = foto64;
-                    p.Qr = qr64;
-                    n++;
+                        p.Foto = foto64;
+                        p.Qr = qr64;
+                        n++;
+                    }
+                    catch(Exception ex) { MessageBox.Show("Error:  " + ex.ToString()); }
+                  
                 }
                 excel.ActiveWindow.Zoom = 100;
                 excel.Columns.AutoFit();
@@ -476,6 +517,27 @@ namespace BusinessDeskTop.Engine
             dt.Columns.Add("TELEFONO");
             dt.Columns.Add("ESTADO");
             dt.Columns.Add("NUMERO EQUIPOS");
+            return dt;
+        }
+
+        public DataTable BuildDtPerson()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("NOMBRE",typeof(string));
+            dt.Columns.Add("APELLIDO", typeof(string));
+            dt.Columns.Add("DNI", typeof(string));
+            dt.Columns.Add("MATRICULA", typeof(string));
+            dt.Columns.Add("RH", typeof(string));
+            dt.Columns.Add("GRADO", typeof(string));
+            dt.Columns.Add("GRUPO", typeof(string));
+            dt.Columns.Add("EMAIL", typeof(string));
+            dt.Columns.Add("IDCOMPANY", typeof(int));
+            dt.Columns.Add("COMPANY", typeof(string));
+            dt.Columns.Add("DATE", typeof(DateTime));
+            dt.Columns.Add("STATUS", typeof(bool));
+            dt.Columns.Add("FOTO", typeof(string));
+            dt.Columns.Add("QR", typeof(string));
+            dt.Columns.Add("TURNO", typeof(int));
             return dt;
         }
 

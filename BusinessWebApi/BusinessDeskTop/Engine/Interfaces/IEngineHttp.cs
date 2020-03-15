@@ -15,5 +15,6 @@ namespace BusinessDeskTop.Engine.Interfaces
         Task<bool> UpdateCompany(string strToken, string jsonData);
         Task<bool> UploadPersonToApi(string strToken, string jsonData);
         Task<bool> UploadPersonToApiUpdate(string strToken, string jsonData);
+        bool UploadPersonToApi(List<Person> persons, IEngineProject project);
     }
 }

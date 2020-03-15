@@ -28,7 +28,7 @@ namespace BusinessWebApi.Controllers
         public HttpResponseMessage CreatePerson ([FromBody] List<Person> persons)
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-            if (persons.Count == 0)
+            if ( persons == null || persons.Count == 0)
             {
                 response = new HttpResponseMessage(HttpStatusCode.BadRequest);
                 response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
