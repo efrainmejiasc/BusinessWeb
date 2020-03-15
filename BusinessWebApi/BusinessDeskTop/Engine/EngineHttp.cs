@@ -50,6 +50,9 @@ namespace BusinessDeskTop.Engine
                     respuesta = await response.Content.ReadAsStringAsync();
                     if (respuesta == "transaccion exitosa")
                         return true;
+                }else
+                {
+                    string s = response.StatusCode.ToString();
                 }
             }
             return false;
@@ -108,7 +111,7 @@ namespace BusinessDeskTop.Engine
             Conexion.Open();
             using (var bcp = new SqlBulkCopy(Conexion))
             {
-                bcp.BulkCopyTimeout = 350;
+                bcp.BulkCopyTimeout = 100;
                 bcp.BatchSize = 10000;
                 bcp.DestinationTableName = "Person";
                 SqlBulkCopyColumnMapping nombre  = new SqlBulkCopyColumnMapping("Nombre", "Nombre");
