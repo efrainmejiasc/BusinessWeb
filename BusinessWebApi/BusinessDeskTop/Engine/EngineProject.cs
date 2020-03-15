@@ -407,7 +407,7 @@ namespace BusinessDeskTop.Engine
                     try
                     {
                         foto64 = Tool.ConvertImgTo64Img(p.Foto);
-                        sourceQr = p.Nombre + p.Apellido + p.Dni;
+                        sourceQr = p.Nombre + "#" + p.Apellido + p.Dni;
                         sourceQr = Tool.ConvertirBase64(sourceQr);
                         p.Qr = Tool.CreateQrCode(sourceQr, Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");
                         qr64 = Tool.ConvertImgTo64Img(Valor.PathFolderImageQr() + @"\" + p.Dni + ".png");

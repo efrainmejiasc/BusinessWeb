@@ -57,20 +57,41 @@ namespace BusinessDeskTop.Engine
             return resultado;
         }
 
-        public bool UploadPersonToApi(Label lbl, string tipo)
+        public async Task UploadPersonToApi(Label lbl, string tipo)
         {
             bool resultado = false;
-            List<Person> persons = Valor.GetPersons();
-            resultado = HttpFuncion.UploadPersonToApi(persons,Funcion);
-               
+            string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
+            if (!string.IsNullOrEmpty(token))
+            {
+                List<Person> persons = Valor.GetPersons();
+                string personas = JsonConvert.SerializeObject(persons);
+                if (tipo == "INSERT")
+                    resultado = await HttpFuncion.UploadPersonToApi(token, personas);
+                else
+                    resultado = await HttpFuncion.UploadPersonToApiUpdate(token, personas);
+            }
             if (resultado)
                 MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            return resultado;
+            lbl.Text = string.Empty;
         }
 
+        /* public bool UploadPersonToApi(Label lbl, string tipo)
+         {
+             bool resultado = false;
+             List<Person> persons = Valor.GetPersons();
+             resultado = HttpFuncion.UploadPersonToApi(persons,Funcion);
+
+             if (resultado)
+                 MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             else
+                 MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+             return resultado;
+         }
+         */
 
         public bool ExportarErrores(DataTable dt)
         {
