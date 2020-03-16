@@ -167,6 +167,10 @@
     <Compile Include="Migrations\202002242123506_INIT1.designer.cs">
       <DependentUpon>202002242123506_INIT1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003160130270_person.cs" />
+    <Compile Include="Migrations\202003160130270_person.designer.cs">
+      <DependentUpon>202003160130270_person.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AsistenciaClase.cs" />
     <Compile Include="Models\AsistenciaComedor.cs" />
@@ -204,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002242123506_INIT1.resx">
       <DependentUpon>202002242123506_INIT1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003160130270_person.resx">
+      <DependentUpon>202003160130270_person.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

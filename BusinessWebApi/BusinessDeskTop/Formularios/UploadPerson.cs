@@ -50,18 +50,15 @@ namespace BusinessDeskTop.Formularios
         {
             bool result = false;
             EngineProcesor Proceso = new EngineProcesor(FuncionHttp ,Funcion,Tool);
-            Waiting waiting = new Waiting();
-            waiting.Show();
             try {
                 result = Proceso.ProcesarArchivo(pathArchivo,dgv,lblMsj);
                 result = true;
             }
             catch (Exception ex)
             {
-                waiting.Close();
-               // MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString());
             }
-            waiting.Close();
+  
             return result;
         }
 

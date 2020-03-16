@@ -14,6 +14,7 @@ namespace BusinessDeskTop.Engine.Interfaces
         DataTable BuildDtComppany();
         bool CreateFileXlsx(DataTable dt);
         bool SetLXlsxOut(string pathArchivo);
+        string SetJsonPerson(List<Person> p);
         DataTable SetDtCompany(List<Company> companys, DataTable dt);
         List<Person> LeerArchivo(string pathArchivo, IEngineTool tool);
         Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion);

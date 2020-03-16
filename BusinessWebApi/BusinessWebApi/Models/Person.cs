@@ -25,6 +25,7 @@ namespace BusinessWebApi.Models
         [Required]
         public string Apellido { get; set; }
 
+        [Index(IsUnique = true)]
         [Column(Order = 4, TypeName = "VARCHAR")]
         [StringLength(50)]
         [Required]
@@ -50,7 +51,7 @@ namespace BusinessWebApi.Models
         [Required]
         public string Grupo { get; set; }
 
-        [Index(IsUnique = true)]
+       
         [Column(Order = 9, TypeName = "VARCHAR")]
         [StringLength(50)]
         [Required]

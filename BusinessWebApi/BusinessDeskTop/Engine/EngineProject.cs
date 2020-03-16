@@ -11,6 +11,7 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
+using Newtonsoft.Json;
 
 namespace BusinessDeskTop.Engine
 {
@@ -257,20 +258,21 @@ namespace BusinessDeskTop.Engine
                         {
                             try
                             {
-                                p = SetListPerson(strValue, Tool);
-
-                                if (!string.IsNullOrEmpty(p.Email))
-                                {
-                                    lp.Insert(idx, p);
-                                    idx++;
+                               
+                                    p = SetListPerson(strValue, Tool);
+                                    if (!string.IsNullOrEmpty(p.Email))
+                                    {
+                                        lp.Insert(idx, p);
+                                        idx++;
+                                    }
+                                    else
+                                    {
+                                        p.Email = NoDefinido("nodefinido@gmail.com", Tool);
+                                        lp.Insert(idx, p);
+                                        idx++;
+                                    }
                                 }
-                                else
-                                {
-                                    p.Email = NoDefinido("nodefinido@gmail.com", Tool);
-                                    lp.Insert(idx, p);
-                                    idx++;
-                                }
-                            }
+                            
                               catch(Exception ex)
                             {
                                 string n = ex.ToString();
@@ -549,6 +551,38 @@ namespace BusinessDeskTop.Engine
             }
             return dt;
         }
+
+
+        public string SetJsonPerson(List<Person> p)
+        {
+            if (p.Count <= 10)
+            {
+                Valor.quiebre = false;
+                return JsonConvert.SerializeObject(p);
+            }
+
+            int inicio = Valor.inicio;
+            Valor.fin = Valor.inicio + 10;
+            List<Person> persons = new List<Person>();
+            Person s;
+            for (int i = inicio; i <= Valor.fin - 1; i++)
+            {
+                if (i <= p.Count - 1)
+                {
+                    s = new Person();
+                    s = p[i];
+                    persons.Add(s);
+                }
+                else
+                {
+                    Valor.quiebre = false;
+                    break;
+                }
+            }
+            Valor.inicio = Valor.inicio + 10;
+            return JsonConvert.SerializeObject(persons);
+        }
+
 
         public bool SetLXlsxOut (string pathArchivo)
         {

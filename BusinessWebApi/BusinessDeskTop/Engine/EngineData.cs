@@ -86,5 +86,9 @@ namespace BusinessDeskTop.Engine
         {
             return persons;
         }
+
+        public int inicio { get; set; }
+        public int fin { get; set; }
+        public bool quiebre { get; set; }
     }
 }
