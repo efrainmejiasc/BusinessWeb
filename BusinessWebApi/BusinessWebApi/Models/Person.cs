@@ -82,5 +82,10 @@ namespace BusinessWebApi.Models
         [Column(Order = 16, TypeName = "INT")]
         public int Turno { get; set; }
 
+        [Column(Order = 17, TypeName = "VARCHAR")]
+        [StringLength(200)]
+        [Required]
+        public string Identificador { get; set; }
+
     }
 }

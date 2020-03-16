@@ -147,6 +147,7 @@ namespace BusinessWebApi.Engine
                 foreach (Person person in persons)
                 {
                     person.IdCompany = GetCompanyId(person.Company);
+                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + person.Dni);
                     CreatePerson(person);
                 }
                 resultado = true;
@@ -184,6 +185,7 @@ namespace BusinessWebApi.Engine
             {
                 foreach (Person person in persons)
                 {
+                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + person.Dni);
                     UpdatePerson(person);
                 }
                 resultado = true;
@@ -219,6 +221,7 @@ namespace BusinessWebApi.Engine
                     C.Grupo = person.Grupo;
                     C.Matricula = person.Matricula;
                     C.Status = person.Status;
+                    C.Identificador = person.Identificador;
                     Context.Configuration.ValidateOnSaveEnabled = false;
                     Context.SaveChanges();
 
@@ -517,21 +520,21 @@ namespace BusinessWebApi.Engine
             return personas;
         }
 
-        public Person GetPerson (string dni)
+        public Person GetPerson (string identificador)
         {
            Person person = null;
             try
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    person = context.Person.Where(s => s.Dni == dni ).FirstOrDefault();
+                    person = context.Person.Where(s => s.Identificador == identificador ).FirstOrDefault();
                     if (person != null)
                         return person;
                 }
             }
             catch (Exception ex)
             {
-                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPerson*" + dni));
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPerson*" + Tool.DecodeBase64(identificador)));
             }
             return null;
         }

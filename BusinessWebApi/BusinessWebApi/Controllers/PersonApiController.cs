@@ -74,9 +74,9 @@ namespace BusinessWebApi.Controllers
 
         [HttpGet]
         [ActionName("GetPerson")]
-        public Person GetPerson(string dni)
+        public Person GetPerson(string identificador)
         {
-            Person person = Metodo.GetPerson(dni);
+            Person person = Metodo.GetPerson(identificador);
             return person;
         }
 
