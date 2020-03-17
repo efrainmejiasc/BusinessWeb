@@ -93,24 +93,13 @@ namespace BusinessDeskTop.Engine
             this.waiting.Close();
         }
 
-
-        public bool ExportarErrores(DataTable dt)
-        {
-            bool resultado = false;
-            resultado = Funcion.CreateFileXlsx(dt);
-            if (resultado)
-                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            return resultado;
-        }
-
         #endregion
 
         #region ACTUALIZAR LISTA
         public bool ProcesarArchivoActualizar(string pathArchivo, DataGridView dgv, Label lbl)
         {
+            this.waiting = new Waiting();
+            this.waiting.Show();
             bool resultado = false;
             List<Person> persons = Funcion.LeerArchivo(pathArchivo, Tool);
             resultado = Tool.CreateFolder(Valor.FolderFile); //path carpeta archivos 
@@ -130,6 +119,19 @@ namespace BusinessDeskTop.Engine
             resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool);
             if (resultado)
                 UploadPersonToApi(lbl,"UPDATE");
+
+            return resultado;
+        }
+
+
+        public bool ExportarErrores(DataTable dt)
+        {
+            bool resultado = false;
+            resultado = Funcion.CreateFileXlsx(dt);
+            if (resultado)
+                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             return resultado;
         }

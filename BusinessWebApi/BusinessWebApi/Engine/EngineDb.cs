@@ -297,7 +297,7 @@ namespace BusinessWebApi.Engine
             List<AsistenciaClase> noAsistentes = new List<AsistenciaClase>();
             using (EngineContext context = new EngineContext())
             {
-               noAsistentes = context.AsistenciaClase.Where(x => x.Status == false && x.CreateDate == DateTime.UtcNow.Date && x.EmailSend == false).ToList();
+               noAsistentes = context.AsistenciaClase.Where(x => x.Status == false && x.CreateDate == DateTime.UtcNow.Date).ToList();
             }
             return noAsistentes;
         }
@@ -491,9 +491,9 @@ namespace BusinessWebApi.Engine
                 {
                     foreach (AsistenciaClase a in asis)
                     {
-                        C = Context.AsistenciaClase.Where(s => s.Dni == a.Dni && s.CreateDate == a.CreateDate && s.EmailSend == false && s.Status == false).FirstOrDefault();
+                        C = Context.AsistenciaClase.Where(s => s.Dni == a.Dni && s.CreateDate == a.CreateDate && s.EmailSend == a.EmailSend && s.Status == false).FirstOrDefault();
                         Context.AsistenciaClase.Attach(C);
-                        C.EmailSend = true;
+                        C.EmailSend = a.EmailSend;
                         Context.Configuration.ValidateOnSaveEnabled = false;
                         Context.SaveChanges();
 
@@ -677,7 +677,8 @@ namespace BusinessWebApi.Engine
                            Email = P.Email,
                            Grado = P.Grado,
                            Grupo = P.Grupo,
-                           IdCompany = P.IdCompany
+                           IdCompany = P.IdCompany,
+                           Materia = A.Materia
                           }).ToList();
             }
             return lista;

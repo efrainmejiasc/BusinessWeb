@@ -64,7 +64,6 @@ namespace BusinessWebApi.Controllers
             return response;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         [ActionName("GetAsistenciaClase")]
         public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int idCompany)

@@ -12,21 +12,49 @@
 <script src="/Content/js/global.js" type="text/javascript"></script>
 
 <div class="container col-md-12" style="margin-top:5%;display:inline;">
-   
-    <div class="">
-          <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form-control"> 
-         <select id="grado" class="form-control"> </select> 
-         <select id="grupo" class="form-control"></select>
 
-
-         <input type="button" id="buscar" value="Buscar"  class="btn btn-primary" style="width:120px;" onclick="GetAsistencia();"/>
+    <div class="row" id="searchDiv">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form form-control" style="width:900px">
+                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+                <select id="grado" class="form-control" style="width:900px"> </select>
+                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+                <select id="grupo" class="form-control" style="width:900px"></select>
+                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
+                <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:120px;" onclick="GetAsistencia();" />
+            </div>
+        </div>
     </div>
 
+
+    <br /><br />
+    <table id="tableAsistencia" class="table table-bordered table-hover myDataTable">
+
+        <thead>
+            <tr style="background-color:gainsboro;">
+                <th onclick="SortTable(0)">Nª</th>
+                <th onclick="SortTable(1)">Nombre</th>
+                <th onclick="SortTable(2)">Apellido</th>
+                <th onclick="SortTable(3)">Email</th>
+                <th onclick="SortTable(4)">Materia</th>
+                <th onclick="SortTable(5)">Estado</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+
+
 </div>
-<script>
+    <script>
         $(document).ready(function () {
-        document.documentElement.style.overflowX = 'hidden';
+            document.documentElement.style.overflowX = 'hidden';
             GetGrado();
             GetGrupo();
-    });
-</script>
+        });
+    </script>

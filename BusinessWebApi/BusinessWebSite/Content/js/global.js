@@ -91,6 +91,14 @@ function GetAsistencia() {
     var fecha = $('#fecha').val();
     var grado = $("#grado option:selected").text();
     var grupo = $("#grupo option:selected").text();
+
+    console.log(fecha + grado + grupo);
+    if (fecha ==='' || grado === '' || grupo === '') {
+        alert('Seleccione fecha, grado y grupo');
+        return false;
+    }
+
+
     $.ajax({
         type: "POST",
         url: "/Procesor/GetAsistencia",
@@ -99,6 +107,7 @@ function GetAsistencia() {
         success: function (data) {
             data = JSON.parse(data);
             console.log(data);
+            CrearTabla(data);
         },
         complete: function () {
             console.log('GetAsistencia');
@@ -106,5 +115,24 @@ function GetAsistencia() {
     });
 }
 
+
+function CrearTabla(emp) {
+    var estado = null;
+    $('#tableAsistencia tbody tr').remove();
+    $.each(emp, function (index, item) {
+        if (item.Status === true) estado = 'Asistente'; else  estado = 'Inasistente';
+        let tr = `<tr> 
+                      <td style="text-align: center;"> ${index + 1} </td>
+                      <td style="text-align: justify;"> ${item.Nombre} </td>
+                      <td style="text-align: justify;"> ${item.Apellido} </td>
+                      <td style="text-align: justify;"> ${item.Email} </td>
+                      <td style="text-align: justify;"> ${item.Materia} </td>
+                      <td style="text-align: justify;"> ${estado} </td>
+                      <td style="text-align: center;"> <input type="button" value="Editar" class="btn btn-primary" style="width:80px;" onclick="PreventEdit('${item.Dni}' ,'${item.CreateDate}','${item.Id}','${item.Email}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-success" style="width:80px;" onclick="ShowModal('${item.Dni}' ,'${item.CreateDate}','${item.Id}','${item.Email}');"> </td>
+                        </tr >`;
+        $('#tableAsistencia tbody').append(tr);
+    });
+}
 
 
