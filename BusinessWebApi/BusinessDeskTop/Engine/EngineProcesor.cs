@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -210,5 +211,13 @@ namespace BusinessDeskTop.Engine
             }
             return dgv;
         }
+
+
+        public void CreateQRImagen(string source , string pathDestino) 
+        {
+           string strBase64 =  Tool.ConvertImgTo64Img(source);
+           Tool.CreateQrCode(strBase64, pathDestino);
+        }
+
     }
 }

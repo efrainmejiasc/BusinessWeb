@@ -51,5 +51,11 @@ namespace BusinessDeskTop.Formularios
             QueryCompany query = new QueryCompany();
             query.Show();
         }
+
+        private void crearQrDesdeImagenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateQrImagen QrI = new CreateQrImagen();
+            QrI.Show();
+        }
     }
 }

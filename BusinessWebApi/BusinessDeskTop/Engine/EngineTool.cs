@@ -113,7 +113,7 @@ namespace BusinessDeskTop.Engine
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
             QrCode qrCode = new QrCode();
             qrEncoder.TryEncode(source, out qrCode);
-            GraphicsRenderer renderer = new GraphicsRenderer(new FixedCodeSize(400, QuietZoneModules.Zero), Brushes.Black, Brushes.White);
+            GraphicsRenderer renderer = new GraphicsRenderer(new FixedCodeSize(8000, QuietZoneModules.Zero), Brushes.Black, Brushes.White);
             MemoryStream ms= new MemoryStream();
             renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, ms);
             Bitmap imagenTemporal = new Bitmap(ms);

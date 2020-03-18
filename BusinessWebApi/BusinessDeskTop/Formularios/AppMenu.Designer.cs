@@ -31,10 +31,11 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.empresasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.agregarEmpresaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consultasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actualizarListaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.subirListaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.consultasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.crearQrDesdeImagenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +44,8 @@
             this.menuStrip1.BackColor = System.Drawing.Color.Gray;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.empresasToolStripMenuItem,
-            this.listasToolStripMenuItem});
+            this.listasToolStripMenuItem,
+            this.crearQrDesdeImagenToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(685, 24);
@@ -62,9 +64,16 @@
             // agregarEmpresaToolStripMenuItem
             // 
             this.agregarEmpresaToolStripMenuItem.Name = "agregarEmpresaToolStripMenuItem";
-            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.agregarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.agregarEmpresaToolStripMenuItem.Text = "Agregar Empresa";
             this.agregarEmpresaToolStripMenuItem.Click += new System.EventHandler(this.agregarEmpresaToolStripMenuItem_Click);
+            // 
+            // consultasToolStripMenuItem
+            // 
+            this.consultasToolStripMenuItem.Name = "consultasToolStripMenuItem";
+            this.consultasToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.consultasToolStripMenuItem.Text = "Consultas";
+            this.consultasToolStripMenuItem.Click += new System.EventHandler(this.consultasToolStripMenuItem_Click);
             // 
             // listasToolStripMenuItem
             // 
@@ -89,12 +98,12 @@
             this.subirListaToolStripMenuItem.Text = "Subir Lista";
             this.subirListaToolStripMenuItem.Click += new System.EventHandler(this.subirListaToolStripMenuItem_Click);
             // 
-            // consultasToolStripMenuItem
+            // crearQrDesdeImagenToolStripMenuItem
             // 
-            this.consultasToolStripMenuItem.Name = "consultasToolStripMenuItem";
-            this.consultasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.consultasToolStripMenuItem.Text = "Consultas";
-            this.consultasToolStripMenuItem.Click += new System.EventHandler(this.consultasToolStripMenuItem_Click);
+            this.crearQrDesdeImagenToolStripMenuItem.Name = "crearQrDesdeImagenToolStripMenuItem";
+            this.crearQrDesdeImagenToolStripMenuItem.Size = new System.Drawing.Size(141, 20);
+            this.crearQrDesdeImagenToolStripMenuItem.Text = "Crear Qr Desde Imagen";
+            this.crearQrDesdeImagenToolStripMenuItem.Click += new System.EventHandler(this.crearQrDesdeImagenToolStripMenuItem_Click);
             // 
             // AppMenu
             // 
@@ -123,5 +132,6 @@
         private System.Windows.Forms.ToolStripMenuItem actualizarListaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem subirListaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem consultasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem crearQrDesdeImagenToolStripMenuItem;
     }
 }
