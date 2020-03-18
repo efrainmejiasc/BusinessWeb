@@ -1,11 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    @{ 
+        ViewBag.NameProject = "Solo Educativa";
+    }
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Digital Comerce</title>
-    <link href="~/Content/css/global.css" rel="stylesheet" />
+    <title>@ViewBag.Title - @ViewBag.NameProject</title>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -16,33 +19,30 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Digital Comerce - Soluciones Educativas", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-
-                    <li style="list-style:none;position:relative;"><a href="/Home/Index" id="inicio" class="listBanner">Inicio </a></li>
-                    <li style="list-style:none;position:relative;"><a href="/Home/Contact" id="entrar" class="listBanner">Registrarse</a></li>
-                    <li style="list-style:none;position:relative;"><a href="/Home/About" id="inicio" class="listBanner">Registrar dispositivo </a></li>
-                    <li style="list-style:none;position:relative;"><a href="/Procesor/Contact" id="persona" class="listBanner">Informacion persona</a></li>
-                    <li style="list-style:none;position:relative;"><a href="/Procesor/ReportAssistance" id="asistencia" class="listBanner">Reporte asistencia</a></li>
-                </ul>
-                </div>
-            </div>
+            <ul class="nav navbar-nav">
+                <li style="list-style:none;position:relative;"><a href="/Home/About" id="inicio" class="listBanner">Registrar dispositivo </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Procesor/Contact" id="persona" class="listBanner">Informacion persona</a></li>
+                <li style="list-style:none;position:relative;"><a href="/Procesor/ReportAssistance" id="asistencia" class="listBanner">Reporte asistencia</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Home/Index" id="inicio" class="listBanner">Inicio </a></li>
+                <li><a href="/Home/Contact" id="entrar" class="listBanner">Registrarse</a></li>
+            </ul>
         </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Digital Comerce</p>
-            </footer>
-        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - @ViewBag.NameProject</p>
+        </footer>
+    </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
