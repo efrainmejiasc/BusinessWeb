@@ -45,15 +45,22 @@ namespace BusinessWebApi.Controllers
                 Metodo.NewAsistenciaClase(model);
                 List<AsistenciaClase> noAsistentes = Metodo.StudentsNonAttending();
                 List<Person> personas = Metodo.GetPerson(noAsistentes);
+
                 List<DataEmailNoAsistencia> emailNoAsistentes = Funcion.BuildDataEmailNoAsistencia(personas);
-                Notify.EnviarEmailNoAsistentes(emailNoAsistentes);
-                Metodo.UpdateAsistencia(noAsistentes);
+                if (emailNoAsistentes.Count > 0)
+                {
+                    Notify.EnviarEmailNoAsistentes(emailNoAsistentes);
+                    Metodo.UpdateAsistencia(noAsistentes);
+                }
             }
-            catch {resultado = false;}
+            catch (Exception ex) 
+            {
+                resultado = false;
+            }
             
             if (!resultado)
             {
-                response.Content = new StringContent(EngineData.falloCrearUsuario, Encoding.Unicode);
+                response.Content = new StringContent("Fallo enviar el correo", Encoding.Unicode);
             }
             else
             {

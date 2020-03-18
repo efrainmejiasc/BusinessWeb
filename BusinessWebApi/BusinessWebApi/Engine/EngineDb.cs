@@ -295,10 +295,19 @@ namespace BusinessWebApi.Engine
         public List<AsistenciaClase> StudentsNonAttending()
         {
             List<AsistenciaClase> noAsistentes = new List<AsistenciaClase>();
-            using (EngineContext context = new EngineContext())
-            {
-               noAsistentes = context.AsistenciaClase.Where(x => x.Status == false && x.CreateDate == DateTime.UtcNow.Date).ToList();
+
+            DateTime Time = DateTime.UtcNow.Date;
+            try {
+                using (EngineContext context = new EngineContext())
+                {
+                    noAsistentes = context.AsistenciaClase.Where(x => x.Status == false && x.CreateDate == Time).ToList();
+                }
             }
+            catch(Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/StudentsNonAttending*" + "SS"));
+            }
+         
             return noAsistentes;
         }
 
@@ -520,7 +529,27 @@ namespace BusinessWebApi.Engine
             return personas;
         }
 
-        public Person GetPerson (string identificador)
+
+        public Person GetPerson(string dni)
+        {
+            Person person = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    person = context.Person.Where(s => s.Dni == dni).FirstOrDefault();
+                    if (person != null)
+                        return person;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPerson*" + dni));
+            }
+            return null;
+        } 
+
+        public Person GetPerson2 (string identificador)
         {
            Person person = null;
             try
