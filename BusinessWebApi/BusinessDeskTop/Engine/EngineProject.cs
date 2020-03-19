@@ -555,14 +555,14 @@ namespace BusinessDeskTop.Engine
 
         public string SetJsonPerson(List<Person> p)
         {
-            if (p.Count <= 20)
+            if (p.Count <= 10)
             {
                 Valor.quiebre = false;
                 return JsonConvert.SerializeObject(p);
             }
 
             int inicio = Valor.inicio;
-            Valor.fin = Valor.inicio + 20;
+            Valor.fin = Valor.inicio + 10;
             List<Person> persons = new List<Person>();
             Person s;
             for (int i = inicio; i <= Valor.fin - 1; i++)
@@ -579,7 +579,7 @@ namespace BusinessDeskTop.Engine
                     break;
                 }
             }
-            Valor.inicio = Valor.inicio + 20;
+            Valor.inicio = Valor.inicio + 10;
             return JsonConvert.SerializeObject(persons);
         }
 

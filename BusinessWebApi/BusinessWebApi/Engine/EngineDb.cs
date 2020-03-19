@@ -147,7 +147,7 @@ namespace BusinessWebApi.Engine
                 foreach (Person person in persons)
                 {
                     person.IdCompany = GetCompanyId(person.Company);
-                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + person.Dni);
+                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + "#"+ person.Dni);
                     CreatePerson(person);
                 }
                 resultado = true;
@@ -185,7 +185,7 @@ namespace BusinessWebApi.Engine
             {
                 foreach (Person person in persons)
                 {
-                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + person.Dni);
+                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + "#" + person.Dni);
                     UpdatePerson(person);
                 }
                 resultado = true;
