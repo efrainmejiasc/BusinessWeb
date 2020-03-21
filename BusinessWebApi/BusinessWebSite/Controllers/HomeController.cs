@@ -44,6 +44,7 @@ namespace BusinessWebSite.Controllers
                 System.Web.HttpContext.Current.Session["User"] = ticket.user;
                 System.Web.HttpContext.Current.Session["Email"] = ticket.email;
                 System.Web.HttpContext.Current.Session["AccessToken"] = ticket.access_token;
+                System.Web.HttpContext.Current.Session["IdCompany"] = ticket.idCompany;
             }
             else
             {
@@ -52,6 +53,7 @@ namespace BusinessWebSite.Controllers
                 System.Web.HttpContext.Current.Session["User"] = null;
                 System.Web.HttpContext.Current.Session["Email"] = null;
                 System.Web.HttpContext.Current.Session["AccessToken"] = null;
+                System.Web.HttpContext.Current.Session["IdCompany"] = null;
             }
             return Json(respuesta);
         }

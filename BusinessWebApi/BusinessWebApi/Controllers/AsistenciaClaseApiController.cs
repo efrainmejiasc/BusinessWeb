@@ -39,16 +39,15 @@ namespace BusinessWebApi.Controllers
                 return response;
             }
 
-            bool resultado = true;
+            bool resultado = false;
             try 
             {
-                Metodo.NewAsistenciaClase(model);
+                resultado =  Metodo.NewAsistenciaClase(model);
                 List<AsistenciaClase> noAsistentes = Metodo.StudentsNonAttending();
                 List<Person> personas = Metodo.GetPerson(noAsistentes);
-
-                List<DataEmailNoAsistencia> emailNoAsistentes = Funcion.BuildDataEmailNoAsistencia(personas);
-                if (emailNoAsistentes.Count > 0)
+                if (personas.Count > 0)
                 {
+                    List<DataEmailNoAsistencia> emailNoAsistentes = Funcion.BuildDataEmailNoAsistencia(personas);
                     Notify.EnviarEmailNoAsistentes(emailNoAsistentes);
                     Metodo.UpdateAsistencia(noAsistentes);
                 }
@@ -77,6 +76,42 @@ namespace BusinessWebApi.Controllers
         {
             List<Asistencia> lista = Metodo.GetAsistenciaClase(fecha, grado, grupo, idCompany);
             return lista;
+        }
+
+        [HttpPost]
+        [ActionName("ObservacionClase")]
+        public HttpResponseMessage ObservacionClase([FromBody] ObservacionClase model)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            if (model == null)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
+                return response;
+            }
+
+            bool resultado = false;
+            try
+            {
+                resultado = Metodo.NewObservacionClase(model);
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+            }
+
+            if (!resultado)
+            {
+                response.Content = new StringContent("Fallo al insertar observacion", Encoding.Unicode);
+            }
+            else
+            {
+                response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
+                response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlLogin);
+            }
+
+            return response;
         }
     }
 }

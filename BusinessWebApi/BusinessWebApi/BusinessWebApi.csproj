@@ -182,6 +182,7 @@
     <Compile Include="Models\Objetos\Grado.cs" />
     <Compile Include="Models\Objetos\Grupo.cs" />
     <Compile Include="Models\Objetos\RegisterDevice.cs" />
+    <Compile Include="Models\ObservacionClase.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\SucesoLog.cs" />
     <Compile Include="Models\Turno.cs" />

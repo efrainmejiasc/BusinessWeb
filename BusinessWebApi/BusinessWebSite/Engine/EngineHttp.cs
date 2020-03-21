@@ -10,6 +10,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace BusinessWebSite.Engine
 {
@@ -28,7 +30,13 @@ namespace BusinessWebSite.Engine
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
                     ticketAcceso = JsonConvert.DeserializeObject<TicketAcceso>(respuesta);
-                    System.Web.HttpContext.Current.Session["IdCompany"] = ticketAcceso.idCompany;
+                }
+                else
+                {
+                    var context = new RequestContext( new HttpContextWrapper(HttpContext.Current),new RouteData());
+                    var urlHelper = new UrlHelper(context);
+                    var url = urlHelper.Action("Index", new { OtherParm = "Home" });
+                    HttpContext.Current.Response.Redirect(url);
                 }
                 return ticketAcceso;
             }

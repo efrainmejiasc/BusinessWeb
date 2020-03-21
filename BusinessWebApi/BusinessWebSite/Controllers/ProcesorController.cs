@@ -81,19 +81,21 @@ namespace BusinessWebSite.Controllers
         [HttpPost]
         public async Task<ActionResult> BuscarPersona(string dni)
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
 
-            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonPerson = await Proceso.GetPerson(dni, token, FuncionHttp);
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
 
+            string jsonPerson = await Proceso.GetPerson(dni, token, FuncionHttp);
             return Json(jsonPerson);
         }
 
 
         public ActionResult ReportAssistance()
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
 
             return View();
@@ -103,10 +105,12 @@ namespace BusinessWebSite.Controllers
         [HttpPost]
         public async Task<ActionResult> GetGrados()
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
 
-            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
             string jsonGrado = await Proceso.GetGrados(token, FuncionHttp);
 
             return Json(jsonGrado);
@@ -115,10 +119,13 @@ namespace BusinessWebSite.Controllers
         [HttpPost]
         public async Task<ActionResult> GetGrupos()
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
 
-            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+
             string jsonGrado = await Proceso.GetGrupos(token, FuncionHttp);
 
             return Json(jsonGrado);

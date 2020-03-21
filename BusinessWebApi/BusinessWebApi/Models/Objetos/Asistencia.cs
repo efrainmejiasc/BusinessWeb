@@ -17,6 +17,7 @@ namespace BusinessWebApi.Models.Objetos
         public string Grupo { get; set; }
         public int IdCompany { get; set; }
         public string Materia{ get; set; }
+        public string Foto { get; set; }
 
     }
 }

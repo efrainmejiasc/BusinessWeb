@@ -83,8 +83,18 @@ input:valid {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 35%;
-    height:80%;
+    width: 30%;
+    height:70%;
+}
+
+/* Modal Content */
+.modal-content2 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    height: 35%;
 }
 
 /* The Close Button */
@@ -113,5 +123,9 @@ td {
 
 table {
     border-collapse: collapse;
+}
+
+.txtAst{
+    width:350px;
 }
 

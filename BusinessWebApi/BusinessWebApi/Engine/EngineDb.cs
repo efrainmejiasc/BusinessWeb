@@ -292,6 +292,26 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
+        public bool NewObservacionClase(ObservacionClase observacion)
+        {
+            bool resultado = false;
+            try
+            {
+                observacion.CreateDate = DateTime.UtcNow.Date;
+                using (EngineContext context = new EngineContext())
+                {
+                    context.ObservacionClase.Add(observacion);
+                    context.SaveChanges();
+                }
+                resultado = true;
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewObservacionClase*" + observacion.Dni));
+            }
+            return resultado;
+        }
+
         public List<AsistenciaClase> StudentsNonAttending()
         {
             List<AsistenciaClase> noAsistentes = new List<AsistenciaClase>();
@@ -522,9 +542,12 @@ namespace BusinessWebApi.Engine
         public List<Person> GetPerson(List<AsistenciaClase> asis)
         {
             List<Person> personas = new List<Person>();
+            Person person = new Person();
             foreach(AsistenciaClase i in asis)
             {
-                personas.Add(GetPerson(i.Dni));
+                person = GetPerson(i.Dni);
+                if (person != null)
+                      personas.Add(person);
             }
             return personas;
         }
@@ -707,7 +730,8 @@ namespace BusinessWebApi.Engine
                            Grado = P.Grado,
                            Grupo = P.Grupo,
                            IdCompany = P.IdCompany,
-                           Materia = A.Materia
+                           Materia = A.Materia,
+                           Foto = P.Foto
                           }).ToList();
             }
             return lista;
