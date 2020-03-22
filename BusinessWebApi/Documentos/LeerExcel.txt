@@ -1,0 +1,102 @@
+      public List<Person> LeerArchivo(string pathArchivo , IEngineTool Tool)
+        {
+            DataTable dt = new DataTable();
+            dt = BuildColumnDataTable(dt);
+            Person p = new Person();
+            List<Person> lp = new List<Person>();
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(pathArchivo);
+            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlWorksheet.UsedRange;
+            xlApp.DisplayAlerts = false;
+            int rowCount = xlRange.Rows.Count;
+            int colCount = xlRange.Columns.Count;
+            string strValue = string.Empty;
+            int idx = 0;
+            bool validate = false;
+            for (int fila = 2; fila <= rowCount; fila++)
+            {
+                for (int columna = 1; columna <= colCount; columna++)
+                {
+                    if (xlRange.Cells[fila, columna] != null && xlRange.Cells[fila, columna].Value != null)
+                    {
+                        if (columna == 1)
+                        {
+                            validate = Tool.ExistsFile(xlRange.Cells[fila, columna].Value.ToString());
+                            if (!validate)
+                            {
+                                strValue = strValue + "NO_FOTO" + "#";
+                            }
+                            else
+                            {
+                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                            }
+                        }
+                        else if (columna == 9)
+                        {
+                            validate = Tool.EmailEsValido(xlRange.Cells[fila, columna].Value.ToString());
+                            if (!validate)
+                            {
+                                strValue = strValue + "EMAIL_NO_VALIDO" + "#";
+                            }
+                            else
+                            {
+                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                            }
+                        }
+                        else if (columna == 11)
+                        {
+                            if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "MAÑANA")
+                                strValue = strValue + "1" + "#";
+                            else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "TARDE")
+                                strValue = strValue + "2" + "#";
+                            else if (xlRange.Cells[fila, columna].Value.ToString().ToUpper() == "NOCHE")
+                                strValue = strValue + "3" + "#";
+                            else
+                                strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                        }
+                        else
+                        {
+                            strValue = strValue + xlRange.Cells[fila, columna].Value.ToString() + "#";
+                        }
+                    }
+                    else
+                    {
+                        strValue = strValue + "NO_DEFINIDO" + "#";
+                    }
+                    if (columna == colCount)
+                    {
+                        if (!strValue.Contains("NO_DEFINIDO") && !strValue.Contains("NO_FOTO") && !strValue.Contains("EMAIL_NO_VALIDO"))
+                        {
+                            p = SetListPerson(strValue, Tool);
+                            if (!string.IsNullOrEmpty(p.Email))
+                            {
+                                lp.Insert(idx, p);
+                                idx++;
+                            }
+                            else
+                            {
+                                dt = SetDataTable(strValue, dt, fila);
+                            }
+                        }
+                        else
+                        {
+                            dt = SetDataTable(strValue, dt, fila);
+                        }
+                    }
+                }
+                strValue = string.Empty;
+            }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            while (Marshal.ReleaseComObject(xlRange) != 0) ;
+            while (Marshal.ReleaseComObject(xlWorksheet) != 0) ;
+            xlWorkbook.Close();
+            while (Marshal.ReleaseComObject(xlWorkbook) != 0) ;
+            xlApp.Quit();
+            while (Marshal.ReleaseComObject(xlApp) != 0) ;
+            ReadWriteTxt(pathArchivo);
+            Valor.SetDt(dt);
+            return lp;
+        }
