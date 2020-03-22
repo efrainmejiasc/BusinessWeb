@@ -49,7 +49,7 @@ namespace BusinessWebApi.Controllers
                 {
                     List<DataEmailNoAsistencia> emailNoAsistentes = Funcion.BuildDataEmailNoAsistencia(personas);
                     Notify.EnviarEmailNoAsistentes(emailNoAsistentes);
-                    Metodo.UpdateAsistencia(noAsistentes);
+                    Metodo.UpdateAsistenciaClase(noAsistentes);
                 }
             }
             catch (Exception ex) 

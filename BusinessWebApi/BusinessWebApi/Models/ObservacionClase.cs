@@ -41,5 +41,8 @@ namespace BusinessWebApi.Models
         [Column(Order = 8, TypeName = "VARCHAR")]
         [StringLength(50)]
         public string Materia { get; set; }
+
+        [Column(Order = 9, TypeName = "INT")]
+        public int IdAsistencia { get; set; }
     }
 }

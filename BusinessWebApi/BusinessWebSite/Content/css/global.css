@@ -48,8 +48,8 @@ input:valid {
 }
 
 .imgCarnet{
-    width:25%;
-    height:35%;
+    width:10vw;
+    height:auto;
     float:right;
 }
 
@@ -93,8 +93,8 @@ input:valid {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 40%;
-    height: 35%;
+    width: 30%;
+    height:60%;
 }
 
 /* The Close Button */
@@ -126,6 +126,11 @@ table {
 }
 
 .txtAst{
-    width:350px;
+    width:50vw;
+    height:50px;
+}
+
+textarea {
+    resize: none;
 }
 

@@ -135,5 +135,32 @@ namespace BusinessDeskTop.Engine
             return false;
         }
 
+        public bool UpdatePersonFoto(string dni, string foto)
+        {
+            bool resultado = false;
+            string cnx = "Data Source=SQL5031.site4now.net;Initial Catalog=DB_A3EF3F_BusinessWeb;User Id=DB_A3EF3F_BusinessWeb_admin;Password=1234santiago";
+            SqlConnection conexion = new SqlConnection(cnx);
+            try
+            {
+                using (conexion)
+                {
+                    conexion.Open();
+                    SqlCommand command = new SqlCommand("Sp_UpdatePersonFoto", conexion);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@Dni", dni);
+                    command.Parameters.AddWithValue("@Foto", foto);
+                    command.ExecuteNonQuery();
+                    conexion.Close();
+                    resultado = true;
+                }
+            } catch {
+
+                string error = "";
+            }
+          
+            return resultado;
+        }
+
     }
 }

@@ -131,7 +131,7 @@ namespace BusinessDeskTop.Engine
                             {
                                 try {
                                     if (xlRange.Cells[fila, columna].Value2 != null)
-                                        dni = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim().Trim();
+                                        dni = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
                                     else
                                         dni = xlRange.Cells[fila, columna].Value2.ToString().ToUpper().Trim();
                                 } catch { dni = "-"; }
@@ -614,5 +614,112 @@ namespace BusinessDeskTop.Engine
          
             return result;
         }
+
+
+
+        public bool UpdatePersonFoto (IEngineTool Tool,IEngineHttp Funcion)
+        {
+      
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\NUEVO2.xlsx");
+            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlWorksheet.UsedRange;
+            xlApp.DisplayAlerts = false;
+            int rowCount = xlRange.Rows.Count;
+            int colCount = xlRange.Columns.Count;
+            string strValue = string.Empty;
+            bool validate = false;
+
+            string file = string.Empty;
+            string foto = string.Empty;
+            string dni = string.Empty;
+
+            string s = "#";
+
+            for (int fila = 2; fila <= rowCount; fila++)
+            {
+                strValue = string.Empty;
+
+                for (int columna = 1; columna <= colCount; columna++)
+                {
+                    try
+                    {
+                        if (xlRange.Cells[fila, columna] != null)
+                        {
+                            if (columna == 1)//foto
+                            {
+                                if (xlRange.Cells[fila, columna].Value2 != null)
+                                {
+                                    var g = (xlRange.Cells[fila, columna].Value2.ToString()).Replace("/", "#").Trim();
+                                    string[] part = g.Split('#');
+                                    file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\FOTOS2\" + part[1].Trim();
+                                    validate = Tool.ExistsFile(file);
+                                    if (validate)
+                                    {
+                                        foto = file;
+                                    }
+                                    else
+                                    {
+                                        file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\FOTOS2\" + part[1].Trim();
+                                        foto = file;
+                                    }
+                                }
+                                else
+                                {
+                                    file = "NO_DEFINIDO";
+                                    foto = file;
+                                }
+                                strValue = strValue + foto + s;
+                            }
+                            else if (columna == 2)//dni documento
+                            {
+                                try
+                                {
+                                    if (xlRange.Cells[fila, columna].Value2 != null)
+                                        dni = xlRange.Cells[fila, columna].Value2.ToString().Trim();
+                                    else
+                                        dni = xlRange.Cells[fila, columna].Value2.ToString().Trim();
+                                }
+                                catch
+                                {
+                                    dni = "-";
+                                }
+
+
+                                strValue = strValue + dni + s;
+                            }
+
+                          
+                        }
+
+                        //*************************************************************************************************************************************************************************
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string err = ex.ToString();
+                    }
+                }
+
+
+                foto = Tool.ConvertImgTo64Img(foto);
+                validate = Funcion.UpdatePersonFoto(dni, foto);
+
+                strValue = string.Empty;
+            }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            while (Marshal.ReleaseComObject(xlRange) != 0) ;
+            while (Marshal.ReleaseComObject(xlWorksheet) != 0) ;
+            xlWorkbook.Close();
+            while (Marshal.ReleaseComObject(xlWorkbook) != 0) ;
+            xlApp.Quit();
+            while (Marshal.ReleaseComObject(xlApp) != 0) ;
+            ReadWriteTxt(@"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\NUEVO2.xlsx");
+            return validate;
+        }
+
+
     }
 }

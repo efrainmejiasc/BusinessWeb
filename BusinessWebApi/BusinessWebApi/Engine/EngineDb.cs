@@ -292,6 +292,88 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
+        public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo, int idCompany)
+        {
+            List<Asistencia> lista = new List<Asistencia>();
+            DateTime date = Convert.ToDateTime(fecha);
+            using (EngineContext context = new EngineContext())
+            {
+                lista = (from P in context.Person
+                         join A in context.AsistenciaClase
+                         on P.Dni equals A.Dni
+                         where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.IdCompany == idCompany && A.IdCompany == idCompany
+                         select new Asistencia()
+                         {
+                             Id = A.Id,
+                             Nombre = P.Nombre,
+                             Apellido = P.Apellido,
+                             Status = A.Status,
+                             CreateDate = A.CreateDate,
+                             Dni = P.Dni,
+                             Email = P.Email,
+                             Grado = P.Grado,
+                             Grupo = P.Grupo,
+                             IdCompany = P.IdCompany,
+                             Materia = A.Materia,
+                             Foto = P.Foto,
+                             DniAdm = A.DniAdm
+                         }).ToList();
+            }
+            return lista;
+        }
+
+        public bool UpdateAsistenciaClase(List<AsistenciaClase> asis)
+        {
+            bool resultado = false;
+            AsistenciaClase C = new AsistenciaClase();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    foreach (AsistenciaClase a in asis)
+                    {
+                        C = Context.AsistenciaClase.Where(s => s.Dni == a.Dni && s.CreateDate == a.CreateDate && s.EmailSend == a.EmailSend && s.Status == false).FirstOrDefault();
+                        Context.AsistenciaClase.Attach(C);
+                        C.EmailSend = a.EmailSend;
+                        Context.Configuration.ValidateOnSaveEnabled = false;
+                        Context.SaveChanges();
+
+                        resultado = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string refe = asis[0].IdCompany.ToString() + " " + asis[0].Materia + " " + DateTime.UtcNow.Date.ToString();
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateAsistencia*" + refe));
+            }
+            return resultado;
+        }
+
+        public bool UpdateAsistenciaClase(int id , bool status)
+        {
+            bool resultado = false;
+            AsistenciaClase C = new AsistenciaClase();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.AsistenciaClase.Where(s => s.Id == id).FirstOrDefault();
+                    Context.AsistenciaClase.Attach(C);
+                    C.Status = status;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+                    resultado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateAsistencia*" + id.ToString()));
+            }
+            return resultado;
+        }
+
+
         public bool NewObservacionClase(ObservacionClase observacion)
         {
             bool resultado = false;
@@ -303,7 +385,7 @@ namespace BusinessWebApi.Engine
                     context.ObservacionClase.Add(observacion);
                     context.SaveChanges();
                 }
-                resultado = true;
+               resultado  =  UpdateAsistenciaClase(observacion.IdAsistencia, observacion.Status);
             }
             catch (Exception ex)
             {
@@ -510,34 +592,6 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-        public bool UpdateAsistencia(List<AsistenciaClase> asis)
-        {
-            bool resultado = false;
-            AsistenciaClase C = new AsistenciaClase();
-            try
-            {
-                using (EngineContext Context = new EngineContext())
-                {
-                    foreach (AsistenciaClase a in asis)
-                    {
-                        C = Context.AsistenciaClase.Where(s => s.Dni == a.Dni && s.CreateDate == a.CreateDate && s.EmailSend == a.EmailSend && s.Status == false).FirstOrDefault();
-                        Context.AsistenciaClase.Attach(C);
-                        C.EmailSend = a.EmailSend;
-                        Context.Configuration.ValidateOnSaveEnabled = false;
-                        Context.SaveChanges();
-
-                        resultado = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string refe = asis[0].IdCompany.ToString() + " " + asis[0].Materia + " " + DateTime.UtcNow.Date.ToString();
-                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateAsistencia*" + refe));
-            }
-            return resultado;
-        }
-
 
         public List<Person> GetPerson(List<AsistenciaClase> asis)
         {
@@ -709,33 +763,6 @@ namespace BusinessWebApi.Engine
             return grupos;
         }
 
-        public List<Asistencia> GetAsistenciaClase (string fecha , string grado, string grupo,int idCompany)
-        {
-            List<Asistencia> lista = new List<Asistencia>();
-            DateTime date = Convert.ToDateTime(fecha);
-            using (EngineContext context = new EngineContext())
-            {
-                lista = (from P in context.Person
-                          join A in context.AsistenciaClase
-                          on P.Dni equals A.Dni
-                          where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.IdCompany == idCompany && A.IdCompany == idCompany
-                          select new Asistencia()
-                          {
-                           Nombre = P.Nombre,
-                           Apellido = P.Apellido,
-                           Status = A.Status,
-                           CreateDate = A.CreateDate,
-                           Dni = P.Dni,
-                           Email = P.Email,
-                           Grado = P.Grado,
-                           Grupo = P.Grupo,
-                           IdCompany = P.IdCompany,
-                           Materia = A.Materia,
-                           Foto = P.Foto
-                          }).ToList();
-            }
-            return lista;
-        }
 
         public bool InsertarSucesoLog(SucesoLog model)
         {

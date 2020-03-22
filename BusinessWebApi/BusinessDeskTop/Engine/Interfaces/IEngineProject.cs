@@ -19,5 +19,6 @@ namespace BusinessDeskTop.Engine.Interfaces
         List<Person> LeerArchivo(string pathArchivo, IEngineTool tool);
         Task<string> GetAccessTokenAsync(IEngineTool Tool, IEngineHttp HttpFuncion);
         bool CreateFileXlsx(List<Person> persons, string pathFile, IEngineTool Tool);
+        bool UpdatePersonFoto(IEngineTool Tool, IEngineHttp Funcion);
     }
 }

@@ -29,10 +29,11 @@ namespace BusinessWebApi.Engine.Interfaces
         bool UpdatePerson(List<Person> persons);
         bool RegisterDevice(DevicesCompany device);
         List<AsistenciaClase> StudentsNonAttending();
-        bool UpdateAsistencia(List<AsistenciaClase> asis);
+        bool UpdateAsistenciaClase(int id, bool status);
         List<Person> GetPerson(List<AsistenciaClase> asis);
         UserApi GetUser(string password, string password2);
         bool NewObservacionClase(ObservacionClase observacion);
+        bool UpdateAsistenciaClase(List<AsistenciaClase> asis);
         object GetDniUserApi(int id, int idCompany, string email);
         bool NewAsistenciaClase(List<AsistenciaClase> asistencias);
         UserApi GetUserSuspended(string password, string password2);
