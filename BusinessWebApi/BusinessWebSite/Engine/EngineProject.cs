@@ -53,6 +53,23 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
+        public string BuidObservacionAsistencia(int idAsistencia, string dni, bool status, string materia,string observacion ,string dniAdm , int idCompany)
+        {
+            ObservacionClase modelo = new ObservacionClase()
+            {
+                IdAsistencia = idAsistencia,
+                Dni  = dni,
+                Status = status,
+                Materia = materia,
+                Observacion = observacion,
+                CreateDate = DateTime.Now.Date,
+                DniAdm  = dniAdm,
+                IdCompany = idCompany
+
+            };
+            return JsonConvert.SerializeObject(modelo);
+        }
+
 
     }
 }

@@ -81,19 +81,21 @@ namespace BusinessWebSite.Controllers
         [HttpPost]
         public async Task<ActionResult> BuscarPersona(string dni)
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
 
-            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonPerson = await Proceso.GetPerson(dni, token, FuncionHttp);
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
 
+            string jsonPerson = await Proceso.GetPerson(dni, token, FuncionHttp);
             return Json(jsonPerson);
         }
 
 
         public ActionResult ReportAssistance()
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
 
             return View();
@@ -103,10 +105,12 @@ namespace BusinessWebSite.Controllers
         [HttpPost]
         public async Task<ActionResult> GetGrados()
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
+            if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
 
-            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
             string jsonGrado = await Proceso.GetGrados(token, FuncionHttp);
 
             return Json(jsonGrado);
@@ -115,10 +119,13 @@ namespace BusinessWebSite.Controllers
         [HttpPost]
         public async Task<ActionResult> GetGrupos()
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
-                return RedirectToAction("Index", "Home");
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return Json(null);
 
-            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+
             string jsonGrado = await Proceso.GetGrupos(token, FuncionHttp);
 
             return Json(jsonGrado);
@@ -128,23 +135,45 @@ namespace BusinessWebSite.Controllers
         [HttpPost]
         public async Task<ActionResult> GetAsistencia (string fecha , string grado ,string grupo)
         {
-            if (System.Web.HttpContext.Current.Session["AccessToken"] == null)
-                return RedirectToAction("Index", "Home");
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return Json(null);
 
             int idCompany = 0;
             if (System.Web.HttpContext.Current.Session["IdCompany"] != null)
-            {
                 idCompany = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdCompany"]);
-            }
             else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+                return Json(null);
+
 
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
             string jsonGrado = await Proceso.GetAsistencia (token,fecha, grado, grupo,idCompany,FuncionHttp);
 
             return Json(jsonGrado);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditAtending (int idAsistencia, string dni , bool status, string materia ,string observacion,string dniAdm)
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return Json(null);
+
+            int idCompany = 0;
+            if (System.Web.HttpContext.Current.Session["IdCompany"] != null)
+                idCompany = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdCompany"]);
+            else
+                return Json(null);
+
+            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+
+            string jsonData = Funcion.BuidObservacionAsistencia(idAsistencia, dni, status, materia, observacion, dniAdm, idCompany);
+            bool resultado = await Proceso.UpdateObservacionAsistencia(jsonData, token, FuncionHttp);
+            Respuesta respuesta = new Respuesta();
+            if (resultado)
+                respuesta.Descripcion = "Transaccion Exitosa";
+            else
+                respuesta.Descripcion = "Transaccion Fallida";
+
+            return Json(respuesta);
         }
     }
 }

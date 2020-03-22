@@ -7,8 +7,8 @@ using System.Web;
 
 namespace BusinessWebApi.Models
 {
-    [Table("AsistenciaClase")]
-    public class AsistenciaClase
+    [Table("ObservacionClase")]
+    public class ObservacionClase
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -34,15 +34,15 @@ namespace BusinessWebApi.Models
         [Required]
         public string DniAdm { get; set; }
 
-        [Column(Order =7, TypeName = "VARCHAR")]
+        [Column(Order = 7, TypeName = "VARCHAR")]
+        [StringLength(500)]
+        public string Observacion{ get; set; }
+
+        [Column(Order = 8, TypeName = "VARCHAR")]
         [StringLength(50)]
         public string Materia { get; set; }
 
-        [Column(Order = 8, TypeName = "INT")]
-        public int Turno { get; set; }
-
-        [Column(Order = 9, TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string EmailSend  { get; set; }
+        [Column(Order = 9, TypeName = "INT")]
+        public int IdAsistencia { get; set; }
     }
 }

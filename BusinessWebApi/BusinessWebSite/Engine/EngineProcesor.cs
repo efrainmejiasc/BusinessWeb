@@ -45,5 +45,10 @@ namespace BusinessWebSite.Engine
         {
             return await FuncionHttp.GetAsistencia(accessToken,fecha,grado,grupo,idCompany);
         }
+
+        public async Task<bool> UpdateObservacionAsistencia(string jsonData, string accessToken, IEngineHttp FuncionHttp)
+        {
+            return await FuncionHttp.UpdateObservacionAsistencia(jsonData, accessToken);
+        }
     }
 }

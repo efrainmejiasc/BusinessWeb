@@ -177,6 +177,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Grado.cs" />
+    <Compile Include="Models\ObservacionClase.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\RegisterDevice.cs" />
     <Compile Include="Models\Respuesta.cs" />

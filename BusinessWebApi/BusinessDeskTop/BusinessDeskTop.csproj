@@ -25,7 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -66,7 +66,16 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>Custom</TargetZone>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
+    </Reference>
     <Reference Include="Gma.QrCodeNet.Encoding, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net45\Gma.QrCodeNet.Encoding.dll</HintPath>
     </Reference>
@@ -109,6 +118,12 @@
     <Compile Include="Formularios\AppMenu.Designer.cs">
       <DependentUpon>AppMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\CreateQrImagen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\CreateQrImagen.Designer.cs">
+      <DependentUpon>CreateQrImagen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\QueryCompany.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +142,12 @@
     <Compile Include="Formularios\UploadPerson.Designer.cs">
       <DependentUpon>UploadPerson.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Waiting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\Waiting.Designer.cs">
+      <DependentUpon>Waiting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\TicketAcceso.cs" />
@@ -139,6 +160,9 @@
     <EmbeddedResource Include="Formularios\AppMenu.resx">
       <DependentUpon>AppMenu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\CreateQrImagen.resx">
+      <DependentUpon>CreateQrImagen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\QueryCompany.resx">
       <DependentUpon>QueryCompany.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\UploadPerson.resx">
       <DependentUpon>UploadPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\Waiting.resx">
+      <DependentUpon>Waiting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -159,6 +186,7 @@
     </Compile>
     <None Include="BusinessDeskTop_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -10,6 +10,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace BusinessWebSite.Engine
 {
@@ -28,7 +30,28 @@ namespace BusinessWebSite.Engine
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
                     ticketAcceso = JsonConvert.DeserializeObject<TicketAcceso>(respuesta);
-                    System.Web.HttpContext.Current.Session["IdCompany"] = ticketAcceso.idCompany;
+                    System.Web.HttpContext.Current.Session["AccessToken"] = ticketAcceso.access_token;
+                }
+                else
+                {
+                    if (response.StatusCode.ToString() == "404")
+                    {
+                        if (HttpContext.Current.Session["Password"] != null   && HttpContext.Current.Session["User"] != null && HttpContext.Current.Session["Email"] != null) 
+                        {
+                            var Tool = new EngineTool();
+                            var Funcion = new EngineProject();
+                            string jsonUserApiStr = Funcion.BuildUserApiStr(HttpContext.Current.Session["User"].ToString(), HttpContext.Current.Session["Password"].ToString(),Tool);
+                            ticketAcceso = await GetAccessToken(jsonUserApiStr);
+                        }
+                        else
+                        {
+                            var context = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
+                            var urlHelper = new UrlHelper(context);
+                            var url = urlHelper.Action("Index", new { OtherParm = "Home" });
+                            HttpContext.Current.Response.Redirect(url);
+                        }
+                    }
+                  
                 }
                 return ticketAcceso;
             }
@@ -162,6 +185,25 @@ namespace BusinessWebSite.Engine
                 }
             }
             return respuesta;
+        }
+
+        public async Task<bool> UpdateObservacionAsistencia(string jsonData, string strToken)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.PostAsync(EngineData.UrlBase + "AsistenciaClaseApi/ObservacionClase", new StringContent(jsonData, Encoding.UTF8, "application/json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    if (respuesta == "transaccion exitosa")
+                        return true;
+                }
+            }
+            return false;
         }
 
     }

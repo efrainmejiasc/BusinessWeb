@@ -19,6 +19,7 @@ namespace BusinessWebApi.Engine
         public DbSet<DevicesCompany> DeviceCompany { get; set; }
         public DbSet<AsistenciaClase> AsistenciaClase { get; set; }
         public DbSet<AsistenciaComedor> AsistenciaComedor{ get; set; }
+        public DbSet<ObservacionClase> ObservacionClase { get; set; }
 
 
         // 1. Instalar Entity Framework

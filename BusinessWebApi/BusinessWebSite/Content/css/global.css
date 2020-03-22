@@ -48,9 +48,9 @@ input:valid {
 }
 
 .imgCarnet{
-    width:25%;
-    height:35%;
-    float:left;
+    width:10vw;
+    height:auto;
+    float:right;
 }
 
 .imgQr {
@@ -83,8 +83,18 @@ input:valid {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 35%;
-    height:45%;
+    width: 30%;
+    height:70%;
+}
+
+/* Modal Content */
+.modal-content2 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    height:60%;
 }
 
 /* The Close Button */
@@ -101,4 +111,26 @@ input:valid {
         text-decoration: none;
         cursor: pointer;
     }
+
+
+th {
+    text-align: center;
+}
+
+td {
+    padding: 6px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.txtAst{
+    width:50vw;
+    height:50px;
+}
+
+textarea {
+    resize: none;
+}
 

@@ -17,6 +17,7 @@ namespace BusinessWebSite.Engine.Interfaces
         Task<TicketAcceso> GetAccessToken(string jsonData);
         Task<string> GetPerson(string dni, string strToken);
         Task<bool> RegisterDevice(string jsonData, string strToken);
+        Task<bool> UpdateObservacionAsistencia(string jsonData, string strToken);
         Task<string> GetAsistencia(string strToken, string fecha, string grado, string grupo, int idCompany);
     }
 }
