@@ -113,7 +113,7 @@ function GetAsistencia() {
             CrearTabla(data);
         },
         complete: function () {
-           // TablaPlus();
+            TablaPlus();
             console.log('GetAsistencia');
         }
     });
@@ -147,7 +147,8 @@ function CrearTabla(emp) {
 }
 
 function TablaPlus() {
-    console.log('AAA');
+    $('#tableAsistencia').DataTable();
+
 }
 
 
