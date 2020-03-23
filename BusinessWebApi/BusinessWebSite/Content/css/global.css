@@ -94,7 +94,7 @@ input:valid {
     padding: 20px;
     border: 1px solid #888;
     width: 30%;
-    height:60%;
+    height:65%;
 }
 
 /* The Close Button */
@@ -132,5 +132,9 @@ table {
 
 textarea {
     resize: none;
+}
+
+.btn-group , .btn-group-vertical{
+    position:absolute !important;
 }
 

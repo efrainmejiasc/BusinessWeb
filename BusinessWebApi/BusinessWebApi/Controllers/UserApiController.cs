@@ -98,7 +98,7 @@ namespace BusinessWebApi.Controllers
             response = Ok(new
             {
                 access_token = tokenString,
-                expire_token = "20000",
+                expire_token = "200000",
                 type_token = "Bearer",
                 refresh_token = unicoIdentificador,
                 email = user.Email,

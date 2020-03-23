@@ -11,42 +11,58 @@
 <script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
 <script src="/Content/js/global.js" type="text/javascript"></script>
 
-<div class="container col-md-12" style="margin-top:5%;display:inline;">
 
-    <div class="row" id="searchDiv" >
-        <div class="form-group">
-            <div class="input-group">
-                <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form form-control" style="width:900px">
-                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                <select id="grado" class="form-control" style="width:900px"> </select>
-                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                <select id="grupo" class="form-control" style="width:900px"></select>
-                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
-                <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:120px;" onclick="GetAsistencia();" />
+<script src="~/Content/datatables/datatables.js" type="text/javascript"></script>
+<script src="~/Content/datatables/datatables.min.js" type="text/javascript"></script>
+<script src="~/Content/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+<script src="~/Content/datatables/JSZip-2.5.0/jszip.min.js" type="text/javascript"></script>
+<script src="~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js" type="text/javascript"></script>
+<script src="~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js" type="text/javascript"></script>
+<script src="~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js" type="text/javascript"></script>
+
+<div class="container-fluid">
+
+    <div class="container col-md-12" style="margin-top:5%;display:inline;">
+        <div class="row" id="searchDiv">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form form-control" style="width:900px">
+                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+                    <select id="grado" class="form-control" style="width:900px"> </select>
+                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+                    <select id="grupo" class="form-control" style="width:900px"></select>
+                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
+                    <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:120px;" onclick="GetAsistencia();" />
+                </div>
             </div>
         </div>
     </div>
 
-    <div>
-      <input type="button" id="btnExcel"  class="dt-button buttons-copy buttons-html5" value="Excel"  style="width:10vw;display:none;"/><br />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="tableAsistencia" class="table table-bordered table-hover">
+                        <thead>
+                            <tr style="background-color:gainsboro;">
+                                <th onclick="SortTable(0)">Nª</th>
+                                <th onclick="SortTable(1)">Nombre</th>
+                                <th onclick="SortTable(2)">Apellido</th>
+                                <th onclick="SortTable(3)">Email</th>
+                                <th onclick="SortTable(4)">Materia</th>
+                                <th onclick="SortTable(5)">Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <table id="tableAsistencia" class="table table-bordered table-hover myDataTable">
 
-        <thead>
-            <tr style="background-color:gainsboro;">
-                <th onclick="SortTable(0)">Nª</th>
-                <th onclick="SortTable(1)">Nombre</th>
-                <th onclick="SortTable(2)">Apellido</th>
-                <th onclick="SortTable(3)">Email</th>
-                <th onclick="SortTable(4)">Materia</th>
-                <th onclick="SortTable(5)">Estado</th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-        </tbody>
-    </table>
 
 
     <div id="myModal" class="modal">
@@ -66,12 +82,12 @@
                 <label> Asignatura: </label>
                 <input type="text" id="materia" class="form form-control" disabled />
                 <label> Estado: </label>
-                <select id="asistencia" class="form form-control"> 
+                <select id="asistencia" class="form form-control">
                     <option value="1"> Asistente </option>
                     <option value="0"> Inasistente </option>
                 </select><br />
-                 <label> Observacion: </label><br /> 
-                 <textarea id="observacion" rows="3" cols="50" maxlength="490" class="form form-control"  required autocomplete="on"> </textarea>
+                <label> Observacion: </label><br />
+                <textarea id="observacion" rows="3" cols="50" maxlength="490" class="form form-control" required autocomplete="on"> </textarea>
             </div>
             <div style="float:right">
                 <img id="alumno" class="imgCarnet" alt="No posee foto"><br /><br /><br /><br />
@@ -79,19 +95,61 @@
             </div>
         </div>
     </div>
-</div>
 
+</div>
 
 <script>
     $(document).ready(function () {
-         $('#btnExcel').hide();
         document.documentElement.style.overflowX = 'hidden';
         GetDate('#fecha');
         GetGrado();
         GetGrupo();
+        $.noConflict();
+          $('#tableAsistencia').DataTable({
+        language: {
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "sProcessing": "Procesando...",
+        },
+        //para usar los botones
+        responsive: "true",
+        dom: 'Bfrtilp',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+                value:'Excel'
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info'
+            },
+
+        ]
+         });
     });
 
-       function SortTable(n) {
+        function SortTable(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("tableAsistencia");
         switching = true;
@@ -127,4 +185,5 @@
             }
         }
     }
+
 </script>

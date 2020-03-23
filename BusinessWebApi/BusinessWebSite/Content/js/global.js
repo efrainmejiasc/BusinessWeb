@@ -113,6 +113,7 @@ function GetAsistencia() {
             CrearTabla(data);
         },
         complete: function () {
+           // TablaPlus();
             console.log('GetAsistencia');
         }
     });
@@ -126,7 +127,6 @@ function CrearTabla(emp) {
     if (emp.length > 0) {
         var estado = null;
         $.each(emp, function (index, item) {
-            $('#btnExcel').show();
             if (item.Status === true) estado = 'Asistente'; else estado = 'Inasistente';
             let tr = `<tr> 
                       <td style="text-align: center;"> ${index + 1} </td>
@@ -140,12 +140,14 @@ function CrearTabla(emp) {
             $('#tableAsistencia tbody').append(tr);
         });
     } else {
-        $('#btnExcel').hide();
         let tr = `<tr><td colspan="7"><h4 class="noFound"> No existe datos de asistencia</h4></td></tr>`;
 
         $('#tableAsistencia tbody').append(tr);
     }
-  
+}
+
+function TablaPlus() {
+    console.log('AAA');
 }
 
 
