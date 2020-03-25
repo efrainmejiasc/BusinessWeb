@@ -113,6 +113,21 @@ namespace BusinessWebSite.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<ActionResult> GetHistoriaAsistenciaPerson(string dni)
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Index", "Home");
+
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+
+            string jsonHistoria= await Proceso.GetHistoriaAsistenciaPerson(dni, token, FuncionHttp);
+            return Json(jsonHistoria);
+        }
+
+
         public ActionResult ReportAssistance()
         {
             if (System.Web.HttpContext.Current.Session["User"] == null)

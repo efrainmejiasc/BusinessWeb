@@ -93,6 +93,19 @@ namespace BusinessWebApi.Controllers
             return person;
         }
 
+        [HttpGet]
+        [ActionName("GetPersonFull")]
+        public List<Person> GetPersonFull(int idCompany, string grado, string grupo, int idTurno = 1)
+        {
+            List<Person> person = Metodo.GetPersonList(idCompany, grado, grupo, idTurno);
+            foreach (var i in person)
+            {
+                i.Foto = string.Empty;
+            }
+            return person;
+        }
+
+
 
         [HttpGet]
         [ActionName("GetGrados")]

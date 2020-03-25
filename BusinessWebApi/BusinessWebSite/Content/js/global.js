@@ -214,8 +214,8 @@ function CrearTablaConsolidado(emp) {
                       <td style="text-align: justify;"> ${item.Nombre} </td>
                       <td style="text-align: justify;"> ${item.Apellido} </td>
                       <td style="text-align: justify;"> ${item.Dni} </td>
-                      <td style="text-align: center;"> <input type="button" value="Historia" class="btn btn-primary" style="width:80px;" onclick="MostrarInformacion('${item.Dni}','${item.Email}');"> </td>
-                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-primary" style="width:80px;" onclick="EnviarEmail('${item.Dni}','${item.Email}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Historia" class="btn btn-primary" style="width:80px;" onclick="MostrarHistoria('${item.Dni}','${item.Email}','${item.Foto}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-success" style="width:80px;" onclick="EnviarEmail('${item.Dni}','${item.Email}');"> </td>
                       </tr>`;
         $('#tableConsolidado tbody').append(tr);
     });
@@ -255,6 +255,45 @@ function TablaPlusConsolidado() {
 
     });
     $('#initDataTable').val('yes');
+}
+
+
+function MostrarHistoria(dni, email, foto) {
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/GetHistoriaAsistenciaPerson",
+        datatype: "json",
+        data: { dni: dni},
+        success: function (data) {
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
+            CrearTablaHistoria(data);
+        },
+        complete: function () {
+            //TablaPlus();
+            console.log(MostrarHistoria);
+        }
+    });
+
+    document.getElementById('alumno').setAttribute('src', 'data:image/jpg;base64,' + foto);
+    MostrarModal();
+    return false;
+}
+
+
+function CrearTablaHistoria(emp) {
+    var strTotal = '&nbsp;&nbsp; Total Inasistencias: ';
+    var total = 0;
+    $('#tableHistoria tbody tr').remove();
+    $.each(emp, function (index, item) {
+        total = total + item.NumeroInasistencia
+        let tr = `<tr> 
+                      <td style="text-align: center;"> ${index + 1} </td>
+                      <td style="text-align: justify;"> ${item.Materia} </td>
+                      <td style="text-align: center;"> ${item.NumeroInasistencia} </td>
+                      </tr>`;
+        $('#tableHistoria tbody').append(tr);
+        $('#total').html(strTotal + total + ' &nbsp;&nbsp;');
+    });
 }
 
 

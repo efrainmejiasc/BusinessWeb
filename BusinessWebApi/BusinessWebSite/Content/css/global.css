@@ -97,6 +97,16 @@ input:valid {
     height:65%;
 }
 
+/* Modal Content */
+.modal-content3 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 32%;
+    height: 65%;
+}
+
 /* The Close Button */
 .close {
     color: #aaaaaa;
@@ -144,5 +154,9 @@ textarea {
 
 .btn-group , .btn-group-vertical{
     position:absolute !important;
+}
+
+.tableH {
+    background: #f7e406 !important;
 }
 

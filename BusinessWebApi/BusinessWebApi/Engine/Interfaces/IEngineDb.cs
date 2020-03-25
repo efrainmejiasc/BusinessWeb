@@ -39,6 +39,7 @@ namespace BusinessWebApi.Engine.Interfaces
         UserApi GetUserSuspended(string password, string password2);
         List<RegisterDevice> GetListDevicesRegistered(string codigo);
         bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias);
+        List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni);
         bool UpdateUserApi(int idCompany, string nameCompany, string user, string email);
         List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno);
         List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo, int idCompany);

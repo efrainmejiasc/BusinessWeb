@@ -3,6 +3,8 @@ using BusinessWebApi.Models;
 using BusinessWebApi.Models.Objetos;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -761,6 +763,35 @@ namespace BusinessWebApi.Engine
                 }
             }
             return grupos;
+        }
+
+
+        public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni)
+        {
+            SqlConnection conexion = new SqlConnection(EngineData.CNX);
+            List<HistoriaAsistenciaPerson> registros = new List<HistoriaAsistenciaPerson>();
+            using (conexion)
+            {
+                conexion.Open();
+                SqlCommand command = new SqlCommand("Sp_GetHistoriaAsistenciaPerson", conexion);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@Dni", dni);
+                SqlDataReader lector = command.ExecuteReader();
+                while (lector.Read())
+                {
+                    HistoriaAsistenciaPerson registro = new HistoriaAsistenciaPerson()
+                    {
+                        Materia = lector.GetString(0),
+                        NumeroInasistencia = lector.GetInt32(1), 
+                    };
+                    registros.Add(registro);
+                }
+                lector.Close();
+                conexion.Close();
+            }
+
+            return registros;
         }
 
 
