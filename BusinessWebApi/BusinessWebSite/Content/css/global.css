@@ -112,17 +112,25 @@ input:valid {
         cursor: pointer;
     }
 
-
-th {
-    text-align: center;
+header {
+    background: #8E2DE2;
+    background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);
+    background: linear-gradient(to right, #4A00E0, #8E2DE2);
 }
 
-td {
-    padding: 6px;
+/*estilos para la tabla*/
+table th {
+    background-color: #337ab7 !important;
+    color: white;
 }
 
-table {
-    border-collapse: collapse;
+table > tbody > tr > td {
+    vertical-align: middle !important;
+}
+
+/*para alinear los botones y cuadro de busqueda*/
+.btn-group, .btn-group-vertical {
+    position: absolute !important;
 }
 
 .txtAst{

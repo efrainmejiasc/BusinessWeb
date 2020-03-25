@@ -45,8 +45,7 @@ function GetGrado() {
         url: "/Procesor/GetGrados",
         datatype: "json",
         success: function (data) {
-            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index');}
-
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
             $('#grado').empty();
             $('#grado').append('<option selected disable value="-1"> Seleccione grado...</option>');
 
@@ -67,7 +66,6 @@ function GetGrupo() {
         datatype: "json",
         success: function (data) {
             try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
-
             $('#grupo').empty();
             $('#grupo').append('<option selected disable value="-1"> Seleccione grupo...</option>');
 
@@ -81,14 +79,17 @@ function GetGrupo() {
     });
 }
 
-$('#grado').on('change', function (e) {
+/*$('#grado').change(function () {
+   
+}); 
 
-});
+$('#grupo').change(function () {
 
-$('#grupo').on('change', function (e) {
+}); */
 
-});
 
+
+//**************************ASISTENCIA *************************************************************************
 
 function GetAsistencia() {
     var fecha = $('#fecha').val();
@@ -107,9 +108,7 @@ function GetAsistencia() {
         datatype: "json",
         data: {fecha: fecha, grado: grado, grupo: grupo},
         success: function (data) {
-            try { data = JSON.parse(data); } catch{ console.log('error');}
-
-            console.log(data);
+          try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
             CrearTabla(data);
         },
         complete: function () {
@@ -123,8 +122,6 @@ function GetAsistencia() {
 
 function CrearTabla(emp) {
     $('#tableAsistencia tbody tr').remove();
-
-    if (emp.length > 0) {
         var estado = null;
         $.each(emp, function (index, item) {
             if (item.Status === true) estado = 'Asistente'; else estado = 'Inasistente';
@@ -136,19 +133,128 @@ function CrearTabla(emp) {
                       <td style="text-align: justify;"> ${item.Materia} </td>
                       <td style="text-align: justify;"> ${estado} </td>
                       <td style="text-align: center;"> <input type="button" value="Editar" class="btn btn-primary" style="width:80px;" onclick="PreventEdit('${item.Id}','${item.Dni}','${item.Materia}','${item.Status}','${item.Email}','${item.Foto}','${item.DniAdm}');"> </td>
-                      </tr >`;
+                      </tr>`;
             $('#tableAsistencia tbody').append(tr);
         });
-    } else {
-        let tr = `<tr><td colspan="7"><h4 class="noFound"> No existe datos de asistencia</h4></td></tr>`;
-
-        $('#tableAsistencia tbody').append(tr);
-    }
 }
 
 function TablaPlus() {
-    $('#tableAsistencia').DataTable();
+    var initDataTable = $('#initDataTable').val();
+    if (initDataTable === 'yes') return false;
 
+    $('#tableAsistencia').DataTable({
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },
+        responsive: "true",
+        dom: 'Bfrtilp',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info'
+            },
+
+        ],
+
+    });
+    $('#initDataTable').val('yes');
+}
+
+//**************************CONSOLIDADO *************************************************************************
+
+function GetConsolidado() {
+
+    var grado = $("#grado option:selected").text();
+    var grupo = $("#grupo option:selected").text();
+
+    if (grado === '' || grupo === '') {
+        alert('Seleccione fecha, grado y grupo');
+        return false;
+    }
+    console.log(grado + ' ' + grupo);
+
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/BuscarPersonaGrado",
+        datatype: "json",
+        data: {grado: grado, grupo: grupo },
+        success: function (data) {
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
+            console.log(data);
+            CrearTablaConsolidado(data);
+        },
+        complete: function () {
+            TablaPlusConsolidado();
+            console.log('GetConsolidado');
+        }
+    });
+    return false;
+}
+
+
+function CrearTablaConsolidado(emp) {
+    $('#tableConsolidado tbody tr').remove();
+    $.each(emp, function (index, item) {
+        let tr = `<tr> 
+                      <td style="text-align: center;"> ${index + 1} </td>
+                      <td style="text-align: justify;"> ${item.Nombre} </td>
+                      <td style="text-align: justify;"> ${item.Apellido} </td>
+                      <td style="text-align: justify;"> ${item.Dni} </td>
+                      <td style="text-align: center;"> <input type="button" value="Historia" class="btn btn-primary" style="width:80px;" onclick="MostrarInformacion('${item.Dni}','${item.Email}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-primary" style="width:80px;" onclick="EnviarEmail('${item.Dni}','${item.Email}');"> </td>
+                      </tr>`;
+        $('#tableConsolidado tbody').append(tr);
+    });
+}
+
+function TablaPlusConsolidado() {
+    var initDataTable = $('#initDataTable').val();
+    if (initDataTable === 'yes') return false;
+
+    $('#tableConsolidado').DataTable({
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },
+        responsive: "true",
+        dom: 'Bfrtilp',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info'
+            },
+
+        ],
+
+    });
+    $('#initDataTable').val('yes');
 }
 
 

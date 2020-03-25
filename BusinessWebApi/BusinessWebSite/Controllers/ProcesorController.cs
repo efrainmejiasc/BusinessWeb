@@ -92,8 +92,36 @@ namespace BusinessWebSite.Controllers
             return Json(jsonPerson);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> BuscarPersonaGrado(string grado, string grupo )
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Index", "Home");
+
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+
+            int idCompany = 0;
+            if (System.Web.HttpContext.Current.Session["IdCompany"] != null)
+                idCompany = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdCompany"]);
+            else
+                return Json(null);
+
+            string jsonPerson = await Proceso.GetPerson(grado, grupo, idCompany,token, FuncionHttp);
+            return Json(jsonPerson);
+        }
+
 
         public ActionResult ReportAssistance()
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+        public ActionResult QueryAssistance()
         {
             if (System.Web.HttpContext.Current.Session["User"] == null)
                 return RedirectToAction("Index", "Home");
@@ -146,9 +174,9 @@ namespace BusinessWebSite.Controllers
 
 
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonGrado = await Proceso.GetAsistencia (token,fecha, grado, grupo,idCompany,FuncionHttp);
+            string jsonAsistencia= await Proceso.GetAsistencia (token,fecha, grado, grupo,idCompany,FuncionHttp);
 
-            return Json(jsonGrado);
+            return Json(jsonAsistencia);
         }
 
         [HttpPost]

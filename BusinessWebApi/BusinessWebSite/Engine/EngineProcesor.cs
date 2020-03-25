@@ -31,6 +31,11 @@ namespace BusinessWebSite.Engine
             return await FuncionHttp.GetPerson(dni, accessToken);
         }
 
+        public async Task<string> GetPerson(string grado , string grupo, int idCompany , string accessToken, IEngineHttp FuncionHttp, int turno = 1 )
+        {
+            return await FuncionHttp.GetPerson(grado, grupo, idCompany, accessToken,turno);
+        }
+
         public async Task<string> GetGrados(string accessToken, IEngineHttp FuncionHttp)
         {
             return await FuncionHttp.GetGrados(accessToken);
