@@ -85,7 +85,7 @@ namespace BusinessWebApi.Engine
 
         public bool BuildXlsxAsistenciaClase(List<AsistenciaClase> asis, IEngineDb Metodo)
         {
-            bool resultado = false;
+            string nombreProfesor = Metodo.NameDevice(asis[0].DniAdm);
             Excel.Application application = new Excel.Application();
             Excel.Workbook workbook = application.Workbooks.Add(System.Reflection.Missing.Value);
             Excel.Worksheet worksheet = workbook.ActiveSheet;
@@ -97,14 +97,14 @@ namespace BusinessWebApi.Engine
             worksheet.Cells[2, 2] = "Materia";
             worksheet.Cells[2, 3] = "Grado";
             worksheet.Cells[2, 4] = "Grupo";
-            worksheet.Cells[2, 5] = "Profesor";
+            worksheet.Cells[2, 5] = "DI - Profesor";
             worksheet.get_Range("A2", "E2").Interior.Color = Color.Black;
             worksheet.get_Range("A2", "E2").Font.Color = Color.White;
             worksheet.Cells[3, 1] = DateTime.Now.Date.ToString("dd/MM/yyyy");
             worksheet.Cells[3, 2] = asis[0].Materia;
             worksheet.Cells[3, 3] = asis[0].Grado;
             worksheet.Cells[3, 4] = asis[0].Grupo;
-            worksheet.Cells[3, 5] = asis[0].DniAdm + " " + Metodo.NameDevice(asis[0].DniAdm);
+            worksheet.Cells[3, 5] = asis[0].DniAdm + " - " + nombreProfesor;
 
             worksheet.Cells[5, 1] = "Nª";
             worksheet.Cells[5, 2] = "Nombre";
@@ -140,7 +140,7 @@ namespace BusinessWebApi.Engine
             application.Rows.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
             application.DisplayAlerts = false;
-            string nombreArchivo = NombreArchivo(asis);
+            string nombreArchivo = NombreArchivo(asis,nombreProfesor);
             string path = HttpContext.Current.Server.MapPath("~/App_Data/" + nombreArchivo);
             workbook.SaveAs(path);
             workbook.Close();
@@ -148,7 +148,7 @@ namespace BusinessWebApi.Engine
             string emailTo = Metodo.EmailCompany(asis[0].IdCompany);
             EngineNotify notify = new EngineNotify();
             notify.EnviarEmail(emailTo, nombreArchivo, path, false);
-            return resultado;
+            return true;
         }
 
         private string Estado(bool s)
@@ -157,10 +157,10 @@ namespace BusinessWebApi.Engine
             else return "Inasistente";
         }
 
-        private string NombreArchivo(List<AsistenciaClase> asis)
+        private string NombreArchivo(List<AsistenciaClase> asis, string nombreProfesor)
         {
             string fecha = DateTime.Now.Date.ToString("dd/MM/yyyy").Replace("/", "");
-            string nombre = asis[0].Materia + "_" + asis[0].DniAdm + "_" + asis[0].Grado + "_" + asis[0].Grupo + "_" + fecha + ".xlsx";
+            string nombre = asis[0].Materia + "_" + nombreProfesor + "_" + asis[0].DniAdm + "_" + asis[0].Grado + "_" + asis[0].Grupo + "_" + fecha + ".xlsx";
             return nombre;
         }
     }

@@ -107,6 +107,16 @@ input:valid {
     height: 65%;
 }
 
+/* Modal Content */
+.modal-content4 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+    height: 45%;
+}
+
 /* The Close Button */
 .close {
     color: #aaaaaa;

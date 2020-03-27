@@ -164,10 +164,12 @@
     <Compile Include="Controllers\ProcesorController.cs" />
     <Compile Include="Engine\EngineData.cs" />
     <Compile Include="Engine\EngineHttp.cs" />
+    <Compile Include="Engine\EngineNotify.cs" />
     <Compile Include="Engine\EngineProcesor.cs" />
     <Compile Include="Engine\EngineProject.cs" />
     <Compile Include="Engine\EngineRead.cs" />
     <Compile Include="Engine\EngineTool.cs" />
+    <Compile Include="Engine\Interfaces\IEngineNotify.cs" />
     <Compile Include="Engine\Interfaces\IEngineProcesor.cs" />
     <Compile Include="Engine\Interfaces\IEngineProject.cs" />
     <Compile Include="Engine\Interfaces\IEngineHttp.cs" />
@@ -177,6 +179,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Grado.cs" />
+    <Compile Include="Models\HistoriaAsistenciaPerson.cs" />
     <Compile Include="Models\ObservacionClase.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\RegisterDevice.cs" />

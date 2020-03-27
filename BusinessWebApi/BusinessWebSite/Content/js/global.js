@@ -47,7 +47,7 @@ function GetGrado() {
         success: function (data) {
             try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
             $('#grado').empty();
-            $('#grado').append('<option selected disable value="-1"> Seleccione grado...</option>');
+            $('#grado').append('<option selected disabled value=""> Seleccione grado...</option>');
 
             $.each(data, function (index, item) {
                 $('#grado').append("<option value=\"" + item.Id + "\">" + item.NombreGrado + "</option>");
@@ -67,7 +67,7 @@ function GetGrupo() {
         success: function (data) {
             try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
             $('#grupo').empty();
-            $('#grupo').append('<option selected disable value="-1"> Seleccione grupo...</option>');
+            $('#grupo').append('<option selected disabled value=""> Seleccione grupo...</option>');
 
             $.each(data, function (index, item) {
                 $('#grupo').append("<option value=\"" + item.Id + "\">" + item.NombreGrupo + "</option>");
@@ -215,7 +215,7 @@ function CrearTablaConsolidado(emp) {
                       <td style="text-align: justify;"> ${item.Apellido} </td>
                       <td style="text-align: justify;"> ${item.Dni} </td>
                       <td style="text-align: center;"> <input type="button" value="Historia" class="btn btn-primary" style="width:80px;" onclick="MostrarHistoria('${item.Dni}','${item.Email}','${item.Foto}');"> </td>
-                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-success" style="width:80px;" onclick="EnviarEmail('${item.Dni}','${item.Email}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-success" style="width:80px;" onclick="PreventEnviarEmail('${item.Dni}','${item.Email}');"> </td>
                       </tr>`;
         $('#tableConsolidado tbody').append(tr);
     });
@@ -296,22 +296,52 @@ function CrearTablaHistoria(emp) {
     });
 }
 
-
-function MostrarModal() {
-    var modal = document.getElementById('myModal');
-    modal.style.display = 'block';
+function PreventEnviarEmail(dni,email) {
+    $('#cce').html(email);
+    $('#di').val(dni);
+    MostrarModalEmail();
 }
 
-function CerrarModal() {
-    var modal = document.getElementById('myModal');
-    modal.style.display = "none";
+
+function EnviarEmail() {
+    var email = $('#cce').html();
+    var dni = $('#di').val();
+    var chx = $('#check:checked').val();
+    if (chx === 'on')
+        chx = true;
+    else
+        chx = false;
+
+    console.log(chx);
+    var asunto = $('#asunto').val();
+    var mensaje = $('#mensaje').val();
+
+    if (asunto === '' || mensaje === '') {
+        alert('El asunto y el cuerpo del mensaje son requeridos');
+        return false;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/EnviarEmail",
+        datatype: "json",
+        data: { dni: dni, email: email, asunto: asunto, mensaje: mensaje, resumen: chx },
+        success: function (data) {
+            if (data.Descripcion === "Email enviado") 
+                alert(data.Descripcion);
+            else if (data.Descripcion === "Fallo el envio") 
+                alert(data.Descripcion);
+            else 
+                NavePage('../Home/Index');
+            
+        },
+        complete: function () {
+            console.log('EnviarEmail');
+        }
+    });
+    return false;
 }
 
-function CerrarModalUpdate() {
-    var modal = document.getElementById('myModal');
-    modal.style.display = "none";
-    $('#observacion').val('');
-}
 
 function PreventEdit(idAsistencia, dni, materia, status, email, foto,dniAdm) {
     $('#idAsistencia').val(idAsistencia);
@@ -320,8 +350,6 @@ function PreventEdit(idAsistencia, dni, materia, status, email, foto,dniAdm) {
     $('#materia').val(materia);
     $('#email').val(email);
 
-
-  
     if (status === 'true') {  
         console.log(status);
         $('#asistencia option').eq(0).prop('selected', true);
@@ -381,5 +409,36 @@ function GetDate (object) {
     var fecha = today.toISOString().substr(0, 10);
     $(object).val(fecha);
 }
+
+
+
+//*************OPEN_CLOSE_MODAL*******************************
+
+function MostrarModal() {
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+}
+
+function CerrarModal() {
+    var modal = document.getElementById('myModal');
+    modal.style.display = "none";
+}
+
+function CerrarModalUpdate() {
+    var modal = document.getElementById('myModal');
+    modal.style.display = "none";
+    $('#observacion').val('');
+}
+
+function MostrarModalEmail() {
+    var modal = document.getElementById('myModalEmail');
+    modal.style.display = 'block';
+}
+
+function CerrarModalEmail() {
+    var modal = document.getElementById('myModalEmail');
+    modal.style.display = "none";
+}
+//***************************************************************************
 
 

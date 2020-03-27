@@ -100,7 +100,7 @@ namespace BusinessWebApi.Controllers
             List<Person> person = Metodo.GetPersonList(idCompany, grado, grupo, idTurno);
             foreach (var i in person)
             {
-                i.Foto = string.Empty;
+                i.Qr = string.Empty;
             }
             return person;
         }

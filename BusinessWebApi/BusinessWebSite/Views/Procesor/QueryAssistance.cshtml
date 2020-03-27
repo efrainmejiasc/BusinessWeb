@@ -71,7 +71,6 @@
 
     <div id="myModal" class="modal">
         <div class="modal-content3">
-
             <div style="float:right;">
                 <span id="cerrar" class="close" onclick="CerrarModalUpdate();">&times;</span><br /><br />
             </div>
@@ -82,7 +81,7 @@
                         <div class="col-lg-12">
                             <div class="table-responsive">
                                 <table id="tableHistoria" class="display table table-bordered table-hover" cellspacing="0" width="100%">
-                                    <thead >
+                                    <thead>
                                         <tr class="tableH">
                                             <th>Nª</th>
                                             <th>Materia</th>
@@ -96,22 +95,39 @@
                         </div>
                     </div>
                 </div>
-                  &nbsp;&nbsp;&nbsp;<label class="btn-danger" id="total"> </label> 
+                &nbsp;&nbsp;&nbsp;<label class="btn-danger" id="total"> </label>
             </div>
-           
+
             <div style="float:right">
                 <img id="alumno" class="imgCarnet" alt="No posee foto"><br /><br /><br /><br />
             </div>
         </div>
     </div>
 
+    <div id="myModalEmail" class="modal">
+        <div class="modal-content4">
+            <div style="float:right;">
+                <span id="cerrarEmail" class="close" onclick="CerrarModalEmail();">&times;</span>
+            </div><br />
+                  <div align="center">
+                      <label><h4> Notificacion </h4></label><br />
+                      <input type="hidden" id="di"/>
+                      <label id="cce" style="color:deepskyblue"></label><br />
+                      <input type="text" id="asunto" placeholder="Ingrese Asunto" class="form form-control" style="width:50vw;" /><br />
+                      <textarea id="mensaje" rows="4" cols="50" placeholder="Ingrese Mensaje" maxlength="490" class="form form-control" style="width:30vw;" ></textarea>
+                      <label class="checkbox-inline"><input type="checkbox" id="check" name="check" required class="btn btn-primary" />  Resumen de asistencia</label><br />
+                      <input type="button" value="Enviar" class="btn btn-success" style="width:50vw;" onclick="EnviarEmail();"/><br />
+                  </div>
+        </div>
+    </div>
 
 </div>
-    <script>
-        $(document).ready(function () {
-            document.documentElement.style.overflowX = 'hidden';
-            GetGrado();
-            GetGrupo();
-            $.noConflict(); 
-        });
-    </script>
+
+        <script>
+            $(document).ready(function () {
+                document.documentElement.style.overflowX = 'hidden';
+                GetGrado();
+                GetGrupo();
+                $.noConflict();
+            });
+        </script>

@@ -21,14 +21,16 @@ namespace BusinessWebSite.Controllers
         private readonly IEngineTool Tool;
         private readonly IEngineProcesor Proceso;
         private readonly IEngineRead Lector;
+        private readonly IEngineNotify Notify;
 
-        public ProcesorController(IEngineProject _Funcion, IEngineHttp _FuncionHttp, IEngineTool _Tool, IEngineProcesor _Proceso , IEngineRead _Lector)
+       public ProcesorController(IEngineProject _Funcion, IEngineHttp _FuncionHttp, IEngineTool _Tool, IEngineProcesor _Proceso , IEngineRead _Lector,IEngineNotify _Notify)
         {
             this.Funcion = _Funcion;
             this.FuncionHttp = _FuncionHttp;
             this.Tool = _Tool;
             this.Proceso = _Proceso;
             this.Lector = _Lector;
+            this.Notify = _Notify;
         }
         public ActionResult Index()
         {
@@ -218,5 +220,39 @@ namespace BusinessWebSite.Controllers
 
             return Json(respuesta);
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> EnviarEmail(string dni, string email,string asunto,string mensaje ,bool resumen)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            string token = string.Empty; string jsonHistoria = string.Empty; string pathAdjunto = string.Empty;
+            if (resumen)
+            {
+                if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                {
+                    token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+                }
+                else
+                {
+                    respuesta.Descripcion = "Token expiro";
+                    return Json(respuesta);
+                }
+
+                jsonHistoria = await Proceso.GetHistoriaAsistenciaPerson(dni, token, FuncionHttp);
+                List<HistoriaAsistenciaPerson> historia = new List<HistoriaAsistenciaPerson>();
+                historia = JsonConvert.DeserializeObject<List<HistoriaAsistenciaPerson>>(jsonHistoria);
+            }
+
+            bool resultado = Notify.EnviarEmail(email, asunto, mensaje, pathAdjunto);
+            if (resultado)
+                respuesta.Descripcion = "Email enviado";
+            else
+                respuesta.Descripcion = "Fallo el envio";
+
+            return Json(respuesta);
+        }
+
     }
 }
