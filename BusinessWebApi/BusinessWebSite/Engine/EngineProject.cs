@@ -40,7 +40,7 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
-        public string BuildRegisterDeviceStr(string user, string email, string codigo , string phone,string dni)
+        public string BuildRegisterDeviceStr(string user, string email, string codigo , string phone,string dni,string nombre)
         {
             RegisterDevice modelo = new RegisterDevice()
             {
@@ -48,7 +48,8 @@ namespace BusinessWebSite.Engine
                 Email = email,
                 Codigo = codigo,
                 Phone = phone,
-                Dni = dni
+                Dni = dni,
+                Nombre = nombre
             };
             return JsonConvert.SerializeObject(modelo);
         }

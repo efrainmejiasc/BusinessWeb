@@ -79,7 +79,7 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
-        public async Task<ActionResult> About(string phone,string dni,string codigo) //REGISTRO DE DISPOSITIVO
+        public async Task<ActionResult> About(string phone,string dni,string codigo,string nombre) //REGISTRO DE DISPOSITIVO
         {
              if (System.Web.HttpContext.Current.Session["User"] == null)
                  Response.Redirect("Index");
@@ -92,7 +92,7 @@ namespace BusinessWebSite.Controllers
             string user = System.Web.HttpContext.Current.Session["User"].ToString();
             string email = System.Web.HttpContext.Current.Session["Email"].ToString();
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni);
+            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni,nombre);
             bool resultado = await Proceso.RegisterDevice(jsonData, token, FuncionHttp);
             if (resultado)
                 ViewBag.Response = "Registro satisfactorio";

@@ -124,6 +124,24 @@ namespace BusinessWebApi.Engine
             return 0;
         }
 
+        public string GetCompanyName(int idCompany)
+        {
+            Company company = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Id == idCompany).FirstOrDefault();
+                    return company.NameCompany;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetCompanyNamme*" + idCompany.ToString()));
+            }
+            return string.Empty;
+        }
+
         public Company GetCompanyCodigo(string codigo)
         {
             Company company = null;
@@ -467,6 +485,42 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/ExistsCodeCompany*" + codigo));
             }
             return resultado;
+        }
+
+        public string EmailCompany(int idCompany)
+        {
+            Company company = new Company();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Id == idCompany).FirstOrDefault();
+                    return company.Email;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/EmailCompany*" + idCompany.ToString()));
+            }
+            return string.Empty;
+        }
+
+        public string NameDevice(string dni)
+        {
+            DevicesCompany device = new DevicesCompany();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    device = context.DeviceCompany.Where(s => s.Dni == dni).FirstOrDefault();
+                    return device.Nombre;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NameDevice*" + dni));
+            }
+            return string.Empty;
         }
 
         public int NumberDevice (string codigo)

@@ -14,12 +14,15 @@ namespace BusinessWebApi.Engine.Interfaces
         Person GetPerson(string dni);
         bool CreateUser(UserApi user);
         List<Company> GetAllCompany();
+        string NameDevice(string dni);
         int NumberDevice(string codigo);
         bool UpdatePerson(Person person);
         bool CreatePerson(Person person);
         UserApi GetUser(string[] userApi);
+        string EmailCompany(int idCompany);
         bool UpdateCompany(Company company);
         bool CreateCompany(Company company);
+        string GetCompanyName(int idCompany);
         int GetCompanyId(string nameCompany);
         bool ExistsCodeCompany(string codigo);
         Person GetPerson2(string identificador);

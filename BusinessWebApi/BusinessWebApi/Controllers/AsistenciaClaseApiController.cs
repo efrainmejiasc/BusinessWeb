@@ -43,10 +43,12 @@ namespace BusinessWebApi.Controllers
             try 
             {
                 resultado =  Metodo.NewAsistenciaClase(model);
+                Funcion.BuildXlsxAsistenciaClase(model, Metodo);
                 List<AsistenciaClase> noAsistentes = Metodo.StudentsNonAttending();
-                List<Person> personas = Metodo.GetPerson(noAsistentes);
-                if (personas.Count > 0)
+             
+                if (noAsistentes.Count > 0)
                 {
+                    List<Person> personas = Metodo.GetPerson(noAsistentes);
                     List<DataEmailNoAsistencia> emailNoAsistentes = Funcion.BuildDataEmailNoAsistencia(personas);
                     Notify.EnviarEmailNoAsistentes(emailNoAsistentes);
                     Metodo.UpdateAsistenciaClase(noAsistentes);
