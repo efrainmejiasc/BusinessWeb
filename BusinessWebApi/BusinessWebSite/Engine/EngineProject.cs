@@ -3,6 +3,7 @@ using BusinessWebSite.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -72,72 +73,70 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
-        public bool BuildXlsxAsistenciaClase(List<HistoriaAsistenciaPerson> asis)
+        public bool BuildXlsxAsistenciaClase(List<HistoriaAsistenciaPerson> asis,string nombre, string apellido, string dni)
         {
-            string nombreProfesor = Metodo.NameDevice(asis[0].DniAdm);
             Excel.Application application = new Excel.Application();
             Excel.Workbook workbook = application.Workbooks.Add(System.Reflection.Missing.Value);
             Excel.Worksheet worksheet = workbook.ActiveSheet;
-            worksheet.Cells[1, 1] = "Institucion";
-            worksheet.Cells[1, 2] = Metodo.GetCompanyName(asis[0].IdCompany);
-            worksheet.get_Range("A1", "B1").Interior.Color = Color.Black;
-            worksheet.get_Range("A1", "B1").Font.Color = Color.White;
-            worksheet.Cells[2, 1] = "Fecha";
-            worksheet.Cells[2, 2] = "Materia";
-            worksheet.Cells[2, 3] = "Grado";
-            worksheet.Cells[2, 4] = "Grupo";
-            worksheet.Cells[2, 5] = "DI - Profesor";
-            worksheet.get_Range("A2", "E2").Interior.Color = Color.Black;
-            worksheet.get_Range("A2", "E2").Font.Color = Color.White;
-            worksheet.Cells[3, 1] = DateTime.Now.Date.ToString("dd/MM/yyyy");
-            worksheet.Cells[3, 2] = asis[0].Materia;
-            worksheet.Cells[3, 3] = asis[0].Grado;
-            worksheet.Cells[3, 4] = asis[0].Grupo;
-            worksheet.Cells[3, 5] = asis[0].DniAdm + " - " + nombreProfesor;
+            worksheet.Cells[1, 1] = "Nombre";
+            worksheet.Cells[1, 2] = "Apellido";
+            worksheet.Cells[1, 3] = "Documento Identidad";
+            worksheet.Cells[1, 4] = "Fecha Expedicion";
+            worksheet.get_Range("A1", "D1").Interior.Color = Color.Black;
+            worksheet.get_Range("A1", "D1").Font.Color = Color.White;
+            worksheet.Cells[2, 1] = nombre;
+            worksheet.Cells[2, 2] = apellido;
+            worksheet.Cells[2, 3] = dni;
+            worksheet.Cells[2, 4] = DateTime.Now.Date.ToString("dd/MM/yyyy");
+            worksheet.Cells[4, 1] ="Historico de Asistencia";
+            worksheet.get_Range("A1", "A1").Interior.Color = Color.Black;
+            worksheet.get_Range("A1", "A1").Font.Color = Color.White;
+            worksheet.Cells[6, 1] = "Nº";
+            worksheet.Cells[6, 2] = "Materia";
+            worksheet.Cells[6, 3] = "Numero de Inasistencias";
+            worksheet.get_Range("A1", "C1").Interior.Color = Color.Black;
+            worksheet.get_Range("A1", "C1").Font.Color = Color.White;
 
-            worksheet.Cells[5, 1] = "Nª";
-            worksheet.Cells[5, 2] = "Nombre";
-            worksheet.Cells[5, 3] = "Apellido";
-            worksheet.Cells[5, 4] = "Documento de Identidad";
-            worksheet.Cells[5, 5] = "Fecha";
-            worksheet.Cells[5, 6] = "Estado";
-            worksheet.get_Range("A5", "F5").Interior.Color = Color.Black;
-            worksheet.get_Range("A5", "F5").Font.Color = Color.White;
-
-            int row = 6;
+            int row = 7;
             int index = 1;
+            int totalInasistencias = 0;
             foreach (var I in asis)
             {
-                //FORMAT CONTENT
-                worksheet.Range["A" + row.ToString(), "F" + row.ToString()].Font.Color = System.Drawing.Color.Black;
-                worksheet.Range["A" + row.ToString(), "F" + row.ToString()].Font.Size = 10;
-
-                var P = Metodo.GetPerson(I.Dni);
+                worksheet.Range["A" + row.ToString(), "C" + row.ToString()].Font.Color = System.Drawing.Color.Black;
+                worksheet.Range["A" + row.ToString(), "C" + row.ToString()].Font.Size = 10;
 
                 worksheet.Cells[row, 1] = index.ToString();
-                worksheet.Cells[row, 2] = P.Nombre;
-                worksheet.Cells[row, 3] = P.Apellido;
-                worksheet.Cells[row, 4] = I.Dni;
-                worksheet.Cells[row, 5] = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                worksheet.Cells[row, 6] = Estado(I.Status);
+                worksheet.Cells[row, 2] = I.Materia;
+                worksheet.Cells[row, 3] = I.NumeroInasistencia;
+                totalInasistencias = totalInasistencias + Convert.ToInt32(I.NumeroInasistencia);
                 index++;
                 row++;
             }
-            application.Columns.AutoFit();
+            worksheet.Cells[row, 2] = "Total Inasistencias";
+            worksheet.Cells[row, 3] = totalInasistencias.ToString();
+            worksheet.get_Range("B1", "B1").Interior.Color = Color.Black;
+            worksheet.get_Range("B1", "B1").Font.Color = Color.White;
+
+            application.Columns.AutoFit();0
             application.Rows.AutoFit();
             application.Columns.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             application.Rows.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
             application.DisplayAlerts = false;
-            string nombreArchivo = NombreArchivo(asis, nombreProfesor);
+            string nombreArchivo = NombreArchivo(dni, nombre + apellido);
             string path = HttpContext.Current.Server.MapPath("~/App_Data/" + nombreArchivo);
             workbook.SaveAs(path);
             workbook.Close();
             application.Quit();
-            string emailTo = Metodo.EmailCompany(asis[0].IdCompany);
-            EngineNotify notify = new EngineNotify();
-            notify.EnviarEmail(emailTo, nombreArchivo, path, false);
             return true;
         }
+
+        private string NombreArchivo(string dni, string name)
+        {
+            string fecha = DateTime.Now.Date.ToString("dd/MM/yyyy").Replace("/", "");
+            string nombre = "HistoriaAsistencia" + "_" + name + "_" + dni + "_"  + fecha + ".xlsx";
+            return nombre;
+        }
     }
+}
 }
