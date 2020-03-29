@@ -20,6 +20,8 @@ namespace BusinessWebApi.Engine.Interfaces
         bool CreatePerson(Person person);
         UserApi GetUser(string[] userApi);
         string EmailCompany(int idCompany);
+        UserApi GetUserApi(string strValue);
+        bool ExistsUserApi(string strValue);
         bool UpdateCompany(Company company);
         bool CreateCompany(Company company);
         string GetCompanyName(int idCompany);
@@ -33,8 +35,8 @@ namespace BusinessWebApi.Engine.Interfaces
         bool RegisterDevice(DevicesCompany device);
         List<AsistenciaClase> StudentsNonAttending();
         bool UpdateAsistenciaClase(int id, bool status);
-        List<Person> GetPerson(List<AsistenciaClase> asis);
         UserApi GetUser(string password, string password2);
+        List<Person> GetPerson(List<AsistenciaClase> asis);
         bool NewObservacionClase(ObservacionClase observacion);
         bool UpdateAsistenciaClase(List<AsistenciaClase> asis);
         object GetDniUserApi(int id, int idCompany, string email);
@@ -42,6 +44,7 @@ namespace BusinessWebApi.Engine.Interfaces
         UserApi GetUserSuspended(string password, string password2);
         List<RegisterDevice> GetListDevicesRegistered(string codigo);
         bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias);
+        bool UpdateUserApi(string userName, string email, string password);
         List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni);
         bool UpdateUserApi(int idCompany, string nameCompany, string user, string email);
         List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno);

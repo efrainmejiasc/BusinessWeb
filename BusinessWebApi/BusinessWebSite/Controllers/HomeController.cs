@@ -30,6 +30,11 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
+        public ActionResult Autentication()
+        {
+            return View();
+        }
+
         [HttpPost] //LOGIN DE USUARIO
         public async Task<ActionResult> LoginUser(string user, string password)
         {
@@ -101,5 +106,18 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
+        public async Task<ActionResult> UpdatePassword(string user,string password)
+        {
+            if (string.IsNullOrEmpty(user) && string.IsNullOrEmpty(password))
+               return View();
+
+            string jsonUserApi = Funcion.BuildUserApiStr(user, password);
+            bool resultado = await Proceso.UpdateUserApi(jsonUserApi, FuncionHttp);
+            if (resultado)
+                ViewBag.Response = "Contraseña actualizada";
+            else
+                ViewBag.Response = "Fallo actualizar contraseña";
+            return View();
+        }
     }
 }

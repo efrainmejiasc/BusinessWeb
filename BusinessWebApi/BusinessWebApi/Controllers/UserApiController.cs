@@ -144,5 +144,35 @@ namespace BusinessWebApi.Controllers
             string token = tokenHandler.WriteToken(jwtSecurityToken);
             return token;
         }
+
+        [AllowAnonymous]
+        [HttpPut]
+        [ActionName("UpdateUser")]
+        public HttpResponseMessage UpdateUser([FromBody] UserApi user)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            if (user.User == string.Empty || user.Password == string.Empty)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
+                return response;
+            }
+            bool resultado = Metodo.ExistsUserApi(user.User);
+            if (!resultado)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                response.Content = new StringContent(EngineData.noExisteUsuario, Encoding.Unicode);
+                return response;
+            }
+            UserApi usuario = Metodo.GetUserApi(user.User);
+            resultado = Metodo.UpdateUserApi(usuario.User, usuario.Email, user.Password);
+            if (resultado)
+                response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
+            else
+                response.Content = new StringContent(EngineData.transaccionFallida, Encoding.Unicode);
+
+            return response;
+        }
+
     }
 }

@@ -31,6 +31,14 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
+        public string BuildUserApiStr(string user, string password)
+        {
+            UserApi modelo = new UserApi();
+            modelo.User = user;
+            modelo.Password = password;
+            return JsonConvert.SerializeObject(modelo);
+        }
+
         public string BuildCreateUserApiStr(string user, string email, string password)
         {
             UserApi modelo = new UserApi()
@@ -73,7 +81,7 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
-        public bool BuildXlsxAsistenciaClase(List<HistoriaAsistenciaPerson> asis,string nombre, string apellido, string dni)
+        public string BuildXlsxAsistenciaClase(List<HistoriaAsistenciaPerson> asis,string nombre, string apellido, string dni)
         {
             Excel.Application application = new Excel.Application();
             Excel.Workbook workbook = application.Workbooks.Add(System.Reflection.Missing.Value);
@@ -89,13 +97,13 @@ namespace BusinessWebSite.Engine
             worksheet.Cells[2, 3] = dni;
             worksheet.Cells[2, 4] = DateTime.Now.Date.ToString("dd/MM/yyyy");
             worksheet.Cells[4, 1] ="Historico de Asistencia";
-            worksheet.get_Range("A1", "A1").Interior.Color = Color.Black;
-            worksheet.get_Range("A1", "A1").Font.Color = Color.White;
+            worksheet.get_Range("A4", "A4").Interior.Color = Color.Black;
+            worksheet.get_Range("A4", "A4").Font.Color = Color.White;
             worksheet.Cells[6, 1] = "Nº";
             worksheet.Cells[6, 2] = "Materia";
             worksheet.Cells[6, 3] = "Numero de Inasistencias";
-            worksheet.get_Range("A1", "C1").Interior.Color = Color.Black;
-            worksheet.get_Range("A1", "C1").Font.Color = Color.White;
+            worksheet.get_Range("A6", "C6").Interior.Color = Color.Black;
+            worksheet.get_Range("A6", "C6").Font.Color = Color.White;
 
             int row = 7;
             int index = 1;
@@ -114,10 +122,10 @@ namespace BusinessWebSite.Engine
             }
             worksheet.Cells[row, 2] = "Total Inasistencias";
             worksheet.Cells[row, 3] = totalInasistencias.ToString();
-            worksheet.get_Range("B1", "B1").Interior.Color = Color.Black;
-            worksheet.get_Range("B1", "B1").Font.Color = Color.White;
+            worksheet.get_Range("B10", "B10").Interior.Color = Color.Black;
+            worksheet.get_Range("B10", "B10").Font.Color = Color.White;
 
-            application.Columns.AutoFit();0
+            application.Columns.AutoFit();
             application.Rows.AutoFit();
             application.Columns.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             application.Rows.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
@@ -128,15 +136,14 @@ namespace BusinessWebSite.Engine
             workbook.SaveAs(path);
             workbook.Close();
             application.Quit();
-            return true;
+            return path;
         }
 
         private string NombreArchivo(string dni, string name)
         {
             string fecha = DateTime.Now.Date.ToString("dd/MM/yyyy").Replace("/", "");
-            string nombre = "HistoriaAsistencia" + "_" + name + "_" + dni + "_"  + fecha + ".xlsx";
-            return nombre;
+            string nombre = name + "_" + dni + "_"  + fecha + ".xlsx";
+            return nombre.Replace(" ", ""); 
         }
     }
-}
 }

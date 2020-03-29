@@ -12,6 +12,7 @@ namespace BusinessWebSite.Engine.Interfaces
     {
         Task<string> GetGrupos(string strToken);
         Task<string> GetGrados(string strToken);
+        Task<bool> UpdateUserApi(string jsonData);
         Task<bool> CreateUserApi(string jsonData);
         Task<string> GetRefreshToken(string jsonData);
         Task<TicketAcceso> GetAccessToken(string jsonData);

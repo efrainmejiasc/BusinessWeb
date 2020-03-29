@@ -27,23 +27,22 @@
 
 
 <div class="container-fluid">
-
-    <div class="container col-md-12" style="margin-top:5%;display:inline;">
-        <div class="row" id="searchDiv">
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form form-control" style="width:900px">
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="grado" class="form-control" style="width:900px"> </select>
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="grupo" class="form-control" style="width:900px"></select>
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
-                    <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:160px;" onclick="GetAsistencia();" />
+        <div class="container col-md-12" style="margin-top:5%;display:inline;">
+            <div class="row" id="searchDiv">
+                <div class="form-group">
+                    <div class="input-group" style="float:right;">
+                        <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form form-control" style="width:900px">
+                        <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+                        <select id="grado" class="form-control" style="width:900px"> </select>
+                        <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+                        <select id="grupo" class="form-control" style="width:900px"></select>
+                        <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
+                        <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:160px;" onclick="GetAsistencia();" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    
 
     <div class="container">
         <div class="row">
@@ -96,7 +95,7 @@
                 <textarea id="observacion" rows="3" cols="50" maxlength="490" class="form form-control" required autocomplete="on"> </textarea>
             </div>
             <div style="float:right">
-                <img id="alumno" class="imgCarnet" alt="No posee foto"><br /><br /><br /><br />
+                <img id="imgEstudiante" class="imgCarnet" alt="El alumno No posee foto"><br /><br /><br /><br />
                 <input type="button" value="Actualizar" class="btn btn-primary" style="width:10vw;" onclick="EditAtending();" />
             </div>
         </div>

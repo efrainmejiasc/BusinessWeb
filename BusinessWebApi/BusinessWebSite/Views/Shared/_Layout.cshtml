@@ -10,23 +10,25 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div style="color:white;background-color:green;">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="btn-success navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" style="width:3vw;height:2vh;color:white;font-size:9px;">
+                    MENU
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Digital Commerce - Soluciones Educativas", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                 @Html.ActionLink("Tu Identidad - Soluciones Empresariales", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-
-                    <li style="list-style:none;position:relative;"><a href="/Home/Index" id="autentificacion" class="listBanner"> Autentificacion </a></li>
+                    <li style="list-style:none;position:relative;"><a href="/Home/Index" id="inicio" class="listBanner"> Inicio </a></li>
+                    <li style="list-style:none;position:relative;"><a href="/Home/Autentication" id="autentificacion" class="listBanner"> Autentificacion </a></li>
                     <li style="list-style:none;position:relative;"><a href="/Home/Contact" id="registroUsuario" class="listBanner">Registrarse</a></li>
                     <li style="list-style:none;position:relative;"><a href="/Home/About" id="registroDispositivo" class="listBanner">Registrar Dispositivo </a></li>
+                    <li style="list-style:none;position:relative;"><a href="/Home/UpdatePassword" id="updatePassword" class="listBanner"> Olvido / Modificar Contraseña </a></li>
                     <li style="list-style:none;position:relative;"><a href="/Procesor/Contact" id="alumno" class="listBanner">Carnet</a></li>
                     <li style="list-style:none;position:relative;"><a href="/Procesor/ReportAssistance" id="actualizacionAsistencia" class="listBanner">Actualizar Asistencia</a></li>
                     <li style="list-style:none;position:relative;"><a href="/Procesor/QueryAssistance" id="consolidadoAsistencia" class="listBanner">Consultas y Consolidados</a></li>

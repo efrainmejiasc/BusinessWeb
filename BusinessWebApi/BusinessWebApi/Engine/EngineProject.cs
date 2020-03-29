@@ -162,7 +162,7 @@ namespace BusinessWebApi.Engine
             string fecha = DateTime.Now.Date.ToString("dd/MM/yyyy").Replace("/", "");
             nombreProfesor = nombreProfesor.Replace(" ", "_");
             string nombre = asis[0].Materia + "_" + nombreProfesor + "_" + asis[0].DniAdm + "_" + asis[0].Grado + "_" + asis[0].Grupo + "_" + fecha + ".xlsx";
-            return nombre;
+            return nombre.Replace(" ", ""); ;
         }
     }
 }

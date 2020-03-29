@@ -249,5 +249,24 @@ namespace BusinessWebSite.Engine
             return respuesta;
         }
 
+
+        public async Task<bool> UpdateUserApi (string jsonData)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.PutAsync(EngineData.UrlBase + "UserApi/UpdateUser", new StringContent(jsonData, Encoding.UTF8, "application/json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    if (respuesta == "transaccion exitosa")
+                        return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

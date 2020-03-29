@@ -29,23 +29,14 @@ function LoginUser() {
     return false;
 }
 
-function OcultarValidacion() {
-    document.getElementById('validacion').style.display = 'none';
-    $('#password').val('');
-    $('#password2').val('');
-}
-
-function NavePage(page) {
-    window.location.href = page;
-}
-
 function GetGrado() {
     $.ajax({
         type:"POST",
         url: "/Procesor/GetGrados",
         datatype: "json",
         success: function (data) {
-            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+
             $('#grado').empty();
             $('#grado').append('<option selected disabled value=""> Seleccione grado...</option>');
 
@@ -57,6 +48,7 @@ function GetGrado() {
             console.log('GetGrado');
         }
     });
+    return false;
 }
 
 function GetGrupo() {
@@ -65,7 +57,8 @@ function GetGrupo() {
         url: "/Procesor/GetGrupos",
         datatype: "json",
         success: function (data) {
-            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+
             $('#grupo').empty();
             $('#grupo').append('<option selected disabled value=""> Seleccione grupo...</option>');
 
@@ -77,17 +70,8 @@ function GetGrupo() {
             console.log('GetGrupo');
         }
     });
+    return false;
 }
-
-/*$('#grado').change(function () {
-   
-}); 
-
-$('#grupo').change(function () {
-
-}); */
-
-
 
 //**************************ASISTENCIA *************************************************************************
 
@@ -108,7 +92,7 @@ function GetAsistencia() {
         datatype: "json",
         data: {fecha: fecha, grado: grado, grupo: grupo},
         success: function (data) {
-          try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
+          try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
             CrearTabla(data);
         },
         complete: function () {
@@ -118,7 +102,6 @@ function GetAsistencia() {
     });
     return false;
 }
-
 
 function CrearTabla(emp) {
     $('#tableAsistencia tbody tr').remove();
@@ -193,7 +176,7 @@ function GetConsolidado() {
         datatype: "json",
         data: {grado: grado, grupo: grupo },
         success: function (data) {
-            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
             console.log(data);
             CrearTablaConsolidado(data);
         },
@@ -215,7 +198,7 @@ function CrearTablaConsolidado(emp) {
                       <td style="text-align: justify;"> ${item.Apellido} </td>
                       <td style="text-align: justify;"> ${item.Dni} </td>
                       <td style="text-align: center;"> <input type="button" value="Historia" class="btn btn-primary" style="width:80px;" onclick="MostrarHistoria('${item.Dni}','${item.Email}','${item.Foto}');"> </td>
-                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-success" style="width:80px;" onclick="PreventEnviarEmail('${item.Dni}','${item.Email}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-success" style="width:80px;" onclick="PreventEnviarEmail('${item.Dni}','${item.Email}','${item.Nombre}','${item.Apellido}');"> </td>
                       </tr>`;
         $('#tableConsolidado tbody').append(tr);
     });
@@ -257,30 +240,31 @@ function TablaPlusConsolidado() {
     $('#initDataTable').val('yes');
 }
 
+// **************************************************HISTORIAL DE ASISTENCIAS ******************************************************************
 
 function MostrarHistoria(dni, email, foto) {
+
+    var inMagen = 'data:image/jpg;base64,'.concat(foto);
+    $('#imgAlumno').attr('src', inMagen);
+
     $.ajax({
         type: "POST",
         url: "/Procesor/GetHistoriaAsistenciaPerson",
         datatype: "json",
         data: { dni: dni},
         success: function (data) {
-            try { data = JSON.parse(data); } catch{ NavePage('../Home/Index'); }
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
             CrearTablaHistoria(data);
         },
         complete: function () {
-            //TablaPlus();
-            console.log(MostrarHistoria);
+            console.log('MostrarHistoria');
         }
     });
-
-    document.getElementById('alumno').setAttribute('src', 'data:image/jpg;base64,' + foto);
     MostrarModal();
     return false;
 }
 
-
-function CrearTablaHistoria(emp) {
+function CrearTablaHistoria(emp,inMagen) {
     var strTotal = '&nbsp;&nbsp; Total Inasistencias: ';
     var total = 0;
     $('#tableHistoria tbody tr').remove();
@@ -294,18 +278,24 @@ function CrearTablaHistoria(emp) {
         $('#tableHistoria tbody').append(tr);
         $('#total').html(strTotal + total + ' &nbsp;&nbsp;');
     });
+    return false;
 }
 
-function PreventEnviarEmail(dni,email) {
+//*********************************ENVIAR_EMAIL*************************************************
+
+function PreventEnviarEmail(dni,email,nombre,apellido) {
     $('#cce').html(email);
     $('#di').val(dni);
+    $('#name').val(nombre);
+    $('#lastName').val(apellido);
     MostrarModalEmail();
 }
-
 
 function EnviarEmail() {
     var email = $('#cce').html();
     var dni = $('#di').val();
+    var nombre = $('#name').val();
+    var apellido = $('#lastName').val();
     var chx = $('#check:checked').val();
     if (chx === 'on')
         chx = true;
@@ -325,14 +315,14 @@ function EnviarEmail() {
         type: "POST",
         url: "/Procesor/EnviarEmail",
         datatype: "json",
-        data: { dni: dni, email: email, asunto: asunto, mensaje: mensaje, resumen: chx },
+        data: { dni: dni, nombre: nombre, apellido: apellido, email: email, asunto: asunto, mensaje: mensaje, resumen: chx },
         success: function (data) {
             if (data.Descripcion === "Email enviado") 
                 alert(data.Descripcion);
             else if (data.Descripcion === "Fallo el envio") 
                 alert(data.Descripcion);
             else 
-                NavePage('../Home/Index');
+                NavePage('../Home/Autentication');
             
         },
         complete: function () {
@@ -342,13 +332,17 @@ function EnviarEmail() {
     return false;
 }
 
+//**********************ACTUALIZACION DE ASISTENCIAS *************************************************
 
-function PreventEdit(idAsistencia, dni, materia, status, email, foto,dniAdm) {
+function PreventEdit(idAsistencia, dni, materia, status, email, foto, dniAdm) {
     $('#idAsistencia').val(idAsistencia);
     $('#dniAdm').val(dniAdm);
     $('#dni').val(dni);
     $('#materia').val(materia);
     $('#email').val(email);
+
+    var inMagen = 'data:image/jpg;base64,'.concat(foto);
+    $('#imgEstudiante').attr('src', inMagen);
 
     if (status === 'true') {  
         console.log(status);
@@ -359,7 +353,6 @@ function PreventEdit(idAsistencia, dni, materia, status, email, foto,dniAdm) {
         $('#asistencia option').eq(1).prop('selected', true);
     }
       
-    document.getElementById('alumno').setAttribute('src', 'data:image/jpg;base64,' + foto);
     MostrarModal();
     return false;
 }
@@ -404,13 +397,23 @@ function EditAtending() {
     return false;
 }
 
+//************HELPERS*******************************************
+
+function OcultarValidacion() {
+    document.getElementById('validacion').style.display = 'none';
+    $('#password').val('');
+    $('#password2').val('');
+}
+
+function NavePage(page) {
+    window.location.href = page;
+}
+
 function GetDate (object) {
     var today = new Date();
     var fecha = today.toISOString().substr(0, 10);
     $(object).val(fecha);
 }
-
-
 
 //*************OPEN_CLOSE_MODAL*******************************
 
@@ -441,4 +444,11 @@ function CerrarModalEmail() {
 }
 //***************************************************************************
 
+/*$('#grado').change(function () {
+
+});
+
+$('#grupo').change(function () {
+
+}); */
 

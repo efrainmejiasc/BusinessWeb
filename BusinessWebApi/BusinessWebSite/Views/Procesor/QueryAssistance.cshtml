@@ -99,7 +99,7 @@
             </div>
 
             <div style="float:right">
-                <img id="alumno" class="imgCarnet" alt="No posee foto"><br /><br /><br /><br />
+                <input type="image" id="imgAlumno"  class="imgCarnet" alt="El alumno no posee foto"><br /><br /><br /><br />
             </div>
         </div>
     </div>
@@ -111,12 +111,14 @@
             </div><br />
                   <div align="center">
                       <label><h4> Notificacion </h4></label><br />
-                      <input type="hidden" id="di"/>
+                      <input type="hidden" id="di" />
+                      <input type="hidden" id="name" />
+                      <input type="hidden" id="lastName" />
                       <label id="cce" style="color:deepskyblue"></label><br />
                       <input type="text" id="asunto" placeholder="Ingrese Asunto" class="form form-control" style="width:50vw;" /><br />
-                      <textarea id="mensaje" rows="4" cols="50" placeholder="Ingrese Mensaje" maxlength="490" class="form form-control" style="width:30vw;" ></textarea>
+                      <textarea id="mensaje" rows="4" cols="50" placeholder="Ingrese Mensaje" maxlength="490" class="form form-control" style="width:30vw;"></textarea>
                       <label class="checkbox-inline"><input type="checkbox" id="check" name="check" required class="btn btn-primary" />  Resumen de asistencia</label><br />
-                      <input type="button" value="Enviar" class="btn btn-success" style="width:50vw;" onclick="EnviarEmail();"/><br />
+                      <input type="button" value="Enviar" class="btn btn-success" style="width:50vw;" onclick="EnviarEmail();" /><br />
                   </div>
         </div>
     </div>
