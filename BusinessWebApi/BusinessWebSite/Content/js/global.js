@@ -245,6 +245,7 @@ function TablaPlusConsolidado() {
 function MostrarHistoria(dni, email, foto) {
 
     var inMagen = 'data:image/jpg;base64,'.concat(foto);
+    console.log(inMagen);
     $('#imgAlumno').attr('src', inMagen);
 
     $.ajax({
@@ -342,7 +343,9 @@ function PreventEdit(idAsistencia, dni, materia, status, email, foto, dniAdm) {
     $('#email').val(email);
 
     var inMagen = 'data:image/jpg;base64,'.concat(foto);
+    console.log(inMagen);
     $('#imgEstudiante').attr('src', inMagen);
+
 
     if (status === 'true') {  
         console.log(status);
