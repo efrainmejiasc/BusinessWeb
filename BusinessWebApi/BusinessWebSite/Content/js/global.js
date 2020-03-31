@@ -269,16 +269,26 @@ function CrearTablaHistoria(emp,inMagen) {
     var strTotal = '&nbsp;&nbsp; Total Inasistencias: ';
     var total = 0;
     $('#tableHistoria tbody tr').remove();
-    $.each(emp, function (index, item) {
-        total = total + item.NumeroInasistencia
-        let tr = `<tr> 
+    if (emp.length > 0) {
+        $.each(emp, function (index, item) {
+            total = total + item.NumeroInasistencia;
+            let tr = `<tr> 
                       <td style="text-align: center;"> ${index + 1} </td>
                       <td style="text-align: justify;"> ${item.Materia} </td>
                       <td style="text-align: center;"> ${item.NumeroInasistencia} </td>
                       </tr>`;
+            $('#tableHistoria tbody').append(tr);
+            $('#total').html(strTotal + total + ' &nbsp;&nbsp;');
+        });
+    } else {
+        let tr = `<tr> 
+                      <td colspan="3"> No posee inasistencia </td>
+                      </tr>`;
         $('#tableHistoria tbody').append(tr);
-        $('#total').html(strTotal + total + ' &nbsp;&nbsp;');
-    });
+        $('#total').html(strTotal + 0 + ' &nbsp;&nbsp;');
+    }
+   
+
     return false;
 }
 
