@@ -26,6 +26,7 @@
             <input type="submit" id="registrar" value="Registrar" class="voton btn btn-primary" />
             <input type="reset" id="cancelar" value="Cancelar" onClick="NavePage('/Home/Index');" class="voton btn btn-primary" />
         </div>
+
         }
     </div>
 
@@ -37,7 +38,7 @@
         if (respuesta != '') {
             alert(respuesta);
             if (respuesta == 'Registro satisfactorio')
-                NavePage('/Home/Index')
+                NavePage('/Home/Autentication')
         }     
     });
 

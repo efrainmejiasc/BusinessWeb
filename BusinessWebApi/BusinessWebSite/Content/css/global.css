@@ -94,7 +94,27 @@ input:valid {
     padding: 20px;
     border: 1px solid #888;
     width: 30%;
-    height:60%;
+    height:65%;
+}
+
+/* Modal Content */
+.modal-content3 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 32%;
+    height: 65%;
+}
+
+/* Modal Content */
+.modal-content4 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+    height: 48%;
 }
 
 /* The Close Button */
@@ -112,17 +132,25 @@ input:valid {
         cursor: pointer;
     }
 
-
-th {
-    text-align: center;
+header {
+    background: #8E2DE2;
+    background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);
+    background: linear-gradient(to right, #4A00E0, #8E2DE2);
 }
 
-td {
-    padding: 6px;
+/*estilos para la tabla*/
+table th {
+    background-color: #337ab7 !important;
+    color: white;
 }
 
-table {
-    border-collapse: collapse;
+table > tbody > tr > td {
+    vertical-align: middle !important;
+}
+
+/*para alinear los botones y cuadro de busqueda*/
+.btn-group, .btn-group-vertical {
+    position: absolute !important;
 }
 
 .txtAst{
@@ -132,5 +160,13 @@ table {
 
 textarea {
     resize: none;
+}
+
+.btn-group , .btn-group-vertical{
+    position:absolute !important;
+}
+
+.tableH {
+    background: #f7e406 !important;
 }
 

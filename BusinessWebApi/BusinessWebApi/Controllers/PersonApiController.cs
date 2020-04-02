@@ -82,7 +82,7 @@ namespace BusinessWebApi.Controllers
 
         [HttpGet]
         [ActionName("GetPersonList")]
-        public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
+        public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno = 1)
         {
             List<Person> person = Metodo.GetPersonList(idCompany, grado, grupo, idTurno);
             foreach(var i in person)
@@ -92,6 +92,20 @@ namespace BusinessWebApi.Controllers
             }
             return person;
         }
+
+        [HttpGet]
+        [ActionName("GetPersonFull")]
+        public List<Person> GetPersonFull(int idCompany, string grado, string grupo, int idTurno = 1)
+        {
+            List<Person> person = Metodo.GetPersonList(idCompany, grado, grupo, idTurno);
+            foreach (var i in person)
+            {
+                i.Qr = string.Empty;
+            }
+            return person;
+        }
+
+
 
         [HttpGet]
         [ActionName("GetGrados")]

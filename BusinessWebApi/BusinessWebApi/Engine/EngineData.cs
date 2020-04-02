@@ -24,6 +24,7 @@ namespace BusinessWebApi.Engine
         public static string Audience = ConfigurationManager.AppSettings["JWT_AUDIENCE_TOKEN"];
         public static string Issuer = ConfigurationManager.AppSettings["JWT_ISSUER_TOKEN"];
         public static int ExpireToken = Convert.ToInt32(ConfigurationManager.AppSettings["JWT_EXPIRE_MINUTES"]);
+        public static string CNX = ConfigurationManager.ConnectionStrings["CNX_DB"].ToString();
 
         public static string UrlLogin = "api/UserApi/Login";
         public static string UrlPersons = "api/PersonApi/QueryPersonas";

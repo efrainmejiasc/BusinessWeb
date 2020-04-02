@@ -11,11 +11,14 @@ namespace BusinessWebSite.Engine.Interfaces
     {
         Task<string> GetGrupos(string accessToken, IEngineHttp FuncionHttp);
         Task<string> GetGrados(string accessToken, IEngineHttp FuncionHttp);
+        Task<bool> UpdateUserApi(string jsonUserApi, IEngineHttp FuncionHttp);
         Task<bool> CreateUserApi(string jsonUserApi, IEngineHttp FuncionHttp);
         Task<string> GetPerson(string dni, string accessToken, IEngineHttp FuncionHttp);
         Task <TicketAcceso> GetTicketAccesoAsync(string jsonUserApi, IEngineHttp FuncionHttp);
         Task<bool> RegisterDevice(string jsonData, string accessToken, IEngineHttp FuncionHttp);
+        Task<string> GetHistoriaAsistenciaPerson(string dni, string accessToken, IEngineHttp FuncionHttp);
         Task<bool> UpdateObservacionAsistencia(string jsonData, string accessToken, IEngineHttp FuncionHttp);
+        Task<string> GetPerson(string grado, string grupo, int idCompany, string accessToken, IEngineHttp FuncionHttp , int turno = 1);
         Task<string> GetAsistencia(string accessToken, string fecha, string grado, string grupo,int idCompany, IEngineHttp FuncionHttp);
     }
 }

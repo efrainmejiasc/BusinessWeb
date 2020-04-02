@@ -3,6 +3,8 @@ using BusinessWebApi.Models;
 using BusinessWebApi.Models.Objetos;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -85,6 +87,96 @@ namespace BusinessWebApi.Engine
             return null;
         }
 
+        public bool UpdateUserApi(int idCompany, string nameCompany, string user, string email)
+        {
+            bool resultado = false;
+            UserApi C = new UserApi();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == user && s.Email == email).FirstOrDefault();
+                    Context.UserApi.Attach(C);
+                    C.IdCompany = idCompany;
+                    C.Company = nameCompany;
+                    C.IdTypeUser = 2;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+
+                    resultado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
+            }
+            return resultado;
+        }
+
+        public UserApi GetUserApi(string strValue)
+        {
+            UserApi C = null;
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == strValue || s.Email == strValue).FirstOrDefault();
+                    return C;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetUserApi*" + strValue));
+            }
+            return C;
+        }
+
+        public bool ExistsUserApi(string strValue)
+        {
+            bool resultado = false;
+            UserApi C = new UserApi();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == strValue || s.Email == strValue).FirstOrDefault();
+                    if (C != null)
+                        resultado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/ExistsUserApi*" + strValue));
+            }
+            return resultado;
+        }
+
+        public bool UpdateUserApi(string userName, string email, string password)
+        {
+            bool resultado = false;
+            string pass1 = Tool.ConvertirBase64(email + password);
+            string pass2 = Tool.ConvertirBase64(userName + password);
+            UserApi C = new UserApi();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == userName || s.Email == email).FirstOrDefault();
+                    Context.UserApi.Attach(C);
+                    C.Password = pass1;
+                    C.Password = pass2;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+                }
+                resultado = true;
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
+            }
+            return resultado;
+        }
+
         public UserApi GetUserSuspended(string password, string password2)
         {
             UserApi user = null;
@@ -120,6 +212,24 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetCompanyId*" + nameCompany));
             }
             return 0;
+        }
+
+        public string GetCompanyName(int idCompany)
+        {
+            Company company = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Id == idCompany).FirstOrDefault();
+                    return company.NameCompany;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetCompanyNamme*" + idCompany.ToString()));
+            }
+            return string.Empty;
         }
 
         public Company GetCompanyCodigo(string codigo)
@@ -373,7 +483,6 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-
         public bool NewObservacionClase(ObservacionClase observacion)
         {
             bool resultado = false;
@@ -465,6 +574,42 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/ExistsCodeCompany*" + codigo));
             }
             return resultado;
+        }
+
+        public string EmailCompany(int idCompany)
+        {
+            Company company = new Company();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Id == idCompany).FirstOrDefault();
+                    return company.Email;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/EmailCompany*" + idCompany.ToString()));
+            }
+            return string.Empty;
+        }
+
+        public string NameDevice(string dni)
+        {
+            DevicesCompany device = new DevicesCompany();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    device = context.DeviceCompany.Where(s => s.Dni == dni).FirstOrDefault();
+                    return device.Nombre;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NameDevice*" + dni));
+            }
+            return string.Empty;
         }
 
         public int NumberDevice (string codigo)
@@ -566,33 +711,6 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-        public bool UpdateUserApi (int idCompany , string nameCompany ,string user,string email)
-        {
-            bool resultado = false;
-            UserApi C = new UserApi();
-            try
-            {
-                using (EngineContext Context = new EngineContext())
-                {
-                    C = Context.UserApi.Where(s => s.User == user && s.Email == email).FirstOrDefault();
-                    Context.UserApi.Attach(C);
-                    C.IdCompany = idCompany;
-                    C.Company = nameCompany;
-                    C.IdTypeUser = 2;
-                    Context.Configuration.ValidateOnSaveEnabled = false;
-                    Context.SaveChanges();
-
-                    resultado = true;
-                }
-            }
-            catch (Exception ex) 
-            {
-                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
-            }
-            return resultado;
-        }
-
-
         public List<Person> GetPerson(List<AsistenciaClase> asis)
         {
             List<Person> personas = new List<Person>();
@@ -605,7 +723,6 @@ namespace BusinessWebApi.Engine
             }
             return personas;
         }
-
 
         public Person GetPerson(string dni)
         {
@@ -672,7 +789,6 @@ namespace BusinessWebApi.Engine
             return companys;
         }
 
-
         public bool UpdateCompany(Company company)
         {
             bool resultado = false;
@@ -701,7 +817,6 @@ namespace BusinessWebApi.Engine
             }
             return resultado;
         }
-
 
         public List<Grado> GetGrados()
         {
@@ -763,6 +878,33 @@ namespace BusinessWebApi.Engine
             return grupos;
         }
 
+        public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni)
+        {
+            SqlConnection conexion = new SqlConnection(EngineData.CNX);
+            List<HistoriaAsistenciaPerson> registros = new List<HistoriaAsistenciaPerson>();
+            using (conexion)
+            {
+                conexion.Open();
+                SqlCommand command = new SqlCommand("Sp_GetHistoriaAsistenciaPerson", conexion);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@Dni", dni);
+                SqlDataReader lector = command.ExecuteReader();
+                while (lector.Read())
+                {
+                    HistoriaAsistenciaPerson registro = new HistoriaAsistenciaPerson()
+                    {
+                        Materia = lector.GetString(0),
+                        NumeroInasistencia = lector.GetInt32(1), 
+                    };
+                    registros.Add(registro);
+                }
+                lector.Close();
+                conexion.Close();
+            }
+
+            return registros;
+        }
 
         public bool InsertarSucesoLog(SucesoLog model)
         {

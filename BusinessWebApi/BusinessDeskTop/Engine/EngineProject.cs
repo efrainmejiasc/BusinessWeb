@@ -621,7 +621,7 @@ namespace BusinessDeskTop.Engine
         {
       
             Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\NUEVO2.xlsx");
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\NUEVO.xlsx");
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
             xlApp.DisplayAlerts = false;
@@ -652,7 +652,7 @@ namespace BusinessDeskTop.Engine
                                 {
                                     var g = (xlRange.Cells[fila, columna].Value2.ToString()).Replace("/", "#").Trim();
                                     string[] part = g.Split('#');
-                                    file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\FOTOS2\" + part[1].Trim();
+                                    file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\fotopeq" + part[1].Trim();
                                     validate = Tool.ExistsFile(file);
                                     if (validate)
                                     {
@@ -660,7 +660,7 @@ namespace BusinessDeskTop.Engine
                                     }
                                     else
                                     {
-                                        file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\FOTOS2\" + part[1].Trim();
+                                        file = @"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\fotopeq" + part[1].Trim();
                                         foto = file;
                                     }
                                 }
@@ -716,7 +716,7 @@ namespace BusinessDeskTop.Engine
             while (Marshal.ReleaseComObject(xlWorkbook) != 0) ;
             xlApp.Quit();
             while (Marshal.ReleaseComObject(xlApp) != 0) ;
-            ReadWriteTxt(@"C:\Users\ASUS\Downloads\CARNETIZACION\Ado\NUEVO2.xlsx");
+            ReadWriteTxt(@"C:\Users\ASUS\Downloads\CARNETIZACION\Rosa\List\NUEVO.xlsx");
             return validate;
         }
 

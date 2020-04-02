@@ -30,13 +30,12 @@ namespace BusinessWebSite.Engine
                 {
                     respuesta = await response.Content.ReadAsStringAsync();
                     ticketAcceso = JsonConvert.DeserializeObject<TicketAcceso>(respuesta);
-                    System.Web.HttpContext.Current.Session["AccessToken"] = ticketAcceso.access_token;
                 }
                 else
                 {
                     if (response.StatusCode.ToString() == "404")
                     {
-                        if (HttpContext.Current.Session["Password"] != null   && HttpContext.Current.Session["User"] != null && HttpContext.Current.Session["Email"] != null) 
+                       /* if (HttpContext.Current.Session["Password"] != null   && HttpContext.Current.Session["User"] != null && HttpContext.Current.Session["Email"] != null) 
                         {
                             var Tool = new EngineTool();
                             var Funcion = new EngineProject();
@@ -49,7 +48,7 @@ namespace BusinessWebSite.Engine
                             var urlHelper = new UrlHelper(context);
                             var url = urlHelper.Action("Index", new { OtherParm = "Home" });
                             HttpContext.Current.Response.Redirect(url);
-                        }
+                        }*/
                     }
                   
                 }
@@ -133,6 +132,28 @@ namespace BusinessWebSite.Engine
             return respuesta;
         }
 
+        public async Task<string> GetPerson(string grado , string grupo , int idCompany, string strToken, int turno = 1 )
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "PersonApi/GetPersonFull?idCompany=" + idCompany + "&grado=" + grado + "&grupo=" + grupo + "&turno=" + turno);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    respuesta = "NO AUTORIZADO";
+                }
+
+            }
+            return respuesta;
+        }
+
         public async Task<string> GetGrados(string strToken)
         {
             string respuesta = string.Empty;
@@ -196,6 +217,47 @@ namespace BusinessWebSite.Engine
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
                 HttpResponseMessage response = await client.PostAsync(EngineData.UrlBase + "AsistenciaClaseApi/ObservacionClase", new StringContent(jsonData, Encoding.UTF8, "application/json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    if (respuesta == "transaccion exitosa")
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task<string> GetHistoriaAsistenciaPerson(string dni, string strToken)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetHistoriaAsistenciaPerson?dni=" + dni);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    respuesta = "NO AUTORIZADO";
+                }
+
+            }
+            return respuesta;
+        }
+
+
+        public async Task<bool> UpdateUserApi (string jsonData)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.PutAsync(EngineData.UrlBase + "UserApi/UpdateUser", new StringContent(jsonData, Encoding.UTF8, "application/json"));
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();

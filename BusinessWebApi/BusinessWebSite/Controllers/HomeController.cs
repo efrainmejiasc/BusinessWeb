@@ -30,6 +30,11 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
+        public ActionResult Autentication()
+        {
+            return View();
+        }
+
         [HttpPost] //LOGIN DE USUARIO
         public async Task<ActionResult> LoginUser(string user, string password)
         {
@@ -79,7 +84,7 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
-        public async Task<ActionResult> About(string phone,string dni,string codigo) //REGISTRO DE DISPOSITIVO
+        public async Task<ActionResult> About(string phone,string dni,string codigo,string nombre) //REGISTRO DE DISPOSITIVO
         {
              if (System.Web.HttpContext.Current.Session["User"] == null)
                  Response.Redirect("Index");
@@ -92,7 +97,7 @@ namespace BusinessWebSite.Controllers
             string user = System.Web.HttpContext.Current.Session["User"].ToString();
             string email = System.Web.HttpContext.Current.Session["Email"].ToString();
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni);
+            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni,nombre);
             bool resultado = await Proceso.RegisterDevice(jsonData, token, FuncionHttp);
             if (resultado)
                 ViewBag.Response = "Registro satisfactorio";
@@ -101,5 +106,18 @@ namespace BusinessWebSite.Controllers
             return View();
         }
 
+        public async Task<ActionResult> UpdatePassword(string user,string password)
+        {
+            if (string.IsNullOrEmpty(user) && string.IsNullOrEmpty(password))
+               return View();
+
+            string jsonUserApi = Funcion.BuildUserApiStr(user, password);
+            bool resultado = await Proceso.UpdateUserApi(jsonUserApi, FuncionHttp);
+            if (resultado)
+                ViewBag.Response = "Contraseña actualizada";
+            else
+                ViewBag.Response = "Fallo actualizar contraseña";
+            return View();
+        }
     }
 }
