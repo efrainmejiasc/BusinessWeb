@@ -65,8 +65,8 @@ namespace BusinessDeskTop.Engine
                     if (worksheet.Cells[fila, 1].Value != null && worksheet.Cells[fila, 1].Value != string.Empty)
                     {
                         foto = worksheet.Cells[fila, 1].Value;
-                        //if (!Tool.ExistsFile(foto))
-                            //foto = "NO_EXISTE_FOTO";
+                        if (!Tool.ExistsFile(foto))
+                            foto = "NO_EXISTE_FOTO";
                     }
                     else
                     {
