@@ -123,5 +123,13 @@ namespace BusinessWebApi.Controllers
             List<Grupo> grado = Metodo.GetGrupos();
             return grado;
         }
+
+        [HttpGet]
+        [ActionName("GetTurnos")]
+        public List<Models.Objetos.Turno> GetTurnos()
+        {
+            List <Models.Objetos.Turno> turno = Metodo.GetTurnos();
+            return turno;
+        }
     }
 }

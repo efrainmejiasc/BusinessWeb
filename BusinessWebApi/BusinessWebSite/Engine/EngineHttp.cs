@@ -190,7 +190,7 @@ namespace BusinessWebSite.Engine
             return respuesta;
         }
 
-        public async Task<string> GetAsistencia (string strToken,string fecha,string grado,string grupo,int idCompany)
+        public async Task<string> GetAsistencia (string strToken,string fecha,string grado,string grupo,int turno,int idCompany)
         {
             string respuesta = string.Empty;
             List<Grado> grados = new List<Grado>();
@@ -199,7 +199,7 @@ namespace BusinessWebSite.Engine
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
-                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetAsistenciaClase?fecha=" + fecha + "&grado=" + grado + "&grupo=" + grupo + "&idCompany=" + idCompany.ToString());
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetAsistenciaClase?fecha=" + fecha + "&grado=" + grado + "&grupo=" + grupo + "&turno=" + turno.ToString() + "&idCompany=" + idCompany.ToString());
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();

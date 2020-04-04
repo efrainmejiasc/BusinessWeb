@@ -142,6 +142,7 @@ namespace BusinessWebApi.Engine
             application.DisplayAlerts = false;
             string nombreArchivo = NombreArchivo(asis,nombreProfesor);
             string path = HttpContext.Current.Server.MapPath("~/App_Data/" + nombreArchivo);
+            CrearDirectorioSiNoExiste("~/App_Data/");
             workbook.SaveAs(path);
             workbook.Close();
             application.Quit();
@@ -163,6 +164,18 @@ namespace BusinessWebApi.Engine
             nombreProfesor = nombreProfesor.Replace(" ", "_");
             string nombre = asis[0].Materia + "_" + nombreProfesor + "_" + asis[0].DniAdm + "_" + asis[0].Grado + "_" + asis[0].Grupo + "_" + fecha + ".xlsx";
             return nombre.Replace(" ", ""); ;
+        }
+
+        public bool CrearDirectorioSiNoExiste(string folder)
+        {
+            bool resultado = false;
+            HttpContext.Current.Server.MapPath(folder);
+            if (!System.IO.Directory.Exists(folder))
+            {
+                System.IO.Directory.CreateDirectory(folder);
+                resultado = true;
+            }
+            return resultado;
         }
     }
 }

@@ -27,6 +27,7 @@ namespace BusinessWebApi.Engine.Interfaces
         string GetCompanyName(int idCompany);
         int GetCompanyId(string nameCompany);
         bool ExistsCodeCompany(string codigo);
+        List<Models.Objetos.Turno> GetTurnos();
         Person GetPerson2(string identificador);
         int NumberDeviceRegister(int idCompany);
         Company GetCompanyCodigo(string codigo);
@@ -48,6 +49,6 @@ namespace BusinessWebApi.Engine.Interfaces
         List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni);
         bool UpdateUserApi(int idCompany, string nameCompany, string user, string email);
         List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno);
-        List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo, int idCompany);
+        List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int turno, int idCompany);
     }
 }

@@ -133,6 +133,7 @@ namespace BusinessWebSite.Engine
             application.DisplayAlerts = false;
             string nombreArchivo = NombreArchivo(dni, nombre + apellido);
             string path = HttpContext.Current.Server.MapPath("~/App_Data/" + nombreArchivo);
+            CrearDirectorioSiNoExiste("~/App_Data/");
             workbook.SaveAs(path);
             workbook.Close();
             application.Quit();
@@ -144,6 +145,18 @@ namespace BusinessWebSite.Engine
             string fecha = DateTime.Now.Date.ToString("dd/MM/yyyy").Replace("/", "");
             string nombre = name + "_" + dni + "_"  + fecha + ".xlsx";
             return nombre.Replace(" ", ""); 
+        }
+
+        public bool CrearDirectorioSiNoExiste(string folder)
+        {
+            bool resultado = false;
+            HttpContext.Current.Server.MapPath(folder);
+            if (!System.IO.Directory.Exists(folder))
+            {
+                System.IO.Directory.CreateDirectory(folder);
+                resultado = true;
+            }
+            return resultado;
         }
     }
 }

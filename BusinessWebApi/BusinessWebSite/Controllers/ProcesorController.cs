@@ -84,7 +84,7 @@ namespace BusinessWebSite.Controllers
         }
 
         [HttpPost] // Devuelve informacion lista de personas
-        public async Task<ActionResult> BuscarPersonaGrado(string grado, string grupo )
+        public async Task<ActionResult> BuscarPersonaGrado(string grado, string grupo, int turno)
         {
             if (System.Web.HttpContext.Current.Session["User"] == null)
                 return Json(null);
@@ -99,7 +99,7 @@ namespace BusinessWebSite.Controllers
             else
                 return Json(null);
 
-            string jsonPerson = await Proceso.GetPerson(grado, grupo, idCompany,token, FuncionHttp);
+            string jsonPerson = await Proceso.GetPerson(grado, grupo, idCompany,token, FuncionHttp, turno);
             return Json(jsonPerson);
         }
 
@@ -146,8 +146,23 @@ namespace BusinessWebSite.Controllers
             return Json(jsonGrado);
         }
 
+        [HttpPost] // Devuelve lista de turnos
+        public async Task<ActionResult> GetTurnos()
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return Json(null);
+
+            string token = string.Empty;
+            if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
+                token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+
+            string jsonGrado = await Proceso.GetTurnos(token, FuncionHttp);
+
+            return Json(jsonGrado);
+        }
+
         [HttpPost] // Devuelve lista de asistencia por grado y grupo
-        public async Task<ActionResult> GetAsistencia (string fecha , string grado ,string grupo)
+        public async Task<ActionResult> GetAsistencia (string fecha , string grado ,string grupo, int turno)
         {
             if (System.Web.HttpContext.Current.Session["User"] == null)
                 return Json(null);
@@ -160,7 +175,7 @@ namespace BusinessWebSite.Controllers
 
 
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonAsistencia= await Proceso.GetAsistencia (token,fecha, grado, grupo,idCompany,FuncionHttp);
+            string jsonAsistencia= await Proceso.GetAsistencia (token,fecha, grado, grupo,idCompany,turno,FuncionHttp);
 
             return Json(jsonAsistencia);
         }

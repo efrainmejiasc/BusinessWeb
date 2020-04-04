@@ -402,7 +402,7 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-        public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo, int idCompany)
+        public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int turno, int idCompany)
         {
             List<Asistencia> lista = new List<Asistencia>();
             DateTime date = Convert.ToDateTime(fecha);
@@ -411,7 +411,7 @@ namespace BusinessWebApi.Engine
                 lista = (from P in context.Person
                          join A in context.AsistenciaClase
                          on P.Dni equals A.Dni
-                         where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.IdCompany == idCompany && A.IdCompany == idCompany
+                         where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.Turno == turno && P.IdCompany == idCompany && A.IdCompany == idCompany
                          select new Asistencia()
                          {
                              Id = A.Id,
@@ -876,6 +876,43 @@ namespace BusinessWebApi.Engine
                 }
             }
             return grupos;
+        }
+
+        public List<Models.Objetos.Turno> GetTurnos()
+        {
+            List<Models.Objetos.Turno> turnos = new List<Models.Objetos.Turno>();
+            List<Person> p = new List<Person>();
+            List<string> l = new List<string>();
+            using (EngineContext context = new EngineContext())
+            {
+                p = context.Person.ToList();
+            }
+            if(p.Count > 0)
+            {
+                Models.Objetos.Turno turno;
+                int n = 0;
+                foreach (Person i in p)
+                {
+                    turno = new Models.Objetos.Turno();
+                    turno.Id = n;
+                    if (i.Turno == 1)
+                        turno.NombreTurno = "MAÑANA";
+                    else if (i.Turno == 2)
+                        turno.NombreTurno = "TARDE";
+                    else if (i.Turno == 3)
+                        turno.NombreTurno = "NOCHE";
+
+                    if (!l.Contains(i.Grupo.Trim()))
+                    {
+                        l.Add(turno.NombreTurno);
+                        turnos.Insert(n, turno);
+                        n++;
+                    }
+                }
+
+            }
+
+            return turnos;
         }
 
         public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni)

@@ -67,11 +67,43 @@ function GetGrupo() {
             });
         },
         complete: function () {
+            GetTurno();
             console.log('GetGrupo');
         }
     });
     return false;
 }
+
+
+function GetTurno() {
+    $('#turno').empty();
+    $('#turno').append('<option selected disabled value=""> Seleccione turno...</option>');
+    $('#turno').append('<option  value="1">MAÑANA</option>');
+    $('#turno').append('<option  value="2">TARDE</option>');
+    $('#turno').append('<option  value="3">NOCHE</option>');
+}
+
+/*function GetTurno() {
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/GetTurnos",
+        datatype: "json",
+        success: function (data) {
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+
+            $('#grupo').empty();
+            $('#grupo').append('<option selected disabled value=""> Seleccione turno...</option>');
+
+            $.each(data, function (index, item) {
+                $('#grupo').append("<option value=\"" + item.Id + "\">" + item.NombreTurno + "</option>");
+            });
+        },
+        complete: function () {
+            console.log('GetTurno');
+        }
+    });
+    return false;
+}*/
 
 //**************************ASISTENCIA *************************************************************************
 
@@ -79,9 +111,18 @@ function GetAsistencia() {
     var fecha = $('#fecha').val();
     var grado = $("#grado option:selected").text();
     var grupo = $("#grupo option:selected").text();
+    var nameTurno = $("#turno option:selected").text();
+    var turno = 0;
 
-    console.log(fecha + grado + grupo);
-    if (fecha ==='' || grado === '' || grupo === '') {
+    if (nameTurno === 'MAÑANA')
+        turno = 1;
+    else if (nameTurno === 'TARDE')
+        turno = 2;
+    else if (nameTurno === 'NOCHE')
+        turno = 3;
+
+    console.log(fecha + grado + grupo + turno);
+    if (fecha === '' || grado === '' || grupo === '' || turno === 0) {
         alert('Seleccione fecha, grado y grupo');
         return false;
     }
@@ -90,7 +131,7 @@ function GetAsistencia() {
         type: "POST",
         url: "/Procesor/GetAsistencia",
         datatype: "json",
-        data: {fecha: fecha, grado: grado, grupo: grupo},
+        data: { fecha: fecha, grado: grado, grupo: grupo, turno: turno },
         success: function (data) {
           try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
             CrearTabla(data);
@@ -163,18 +204,27 @@ function GetConsolidado() {
 
     var grado = $("#grado option:selected").text();
     var grupo = $("#grupo option:selected").text();
+    var nameTurno = $("#turno option:selected").text();
+    var turno = 0;
 
-    if (grado === '' || grupo === '') {
+    if (nameTurno === 'MAÑANA')
+        turno = 1;
+    else if (nameTurno === 'TARDE')
+        turno = 2;
+    else if (nameTurno === 'NOCHE')
+        turno = 3;
+
+    if (grado === '' || grupo === '' || turno === 0) {
         alert('Seleccione fecha, grado y grupo');
         return false;
     }
-    console.log(grado + ' ' + grupo);
+    console.log(grado + ' ' + grupo + '' + turno);
 
     $.ajax({
         type: "POST",
         url: "/Procesor/BuscarPersonaGrado",
         datatype: "json",
-        data: {grado: grado, grupo: grupo },
+        data: {grado: grado, grupo: grupo, turno: turno },
         success: function (data) {
             try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
             console.log(data);
@@ -427,6 +477,14 @@ function GetDate (object) {
     var fecha = today.toISOString().substr(0, 10);
     $(object).val(fecha);
 }
+function OcultarIcons() {
+    $('#soporte').hide();
+    $('#soporteImg').hide();
+    $('#producto').hide();
+    $('#productoImg').hide();
+    $('#contacto').hide();
+    $('#contactoImg').hide();
+}
 
 //*************OPEN_CLOSE_MODAL*******************************
 
@@ -455,7 +513,21 @@ function CerrarModalEmail() {
     var modal = document.getElementById('myModalEmail');
     modal.style.display = "none";
 }
-//***************************************************************************
+//**************MENU *************************************************************
+
+function MostrarMenu() {
+    document.getElementById("sidebar").style.width = "350px";
+    //document.getElementById("contenido").style.marginLeft = "350px";
+    document.getElementById("abrir").style.display = "none";
+    document.getElementById("cerrar").style.display = "inline";
+}
+
+function OcultarMenu() {
+    document.getElementById("sidebar").style.width = "0";
+   // document.getElementById("contenido").style.marginLeft = "0";
+    document.getElementById("abrir").style.display = "inline";
+    document.getElementById("cerrar").style.display = "none";
+}
 
 /*$('#grado').change(function () {
 

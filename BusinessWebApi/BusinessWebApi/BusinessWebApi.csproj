@@ -187,6 +187,7 @@
     <Compile Include="Models\Objetos\Grupo.cs" />
     <Compile Include="Models\Objetos\HistoriaAsistenciaPerson.cs" />
     <Compile Include="Models\Objetos\RegisterDevice.cs" />
+    <Compile Include="Models\Objetos\Turno.cs" />
     <Compile Include="Models\ObservacionClase.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\SucesoLog.cs" />

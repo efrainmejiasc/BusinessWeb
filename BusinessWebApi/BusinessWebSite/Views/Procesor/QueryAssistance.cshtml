@@ -35,6 +35,9 @@
                     <select id="grado" class="form-control" style="width:900px"> </select>
                     <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
                     <select id="grupo" class="form-control" style="width:900px"></select>
+                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+                    <select id="turno" class="form-control" style="width:900px"></select>
+
                     <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
                     <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:160px;" onclick="GetConsolidado();" />
                 </div>
@@ -66,13 +69,13 @@
         </div>
     </div>
     <input type="hidden" id="initDataTable" />
-
+    <br /><br />
 
 
     <div id="myModal" class="modal">
         <div class="modal-content3">
             <div style="float:right;">
-                <span id="cerrar" class="close" onclick="CerrarModalUpdate();">&times;</span><br /><br />
+                <span id="cerrado" class="close" onclick="CerrarModalUpdate();">&times;</span><br /><br />
             </div>
             <div style="text-align:center;"> <h4> Historial Asistencia</h4></div><br />
             <div style="float:left;">
@@ -127,6 +130,8 @@
 
         <script>
             $(document).ready(function () {
+                OcultarMenu();
+                OcultarIcons();
                 document.documentElement.style.overflowX = 'hidden';
                 GetGrado();
                 GetGrupo();

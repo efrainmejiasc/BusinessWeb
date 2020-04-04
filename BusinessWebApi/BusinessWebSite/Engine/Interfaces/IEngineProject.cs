@@ -9,6 +9,7 @@ namespace BusinessWebSite.Engine.Interfaces
 {
     public interface IEngineProject
     {
+        bool CrearDirectorioSiNoExiste(string folder);
         string BuildUserApiStr(string user, string password);
         string BuildUserApiStr(string user, string password, IEngineTool Tool);
         string BuildCreateUserApiStr(string user, string email, string password);

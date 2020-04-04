@@ -90,7 +90,7 @@ namespace BusinessWebSite.Controllers
                  Response.Redirect("Index");
 
             ViewBag.Response = null;
-            if (Request.HttpMethod == "GET" || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(dni) || string.IsNullOrEmpty(codigo) || 
+            if (Request.HttpMethod == "POST" && string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(dni) || string.IsNullOrEmpty(codigo) || 
                                                                            System.Web.HttpContext.Current.Session["User"] == null || System.Web.HttpContext.Current.Session["Email"] == null)
                 return View();
 

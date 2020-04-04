@@ -46,9 +46,14 @@ namespace BusinessWebSite.Engine
             return await FuncionHttp.GetGrupos(accessToken);
         }
 
-        public async Task<string> GetAsistencia (string accessToken, string fecha, string grado,string grupo, int idCompany,IEngineHttp FuncionHttp)
+        public async Task<string> GetTurnos(string accessToken, IEngineHttp FuncionHttp)
         {
-            return await FuncionHttp.GetAsistencia(accessToken,fecha,grado,grupo,idCompany);
+            return await FuncionHttp.GetGrupos(accessToken);
+        }
+
+        public async Task<string> GetAsistencia (string accessToken, string fecha, string grado,string grupo, int turno, int idCompany, IEngineHttp FuncionHttp)
+        {
+            return await FuncionHttp.GetAsistencia(accessToken,fecha,grado,grupo,turno,idCompany);
         }
 
         public async Task<bool> UpdateObservacionAsistencia(string jsonData, string accessToken, IEngineHttp FuncionHttp)

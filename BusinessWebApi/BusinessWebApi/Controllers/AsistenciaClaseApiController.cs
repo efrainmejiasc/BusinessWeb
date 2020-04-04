@@ -74,9 +74,9 @@ namespace BusinessWebApi.Controllers
 
         [HttpGet]
         [ActionName("GetAsistenciaClase")]
-        public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int idCompany)
+        public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int turno,int idCompany)
         {
-            List<Asistencia> lista = Metodo.GetAsistenciaClase(fecha, grado, grupo, idCompany);
+            List<Asistencia> lista = Metodo.GetAsistenciaClase(fecha, grado, grupo, turno, idCompany);
             return lista;
         }
 
