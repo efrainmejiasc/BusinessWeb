@@ -42,8 +42,8 @@ namespace BusinessDeskTop.Formularios
         {
 
             //ObtenerImagenes();
-            UpdatePersonFoto();
-            if (DateTime.Now.Date >= Convert.ToDateTime("25/03/2020"))
+            //UpdatePersonFoto();
+            if (DateTime.Now.Date >= Convert.ToDateTime("25/04/2020"))
             {
                 MessageBox.Show("El Tiempo de prueba expiro", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Application.Exit();
