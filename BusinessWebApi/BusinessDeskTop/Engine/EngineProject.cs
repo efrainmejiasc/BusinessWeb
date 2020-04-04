@@ -60,82 +60,100 @@ namespace BusinessDeskTop.Engine
 
             for (int fila = 2; fila <= rowCount; fila++)
             {
-                if (worksheet.Cells[fila, 1].Value != null && worksheet.Cells[fila, 1].Value != string.Empty)
+                try
                 {
-                    foto = worksheet.Cells[fila, 1].Value;
-                    if (!Tool.ExistsFile(foto))
-                        foto = "NO_EXISTE_FOTO";
+                    if (worksheet.Cells[fila, 1].Value != null && worksheet.Cells[fila, 1].Value != string.Empty)
+                    {
+                        foto = worksheet.Cells[fila, 1].Value;
+                        //if (!Tool.ExistsFile(foto))
+                            //foto = "NO_EXISTE_FOTO";
+                    }
+                    else
+                    {
+                        foto = "NO_DEFINIDO";
+                    }
+
+                    if (worksheet.Cells[fila, 2].Value != null && worksheet.Cells[fila, 2].Value != string.Empty)
+                        nombre = worksheet.Cells[fila, 2].Value;
+                    else
+                        nombre = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 3].Value != null && worksheet.Cells[fila, 3].Value != string.Empty)
+                        apellido = worksheet.Cells[fila, 3].Value;
+                    else
+                        apellido = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 4].Value != null )
+                        dni = worksheet.Cells[fila, 4].Value.ToString();
+                    else
+                        dni = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 5].Value != null)
+                        matricula = worksheet.Cells[fila, 5].Value.ToString();
+                    else
+                        matricula = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 6].Value != null && worksheet.Cells[fila, 6].Value != string.Empty)
+                        rh = worksheet.Cells[fila, 6].Value;
+                    else
+                        rh = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 7].Value != null && worksheet.Cells[fila, 7].Value != string.Empty)
+                        grado = worksheet.Cells[fila, 7].Value;
+                    else
+                        grado = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 8].Value != null && worksheet.Cells[fila, 8].Value != string.Empty)
+                        grupo = worksheet.Cells[fila, 8].Value;
+                    else
+                        grupo = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 9].Value != null && worksheet.Cells[fila, 9].Value != string.Empty)
+                        email = worksheet.Cells[fila, 9].Value;
+                    else
+                        email = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 10].Value != null && worksheet.Cells[fila, 10].Value != string.Empty)
+                        empresa = worksheet.Cells[fila, 10].Value;
+                    else
+                        empresa = "NO_DEFINIDO";
+
+                    if (worksheet.Cells[fila, 11].Value != null && worksheet.Cells[fila, 11].Value != string.Empty)
+                    {
+                        turno = worksheet.Cells[fila, 11].Value;
+                        if (turno.ToUpper() == "MAÑANA")
+                            turno = "1";
+                        else if (turno.ToUpper() == "TARDE")
+                            turno = "2";
+                        else if (turno.ToUpper() == "NOCHE")
+                            turno = "3";
+                    }
+                    else
+                    {
+                        turno = "NO_DEFINIDO";
+                    }
+
+
+                    strValue = foto + "#" + nombre + "#" + apellido + "#" + dni + "#" + matricula + "#" + rh + "#" + grado + "#" + grupo + "#" + email.ToLower().Trim() + "#" + empresa + "#" + turno + "#";
+                    p = SetListPerson(strValue, Tool);
+                    if (!string.IsNullOrEmpty(p.Email))
+                    {
+                        lp.Insert(idx, p);
+                        idx++;
+                    }
+                    else
+                    {
+                        p.Email = NoDefinido("nodefinido@gmail.com", Tool);
+                        lp.Insert(idx, p);
+                        idx++;
+                    }
+
+                    dt = SetDataTable(strValue, dt, idx);
                 }
-                else
+                catch (Exception ex)
                 {
-                    foto = "NO_DEFINIDO";
-                }
-
-                if (worksheet.Cells[fila, 2].Value != null && worksheet.Cells[fila, 2].Value != string.Empty)
-                    nombre = worksheet.Cells[fila, 2].Value;
-                else
-                    nombre = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 3].Value != null && worksheet.Cells[fila, 3].Value != string.Empty)
-                    apellido = worksheet.Cells[fila, 3].Value;
-                else
-                    apellido = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 4].Value != null && worksheet.Cells[fila, 4].Value != string.Empty)
-                    dni = worksheet.Cells[fila, 4].Value;
-                else
-                    dni = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 5].Value != null && worksheet.Cells[fila, 5].Value != string.Empty)
-                    matricula = worksheet.Cells[fila, 5].Value;
-                else
-                    matricula = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 6].Value != null && worksheet.Cells[fila, 6].Value != string.Empty)
-                    rh = worksheet.Cells[fila, 6].Value;
-                else
-                    rh = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 7].Value != null && worksheet.Cells[fila, 7].Value != string.Empty)
-                    grado = worksheet.Cells[fila, 7].Value;
-                else
-                    grado = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 8].Value != null && worksheet.Cells[fila, 8].Value != string.Empty)
-                    grupo = worksheet.Cells[fila, 8].Value;
-                else
-                    grupo = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 9].Value != null && worksheet.Cells[fila, 9].Value != string.Empty)
-                    email = worksheet.Cells[fila, 9].Value;
-                else
-                    email = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 10].Value != null && worksheet.Cells[fila, 10].Value != string.Empty)
-                    empresa = worksheet.Cells[fila, 10].Value;
-                else
-                    empresa = "NO_DEFINIDO";
-
-                if (worksheet.Cells[fila, 11].Value != null && worksheet.Cells[fila, 11].Value != string.Empty)
-                    turno = worksheet.Cells[fila, 11].Value;
-                else
-                    turno = "NO_DEFINIDO";
-
-
-                strValue = foto + "#" + nombre + "#" + apellido + "#" + dni + "#" + matricula + "#" + rh + "#" + grado + "#" + grupo + "#" + email + "#" + empresa + "#" + turno;
-                p = SetListPerson(strValue, Tool);
-                if (!string.IsNullOrEmpty(p.Email))
-                {
-                    lp.Insert(idx, p);
-                    idx++;
-                }
-                else
-                {
-                    p.Email = NoDefinido("nodefinido@gmail.com", Tool);
-                    lp.Insert(idx, p);
-                    idx++;
-                }
-
+                    string error = ex.ToString();
+                } 
 
             }
             Valor.SetDt(dt);
