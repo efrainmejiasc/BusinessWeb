@@ -97,7 +97,7 @@ namespace BusinessWebSite.Controllers
             string user = System.Web.HttpContext.Current.Session["User"].ToString();
             string email = System.Web.HttpContext.Current.Session["Email"].ToString();
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni,nombre);
+            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni ,nombre);
             bool resultado = await Proceso.RegisterDevice(jsonData, token, FuncionHttp);
             if (resultado)
                 ViewBag.Response = "Registro satisfactorio";

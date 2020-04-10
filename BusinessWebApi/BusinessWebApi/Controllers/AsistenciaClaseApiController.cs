@@ -80,6 +80,16 @@ namespace BusinessWebApi.Controllers
             return lista;
         }
 
+
+        [HttpGet]
+        [ActionName("GetAsistenciaClaseEstudiante")]
+        public AsistenciaClase GetAsistenciaClaseEstudiante(string fecha, string dni , string materia, string grado, string grupo, int idCompany)
+        {
+            AsistenciaClase asistencia = Metodo.GetAsistenciaClase(fecha, dni, materia, grado, grupo, idCompany);
+            return asistencia;
+        }
+
+
         [HttpPost]
         [ActionName("ObservacionClase")]
         public HttpResponseMessage ObservacionClase([FromBody] ObservacionClase model)

@@ -50,5 +50,6 @@ namespace BusinessWebApi.Engine.Interfaces
         bool UpdateUserApi(int idCompany, string nameCompany, string user, string email);
         List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno);
         List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int turno, int idCompany);
+        AsistenciaClase GetAsistenciaClase(string fecha, string dni, string materia, string grado, string grupo, int idCompany);
     }
 }

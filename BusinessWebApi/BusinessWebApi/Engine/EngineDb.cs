@@ -432,6 +432,20 @@ namespace BusinessWebApi.Engine
             return lista;
         }
 
+        public AsistenciaClase GetAsistenciaClase(string fecha, string dni , string materia, string grado, string grupo, int idCompany)
+        {
+            AsistenciaClase asistencia = new AsistenciaClase();
+
+            DateTime date = Convert.ToDateTime(fecha);
+            using (EngineContext context = new EngineContext())
+            {
+               asistencia = context.AsistenciaClase.Where(x => x.CreateDate == date && x.Dni == dni && x.Materia == materia && x.Grado == grado && x.Grupo == grupo && x.IdCompany == idCompany).FirstOrDefault();
+            }
+            return asistencia;
+        }
+
+
+
         public bool UpdateAsistenciaClase(List<AsistenciaClase> asis)
         {
             bool resultado = false;

@@ -51,7 +51,7 @@ namespace BusinessWebApi.Controllers
             else
             {
                 List<RegisterDevice> listDevice = Metodo.GetListDevicesRegistered(device.Codigo);
-                if (listDevice.Count < countDevice)
+                if (listDevice.Count > countDevice)
                 {
                     response.Content = new StringContent("Limite para registrar dispositivos superado", Encoding.Unicode);
                     return response;

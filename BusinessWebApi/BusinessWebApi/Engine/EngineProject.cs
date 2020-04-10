@@ -26,7 +26,8 @@ namespace BusinessWebApi.Engine
                     IdTypeUser = 2,
                     CreateDate = DateTime.UtcNow,
                     Phone = device.Phone,
-                    Dni = device.Dni
+                    Dni = device.Dni,
+                    Nombre = device.Nombre
                 };
                 return devicesCompany;
             }
