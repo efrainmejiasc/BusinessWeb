@@ -9,8 +9,6 @@ namespace BusinessWebApi.Engine.Interfaces
 {
     public interface IEngineDb
     {
-        List<Grupo> GetGrupos();
-        List<Grado> GetGrados();
         Person GetPerson(string dni);
         bool CreateUser(UserApi user);
         List<Company> GetAllCompany();
@@ -26,18 +24,21 @@ namespace BusinessWebApi.Engine.Interfaces
         bool CreateCompany(Company company);
         string GetCompanyName(int idCompany);
         int GetCompanyId(string nameCompany);
+        List<Grupo> GetGrupos(int idCompany);
+        List<Grado> GetGrados(int idCompany);
         bool ExistsCodeCompany(string codigo);
-        List<Models.Objetos.Turno> GetTurnos();
         Person GetPerson2(string identificador);
         int NumberDeviceRegister(int idCompany);
         Company GetCompanyCodigo(string codigo);
         bool CreatePerson(List<Person> persons);
         bool UpdatePerson(List<Person> persons);
-        bool RegisterDevice(DevicesCompany device);
+        List<Materias> GetMaterias(int idCompany);
+        bool RegisterDevice(DevicesCompany device); 
         List<AsistenciaClase> StudentsNonAttending();
         bool UpdateAsistenciaClase(int id, bool status);
         UserApi GetUser(string password, string password2);
         List<Person> GetPerson(List<AsistenciaClase> asis);
+        List<Models.Objetos.Turno> GetTurnos(int idCompany);
         bool NewObservacionClase(ObservacionClase observacion);
         bool UpdateAsistenciaClase(List<AsistenciaClase> asis);
         object GetDniUserApi(int id, int idCompany, string email);

@@ -832,14 +832,14 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-        public List<Grado> GetGrados()
+        public List<Grado> GetGrados(int idCompany)
         {
             List<Grado> grados = new List<Grado>();
             List<Person> p = new List<Person>();
             List<string> l = new List<string>();
             using (EngineContext context = new EngineContext())
             {
-                p = context.Person.ToList();
+                p = context.Person.Where(s => s.IdCompany == idCompany).ToList();
             }
             if (p.Count > 0)
             {
@@ -862,14 +862,14 @@ namespace BusinessWebApi.Engine
             return grados;
         }
 
-        public List<Grupo> GetGrupos()
+        public List<Grupo> GetGrupos(int idCompany)
         {
             List<Grupo> grupos = new List<Grupo>();
             List<Person> p = new List<Person>();
             List<string> l = new List<string>();
             using (EngineContext context = new EngineContext())
             {
-                p = context.Person.ToList();
+                p = context.Person.Where(s => s.IdCompany == idCompany).ToList();
             }
             if (p.Count > 0)
             {
@@ -892,14 +892,14 @@ namespace BusinessWebApi.Engine
             return grupos;
         }
 
-        public List<Models.Objetos.Turno> GetTurnos()
+        public List<Models.Objetos.Turno> GetTurnos(int idCompany)
         {
             List<Models.Objetos.Turno> turnos = new List<Models.Objetos.Turno>();
             List<Person> p = new List<Person>();
             List<string> l = new List<string>();
             using (EngineContext context = new EngineContext())
             {
-                p = context.Person.ToList();
+                p = context.Person.Where(s => s.IdCompany == idCompany).ToList();
             }
             if(p.Count > 0)
             {
@@ -955,6 +955,16 @@ namespace BusinessWebApi.Engine
             }
 
             return registros;
+        }
+
+        public List<Materias> GetMaterias(int idCompany)
+        {
+            List<Materias> materias = new List<Materias>();
+            using (EngineContext context = new EngineContext())
+            {
+                materias = context.Materias.Where(s => s.IdCompany == idCompany ).ToList();
+            }
+            return materias;
         }
 
         public bool InsertarSucesoLog(SucesoLog model)

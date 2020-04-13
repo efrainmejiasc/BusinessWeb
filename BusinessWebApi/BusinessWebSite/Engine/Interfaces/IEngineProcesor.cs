@@ -9,12 +9,12 @@ namespace BusinessWebSite.Engine.Interfaces
 {
     public interface IEngineProcesor
     {
-        Task<string> GetGrupos(string accessToken, IEngineHttp FuncionHttp);
-        Task<string> GetGrados(string accessToken, IEngineHttp FuncionHttp);
-        Task<string> GetTurnos(string accessToken, IEngineHttp FuncionHttp);
         Task<bool> UpdateUserApi(string jsonUserApi, IEngineHttp FuncionHttp);
         Task<bool> CreateUserApi(string jsonUserApi, IEngineHttp FuncionHttp);
         Task<string> GetPerson(string dni, string accessToken, IEngineHttp FuncionHttp);
+        Task<string> GetGrupos(string accessToken, int idCompany, IEngineHttp FuncionHttp);
+        Task<string> GetGrados(string accessToken, int idCompany, IEngineHttp FuncionHttp);
+        Task<string> GetTurnos(string accessToken, int idCompany, IEngineHttp FuncionHttp);
         Task <TicketAcceso> GetTicketAccesoAsync(string jsonUserApi, IEngineHttp FuncionHttp);
         Task<bool> RegisterDevice(string jsonData, string accessToken, IEngineHttp FuncionHttp);
         Task<string> GetHistoriaAsistenciaPerson(string dni, string accessToken, IEngineHttp FuncionHttp);

@@ -126,7 +126,14 @@ namespace BusinessWebSite.Controllers
             string token = string.Empty;
             if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
                 token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonGrado = await Proceso.GetGrados(token, FuncionHttp);
+
+            int idCompany = 0;
+            if (System.Web.HttpContext.Current.Session["IdCompany"] != null)
+                idCompany = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdCompany"]);
+            else
+                return Json(null);
+
+            string jsonGrado = await Proceso.GetGrados(token,idCompany, FuncionHttp);
 
             return Json(jsonGrado);
         }
@@ -141,7 +148,13 @@ namespace BusinessWebSite.Controllers
             if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
                 token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
 
-            string jsonGrado = await Proceso.GetGrupos(token, FuncionHttp);
+            int idCompany = 0;
+            if (System.Web.HttpContext.Current.Session["IdCompany"] != null)
+                idCompany = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdCompany"]);
+            else
+                return Json(null);
+
+            string jsonGrado = await Proceso.GetGrupos(token, idCompany,FuncionHttp);
 
             return Json(jsonGrado);
         }
@@ -156,7 +169,13 @@ namespace BusinessWebSite.Controllers
             if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
                 token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
 
-            string jsonGrado = await Proceso.GetTurnos(token, FuncionHttp);
+            int idCompany = 0;
+            if (System.Web.HttpContext.Current.Session["IdCompany"] != null)
+                idCompany = Convert.ToInt32(System.Web.HttpContext.Current.Session["IdCompany"]);
+            else
+                return Json(null);
+
+            string jsonGrado = await Proceso.GetTurnos(token, idCompany, FuncionHttp);
 
             return Json(jsonGrado);
         }

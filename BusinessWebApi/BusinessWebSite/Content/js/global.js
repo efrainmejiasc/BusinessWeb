@@ -241,8 +241,9 @@ function GetConsolidado() {
 
 function CrearTablaConsolidado(emp) {
     $('#tableConsolidado tbody tr').remove();
-    $.each(emp, function (index, item) {
-        let tr = `<tr> 
+
+        $.each(emp, function (index, item) {
+            let tr = `<tr> 
                       <td style="text-align: center;"> ${index + 1} </td>
                       <td style="text-align: justify;"> ${item.Nombre} </td>
                       <td style="text-align: justify;"> ${item.Apellido} </td>
@@ -250,8 +251,8 @@ function CrearTablaConsolidado(emp) {
                       <td style="text-align: center;"> <input type="button" value="Historia" class="btn btn-primary" style="width:80px;" onclick="MostrarHistoria('${item.Dni}','${item.Email}','${item.Foto}');"> </td>
                       <td style="text-align: center;"> <input type="button" value="Email" class="btn btn-success" style="width:80px;" onclick="PreventEnviarEmail('${item.Dni}','${item.Email}','${item.Nombre}','${item.Apellido}');"> </td>
                       </tr>`;
-        $('#tableConsolidado tbody').append(tr);
-    });
+            $('#tableConsolidado tbody').append(tr);
+        });
 }
 
 function TablaPlusConsolidado() {

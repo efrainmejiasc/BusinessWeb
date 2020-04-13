@@ -105,30 +105,28 @@ namespace BusinessWebApi.Controllers
             return person;
         }
 
-
-
         [HttpGet]
         [ActionName("GetGrados")]
-        public List<Grado> GetGrados()
+        public List<Grado> GetGrados(int idCompany)
         {
-           List<Grado> grado = Metodo.GetGrados();
+           List<Grado> grado = Metodo.GetGrados(idCompany);
            return grado;
         }
 
 
         [HttpGet]
         [ActionName("GetGrupos")]
-        public List<Grupo> GetGrupos()
+        public List<Grupo> GetGrupos(int idCompany)
         {
-            List<Grupo> grado = Metodo.GetGrupos();
+            List<Grupo> grado = Metodo.GetGrupos(idCompany);
             return grado;
         }
 
         [HttpGet]
         [ActionName("GetTurnos")]
-        public List<Models.Objetos.Turno> GetTurnos()
+        public List<Models.Objetos.Turno> GetTurnos(int idCompany)
         {
-            List <Models.Objetos.Turno> turno = Metodo.GetTurnos();
+            List <Models.Objetos.Turno> turno = Metodo.GetTurnos(idCompany);
             return turno;
         }
     }

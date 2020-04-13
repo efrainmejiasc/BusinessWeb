@@ -120,20 +120,27 @@ namespace BusinessWebApi.Engine
             int index = 1;
             foreach (var I in asis)
             {
-                //FORMAT CONTENT
-                worksheet.Range["A" + row.ToString(), "F" + row.ToString()].Font.Color = System.Drawing.Color.Black;
-                worksheet.Range["A" + row.ToString(), "F" + row.ToString()].Font.Size = 10;
+                try
+                {
+                    worksheet.Range["A" + row.ToString(), "F" + row.ToString()].Font.Color = System.Drawing.Color.Black;
+                    worksheet.Range["A" + row.ToString(), "F" + row.ToString()].Font.Size = 10;
 
-                var P = Metodo.GetPerson(I.Dni);
+                    var P = Metodo.GetPerson(I.Dni);
 
-                worksheet.Cells[row, 1] = index.ToString();
-                worksheet.Cells[row, 2] = P.Nombre;
-                worksheet.Cells[row, 3] = P.Apellido;
-                worksheet.Cells[row, 4] = I.Dni;
-                worksheet.Cells[row, 5] = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                worksheet.Cells[row, 6] = Estado(I.Status);
-                index++;
-                row++;
+                    worksheet.Cells[row, 1] = index.ToString();
+                    worksheet.Cells[row, 2] = P.Nombre;
+                    worksheet.Cells[row, 3] = P.Apellido;
+                    worksheet.Cells[row, 4] = I.Dni;
+                    worksheet.Cells[row, 5] = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                    worksheet.Cells[row, 6] = Estado(I.Status);
+                    index++;
+                    row++;
+                }
+                catch (Exception ex)
+                {
+                    string error = ex.ToString();
+                }
+              
             }
             application.Columns.AutoFit();
             application.Rows.AutoFit();
@@ -142,8 +149,8 @@ namespace BusinessWebApi.Engine
 
             application.DisplayAlerts = false;
             string nombreArchivo = NombreArchivo(asis,nombreProfesor);
-            string path = HttpContext.Current.Server.MapPath("~/App_Data/" + nombreArchivo);
-            CrearDirectorioSiNoExiste("~/App_Data/");
+            string path = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/" + nombreArchivo);
+           // CrearDirectorioSiNoExiste(HttpContext.Current.Server.MapPath("~/App_Data"));
             workbook.SaveAs(path);
             workbook.Close();
             application.Quit();
