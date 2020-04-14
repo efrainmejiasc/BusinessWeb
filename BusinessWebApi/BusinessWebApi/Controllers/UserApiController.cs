@@ -93,12 +93,12 @@ namespace BusinessWebApi.Controllers
             string unicoIdentificador = Guid.NewGuid().ToString();
             int expire = EngineData.ExpireToken;
             DateTime time = DateTime.Now;
-            DateTime expireTime = time.AddMinutes(Convert.ToInt32(expire));
+            DateTime expireTime = time.AddDays(Convert.ToInt32(expire));
             var tokenString = GenerateTokenJwt(user, unicoIdentificador, time, expireTime);
             response = Ok(new
             {
                 access_token = tokenString,
-                expire_token = "140000",
+                expire_token = "11520000",
                 type_token = "Bearer",
                 refresh_token = unicoIdentificador,
                 email = user.Email,
