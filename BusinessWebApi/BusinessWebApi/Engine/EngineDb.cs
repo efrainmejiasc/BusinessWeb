@@ -131,6 +131,7 @@ namespace BusinessWebApi.Engine
             return C;
         }
 
+
         public bool ExistsUserApi(string strValue)
         {
             bool resultado = false;
@@ -195,6 +196,7 @@ namespace BusinessWebApi.Engine
             }
             return null;
         }
+
 
         public int GetCompanyId(string nameCompany)
         {

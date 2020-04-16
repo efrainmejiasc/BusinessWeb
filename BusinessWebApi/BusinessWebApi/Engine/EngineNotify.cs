@@ -74,7 +74,7 @@ namespace BusinessWebApi.Engine
           string body = string.Empty;
           foreach(DataEmailNoAsistencia i in emailNoAsistentes)
           {
-                body = "Saludos... </br> + Hoy: " + i.Fecha + "<br>     Por medio del presente notificamos la ausencia de: <strong>" +
+                body = "Saludos... </br> + Hoy: " + i.Fecha + "<br> (Prueba de Plataforma)    Por medio del presente notificamos la ausencia de: <strong>" +
                         i.Nombre + " " + i.Apellido + " </strong> documeto de identidad: <strong>" + i.Dni +
                        "</strong>  </br></br> ATT: Solo Educativas";
                 EnviarEmail(i.Email, body);

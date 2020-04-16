@@ -106,6 +106,13 @@ namespace BusinessWebApi.Controllers
         }
 
         [HttpGet]
+        [ActionName("GetUrlCarnet")]
+        public string  GetUrlCarnet(int dni)
+        {
+            return EngineData.UrlDominio + "digitalcard/" + dni + ".jpg";
+        }
+
+        [HttpGet]
         [ActionName("GetGrados")]
         public List<Grado> GetGrados(int idCompany)
         {

@@ -20,6 +20,7 @@ namespace BusinessWebApi.Engine
         }
 
         public static string UrlBase = ConfigurationManager.AppSettings["URL_BASE"];
+        public static string UrlDominio = ConfigurationManager.AppSettings["URL_DOMINIO"];
         public static string SecretKey = ConfigurationManager.AppSettings["JWT_SECRET_KEY"];
         public static string Audience = ConfigurationManager.AppSettings["JWT_AUDIENCE_TOKEN"];
         public static string Issuer = ConfigurationManager.AppSettings["JWT_ISSUER_TOKEN"];
