@@ -9,6 +9,8 @@ namespace BusinessWebApi.Models.Objetos
     {
         public string Materia { get; set; }
 
+        public string DniAdm { get; set; }
+
         public int NumeroInasistencia { get; set; }
 
     }

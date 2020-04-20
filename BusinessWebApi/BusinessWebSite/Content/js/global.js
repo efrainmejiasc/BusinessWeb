@@ -156,7 +156,7 @@ function CrearTabla(emp) {
                       <td style="text-align: justify;"> ${item.Email} </td>
                       <td style="text-align: justify;"> ${item.Materia} </td>
                       <td style="text-align: justify;"> ${estado} </td>
-                      <td style="text-align: center;"> <input type="button" value="Editar" class="btn btn-primary" style="width:80px;" onclick="PreventEdit('${item.Id}','${item.Dni}','${item.Materia}','${item.Status}','${item.Email}','${item.Foto}','${item.DniAdm}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Editar" class="btn btn-primary" style="width:80px;" onclick="PreventEdit('${item.Id}','${item.Dni}','${item.Materia}','${item.Status}','${item.Email}','${item.Foto}','${item.DniAdm}', '${item.NombreProfesor}');"> </td>
                       </tr>`;
             $('#tableAsistencia tbody').append(tr);
         });
@@ -298,6 +298,7 @@ function MostrarHistoria(dni, email, foto) {
     var inMagen = 'data:image/jpg;base64,'.concat(foto);
     console.log(inMagen);
     $('#imgAlumno').attr('src', inMagen);
+    $('#dniEstudiante').val(dni);
 
     $.ajax({
         type: "POST",
@@ -327,20 +328,63 @@ function CrearTablaHistoria(emp,inMagen) {
                       <td style="text-align: center;"> ${index + 1} </td>
                       <td style="text-align: justify;"> ${item.Materia} </td>
                       <td style="text-align: center;"> ${item.NumeroInasistencia} </td>
+                      <td style="text-align: center;"> <input type="button" value="Detalle" class="btn btn-success" style="width:80px;" onclick="InasistenciaDetail('${item.Materia}', '${item.DniAdm}');"> </td>
                       </tr>`;
             $('#tableHistoria tbody').append(tr);
             $('#total').html(strTotal + total + ' &nbsp;&nbsp;');
         });
     } else {
         let tr = `<tr> 
-                      <td colspan="3"> No posee inasistencia </td>
+                      <td colspan="4"> No posee inasistencia </td>
                       </tr>`;
         $('#tableHistoria tbody').append(tr);
         $('#total').html(strTotal + 0 + ' &nbsp;&nbsp;');
     }
-   
 
     return false;
+}
+
+//*************************************DETALLES INASISTENCIA **********************************************************
+function InasistenciaDetail(materia,dniAdm) {
+    var dni = $('#dniEstudiante').val();
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/GetHistoriaAsistenciaMateria",
+        datatype: "json",
+        data: { dni: dni , materia: materia , dniAdm: dniAdm},
+        success: function (data) {
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+            CrearTablaInasistenciaDetail(data);
+        },
+        complete: function () {
+            console.log('MostrarHistoria');
+        }
+    });
+    MostrarModalDetail();
+    return false;
+}
+
+function CrearTablaInasistenciaDetail(emp) {
+    $('#tableInasistenciaDetail tbody tr').remove();
+    if (emp.length > 0) {
+        $.each(emp, function (index, item) {
+
+            let tr = `<tr> 
+                      <td style="text-align: center;"> ${index + 1} </td>
+                      <td style="text-align: justify;"> ${item.NombreProfesor} </td>
+                      <td style="text-align: justify;"> ${item.Materia} </td>
+                      <td style="text-align: justify;"> ${item.CreateDate.substr(0, 10)} </td>
+                      </tr>`;
+            $('#tableInasistenciaDetail tbody').append(tr);
+        });
+    }
+    else {
+        let tr = `<tr> 
+                      <td colspan="4"> No posee inasistencia </td>
+                      </tr>`;
+        $('#tableInasistenciaDetail tbody').append(tr);
+
+    }
 }
 
 //*********************************ENVIAR_EMAIL*************************************************
@@ -396,12 +440,13 @@ function EnviarEmail() {
 
 //**********************ACTUALIZACION DE ASISTENCIAS *************************************************
 
-function PreventEdit(idAsistencia, dni, materia, status, email, foto, dniAdm) {
+function PreventEdit(idAsistencia, dni, materia, status, email, foto, dniAdm,nombreProfesor) {
     $('#idAsistencia').val(idAsistencia);
     $('#dniAdm').val(dniAdm);
     $('#dni').val(dni);
     $('#materia').val(materia);
     $('#email').val(email);
+    $('#profesor').val(nombreProfesor);
 
     var inMagen = 'data:image/jpg;base64,'.concat(foto);
     console.log(inMagen);
@@ -478,6 +523,7 @@ function GetDate (object) {
     var fecha = today.toISOString().substr(0, 10);
     $(object).val(fecha);
 }
+
 function OcultarIcons() {
     $('#soporte').hide();
     $('#soporteImg').hide();
@@ -514,6 +560,17 @@ function CerrarModalEmail() {
     var modal = document.getElementById('myModalEmail');
     modal.style.display = "none";
 }
+
+function MostrarModalDetail() {
+    var modal = document.getElementById('myModalDetail');
+    modal.style.display = 'block';
+}
+
+function CerrarModalDetail() {
+    var modal = document.getElementById('myModalDetail');
+    modal.style.display = "none";
+}
+
 //**************MENU *************************************************************
 
 function MostrarMenu() {
@@ -525,16 +582,46 @@ function MostrarMenu() {
 
 function OcultarMenu() {
     document.getElementById("sidebar").style.width = "0";
-   // document.getElementById("contenido").style.marginLeft = "0";
+    // document.getElementById("contenido").style.marginLeft = "0";
     document.getElementById("abrir").style.display = "inline";
     document.getElementById("cerrar").style.display = "none";
 }
 
-/*$('#grado').change(function () {
 
-});
+//**********************************CONTACTO
 
-$('#grupo').change(function () {
+function ContactoMail() {
+    var email = $('#email').val();
+    var asunto = $('#asunto').val();
+    var mensaje = $('mensaje').val();
+    if (email === '' || asunto === '' || mensaje === '') {
+        alert('Todos los campos son requeridos');
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/Contact/MensajeContacto",
+        data: { email: email, asunto: asunto, mensaje: mensaje },
+        datatype: "json",
+        success: function (data) {
+            alert(data.Descripcion);
+        },
+        complete: function () {
+            console.log('ContactoMail');
+        }
+    });
+    return false;
+}
 
-}); */
+function GetTemaSoporte() {
+    $('#tema').empty();
+    $('#tema').append('<option selected disabled value=""> Seleccione tema...</option>');
+    $('#tema').append('<option  value="1">CARNETIZACION</option>');
+    $('#tema').append('<option  value="2">BIOMETRIA</option>');
+    $('#tema').append('<option  value="3">INVENTARIOS</option>');
+    $('#tema').append('<option  value="4">OTRO</option>');
+}
+
+
+
 

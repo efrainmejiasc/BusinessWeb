@@ -20,6 +20,7 @@ namespace BusinessWebSite.Engine.Interfaces
         Task<string> GetHistoriaAsistenciaPerson(string dni, string accessToken, IEngineHttp FuncionHttp);
         Task<bool> UpdateObservacionAsistencia(string jsonData, string accessToken, IEngineHttp FuncionHttp);
         Task<string> GetPerson(string grado, string grupo, int idCompany, string accessToken, IEngineHttp FuncionHttp , int turno = 1);
+        Task<string> GetHistoriaAsistenciaMateria(string accessToken, string dni, string materia, string dniAdm, IEngineHttp FuncionHttp);
         Task<string> GetAsistencia(string accessToken, string fecha, string grado, string grupo,int turno,int idCompany, IEngineHttp FuncionHttp);
     }
 }

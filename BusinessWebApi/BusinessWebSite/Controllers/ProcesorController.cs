@@ -199,6 +199,20 @@ namespace BusinessWebSite.Controllers
             return Json(jsonAsistencia);
         }
 
+
+        [HttpPost] // Devuelve lista detalle de inasistencia 
+        public async Task<ActionResult> GetHistoriaAsistenciaMateria(string dni, string materia , string dniAdm)
+        {
+            if (System.Web.HttpContext.Current.Session["User"] == null)
+                return Json(null);
+
+
+            string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
+            string jsonAsistencia = await Proceso.GetHistoriaAsistenciaMateria(token, dni, materia, dniAdm , FuncionHttp);
+
+            return Json(jsonAsistencia);
+        }
+
         [HttpPost] // Actualiza una asistencia o inserta una observacion
         public async Task<ActionResult> EditAtending (int idAsistencia, string dni , bool status, string materia ,string observacion,string dniAdm)
         {

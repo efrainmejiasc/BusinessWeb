@@ -289,5 +289,22 @@ namespace BusinessWebSite.Engine
             return false;
         }
 
+        public async Task<string> GetHistoriaAsistenciaMateria(string accessToken, string dni, string materia, string dniAdm)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetDetalleHistoriaAsistenciaPerson?dni=" + dni + "&materia=" + materia + "&dniAdm=" + dniAdm);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+            }
+            return respuesta;
+        }
+
     }
 }

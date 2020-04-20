@@ -20,6 +20,7 @@ namespace BusinessWebApi.Models.Objetos
         public string Materia{ get; set; }
         public string Foto { get; set; }
         public string DniAdm { get; set; }
+        public string NombreProfesor { get; set; }
         public string Observacion { get; set; }
     }
 }

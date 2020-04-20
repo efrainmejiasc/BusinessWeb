@@ -413,7 +413,9 @@ namespace BusinessWebApi.Engine
                 lista = (from P in context.Person
                          join A in context.AsistenciaClase
                          on P.Dni equals A.Dni
-                         where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.Turno == turno && P.IdCompany == idCompany && A.IdCompany == idCompany
+                         join D in context.DevicesCompany
+                         on A.DniAdm equals D.Dni
+                         where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.Turno == turno && P.IdCompany == idCompany && A.IdCompany == idCompany && A.DniAdm == D.Dni
                          select new Asistencia()
                          {
                              Id = A.Id,
@@ -428,7 +430,30 @@ namespace BusinessWebApi.Engine
                              IdCompany = P.IdCompany,
                              Materia = A.Materia,
                              Foto = P.Foto,
-                             DniAdm = A.DniAdm
+                             DniAdm = A.DniAdm,
+                             NombreProfesor = D.Nombre
+                         }).ToList();
+            }
+            return lista;
+        }
+
+        public List<Asistencia> GetDetalleHistoriaAsistenciaPerson(string dni , string materia , string dniAdm)
+        {
+            List<Asistencia> lista = new List<Asistencia>();
+            using (EngineContext context = new EngineContext())
+            {
+                lista = (from A in context.AsistenciaClase 
+                         join D in context.DevicesCompany
+                         on A.DniAdm equals D.Dni
+                         where A.Dni == dni && A.DniAdm == dniAdm  && A.Materia == materia
+                         select new Asistencia()
+                         {
+                           Id = A.Id,
+                           CreateDate = A.CreateDate,
+                           DniAdm = A.DniAdm,
+                           Dni = A.Dni,
+                           Materia = A.Materia,
+                           NombreProfesor = D.Nombre
                          }).ToList();
             }
             return lista;
@@ -617,7 +642,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    device = context.DeviceCompany.Where(s => s.Dni == dni).FirstOrDefault();
+                    device = context.DevicesCompany.Where(s => s.Dni == dni).FirstOrDefault();
                     return device.Nombre;
                 }
             }
@@ -653,7 +678,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                     count = (from DeviceCompany in context.DeviceCompany where DeviceCompany.IdCompany == idCompany from s in context.DeviceCompany select s).Count();
+                     count = (from DeviceCompany in context.DevicesCompany where DeviceCompany.IdCompany == idCompany from s in context.DevicesCompany select s).Count();
                      return count;
                 }
             }
@@ -672,7 +697,7 @@ namespace BusinessWebApi.Engine
                 using (EngineContext context = new EngineContext())
                 {
 
-                   device = (from Company in context.Company join DevicesCompany in context.DeviceCompany 
+                   device = (from Company in context.Company join DevicesCompany in context.DevicesCompany 
                                                              on Company.Id equals DevicesCompany.IdCompany
                                                              where Company.Codigo == codigo && Company.Status == true
                                                              select new RegisterDevice() 
@@ -695,7 +720,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    var dni = (from A in context.UserApi join B in context.DeviceCompany
+                    var dni = (from A in context.UserApi join B in context.DevicesCompany
                                on A.Id equals B.IdUserApi
                                where A.Id == id && A.Email == email && B.IdCompany == idCompany
                                select new { B.Dni }).FirstOrDefault();
@@ -715,7 +740,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    context.DeviceCompany.Add(device);
+                    context.DevicesCompany.Add(device);
                     context.SaveChanges();
                 }
                 resultado = true;
@@ -948,7 +973,8 @@ namespace BusinessWebApi.Engine
                     HistoriaAsistenciaPerson registro = new HistoriaAsistenciaPerson()
                     {
                         Materia = lector.GetString(0),
-                        NumeroInasistencia = lector.GetInt32(1), 
+                        DniAdm = lector.GetString(1),
+                        NumeroInasistencia = lector.GetInt32(2), 
                     };
                     registros.Add(registro);
                 }
