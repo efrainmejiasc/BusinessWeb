@@ -53,11 +53,48 @@ namespace BusinessWebSite.Controllers
             }
 
             List<string> emailTo = new List<string>();
-            emailTo.Add(email);
-            emailTo.Add("tuidentidad.com.co@gmail.com");
-
+            emailTo.Insert(0, "tuidentidad.com.co@gmail.com");
+            emailTo.Insert(1,email);
+            
+            foreach(string mail in emailTo)
+            {
+                respuesta.Resultado = Notify.EnviarEmail(mail, asunto, mensaje, null);
+                asunto = "Contacto www.tuidentidad.com.co";
+                mensaje = "Gracias por contactarnos... <br> Hemos recibido tu consulta y te responderemos en la brevedad de lo posible.<br><br> ATT: www.tuidentidad.com.co";
+            }
          
-            respuesta.Resultado = Notify.EnviarEmail(emailTo, asunto, mensaje,null);
+            if (respuesta.Resultado)
+                respuesta.Descripcion = "Mensaje Enviado";
+            else
+                respuesta.Descripcion = "Error Enviando";
+
+            return Json(respuesta);
+        }
+
+
+        [HttpPost]
+        public ActionResult MensajeSoporte(string email, string tema , string mensaje)
+        {
+            Respuesta respuesta = new Respuesta();
+            respuesta.Resultado = Tool.EmailEsValido(email);
+            if (!respuesta.Resultado)
+            {
+                respuesta.Descripcion = "Email No Valido";
+                return Json(respuesta);
+            }
+
+            List<string> emailTo = new List<string>();
+            emailTo.Insert(0, "tuidentidad.com.co@gmail.com");
+            emailTo.Insert(1, email);
+
+            foreach (string mail in emailTo)
+            {
+                respuesta.Resultado = Notify.EnviarEmail(mail, tema , mensaje, null);
+                tema = "Contacto www.tuidentidad.com.co";
+                mensaje = "Gracias por contactarnos... <br> Hemos recibido tu consulta y te responderemos en la brevedad de lo posible.<br><br> ATT: www.tuidentidad.com.co";
+            }
+
+
             if (respuesta.Resultado)
                 respuesta.Descripcion = "Mensaje Enviado";
             else

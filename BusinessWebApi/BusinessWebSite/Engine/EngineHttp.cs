@@ -256,7 +256,7 @@ namespace BusinessWebSite.Engine
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
-                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetHistoriaAsistenciaPerson?dni=" + dni);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetHistoriaAsistenciaPersona?dni=" + dni);
                 if (response.IsSuccessStatusCode)
                 {
                     respuesta = await response.Content.ReadAsStringAsync();

@@ -133,7 +133,8 @@ function GetAsistencia() {
         datatype: "json",
         data: { fecha: fecha, grado: grado, grupo: grupo, turno: turno },
         success: function (data) {
-          try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+            console.log(data);
             CrearTabla(data);
         },
         complete: function () {
@@ -156,7 +157,7 @@ function CrearTabla(emp) {
                       <td style="text-align: justify;"> ${item.Email} </td>
                       <td style="text-align: justify;"> ${item.Materia} </td>
                       <td style="text-align: justify;"> ${estado} </td>
-                      <td style="text-align: center;"> <input type="button" value="Editar" class="btn btn-primary" style="width:80px;" onclick="PreventEdit('${item.Id}','${item.Dni}','${item.Materia}','${item.Status}','${item.Email}','${item.Foto}','${item.DniAdm}', '${item.NombreProfesor}');"> </td>
+                      <td style="text-align: center;"> <input type="button" value="Editar" class="btn btn-primary" style="width:80px;" onclick="PreventEdit('${item.Id}','${item.Dni}','${item.Materia}','${item.Status}','${item.Email}','${item.Foto}','${item.DniAdm}','${item.NombreProfesor}');"> </td>
                       </tr>`;
             $('#tableAsistencia tbody').append(tr);
         });
@@ -299,7 +300,7 @@ function MostrarHistoria(dni, email, foto) {
     console.log(inMagen);
     $('#imgAlumno').attr('src', inMagen);
     $('#dniEstudiante').val(dni);
-
+    console.log(dni);
     $.ajax({
         type: "POST",
         url: "/Procesor/GetHistoriaAsistenciaPerson",
@@ -440,7 +441,7 @@ function EnviarEmail() {
 
 //**********************ACTUALIZACION DE ASISTENCIAS *************************************************
 
-function PreventEdit(idAsistencia, dni, materia, status, email, foto, dniAdm,nombreProfesor) {
+function PreventEdit(idAsistencia, dni, materia, status, email, foto, dniAdm, nombreProfesor) {
     $('#idAsistencia').val(idAsistencia);
     $('#dniAdm').val(dniAdm);
     $('#dni').val(dni);
@@ -588,13 +589,14 @@ function OcultarMenu() {
 }
 
 
-//**********************************CONTACTO
+//**********************************CONTACTO*******************************************************************
 
 function ContactoMail() {
     var email = $('#email').val();
     var asunto = $('#asunto').val();
-    var mensaje = $('mensaje').val();
-    if (email === '' || asunto === '' || mensaje === '') {
+    var mensaje = $('#mensaje').val();
+    var flag = $('#check:checked').val();
+    if (email === '' || asunto === '' || mensaje === '' || flag !== 'on') {
         alert('Todos los campos son requeridos');
         return false;
     }
@@ -605,6 +607,10 @@ function ContactoMail() {
         datatype: "json",
         success: function (data) {
             alert(data.Descripcion);
+            $('#email').val('');
+            $('#asunto').val('');
+            $('mensaje').val('');
+            $('#check').prop("checked", false);
         },
         complete: function () {
             console.log('ContactoMail');
@@ -613,6 +619,8 @@ function ContactoMail() {
     return false;
 }
 
+//**********************************SOPORTE*******************************************************************
+
 function GetTemaSoporte() {
     $('#tema').empty();
     $('#tema').append('<option selected disabled value=""> Seleccione tema...</option>');
@@ -620,6 +628,35 @@ function GetTemaSoporte() {
     $('#tema').append('<option  value="2">BIOMETRIA</option>');
     $('#tema').append('<option  value="3">INVENTARIOS</option>');
     $('#tema').append('<option  value="4">OTRO</option>');
+}
+
+function ContactoSoporte() {
+    var email = $('#email').val();
+    var e = document.getElementById("tema");
+    var tema = e.options[e.selectedIndex].text;
+    var mensaje = $('#mensaje1').val();
+    var flag = $('#check:checked').val();
+    if (email === '' || tema === '' || mensaje === '' || flag !== 'on') {
+        alert('Todos los campos son requeridos');
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/Contact/MensajeSoporte",
+        data: { email: email, tema: tema, mensaje: mensaje },
+        datatype: "json",
+        success: function (data) {
+            alert(data.Descripcion);
+            $('#email').val('');
+            $('#tema').val('');
+            $('mensaje').val('');
+            $('#check').prop("checked", false);
+        },
+        complete: function () {
+            console.log('ContactoSoporte');
+        }
+    });
+    return false;
 }
 
 

@@ -445,7 +445,7 @@ namespace BusinessWebApi.Engine
                 lista = (from A in context.AsistenciaClase 
                          join D in context.DevicesCompany
                          on A.DniAdm equals D.Dni
-                         where A.Dni == dni && A.DniAdm == dniAdm  && A.Materia == materia
+                         where A.Dni == dni && A.DniAdm == dniAdm  && A.Materia == materia && A.Status == false
                          select new Asistencia()
                          {
                            Id = A.Id,
