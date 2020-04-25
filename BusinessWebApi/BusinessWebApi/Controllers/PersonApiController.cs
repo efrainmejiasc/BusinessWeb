@@ -81,6 +81,14 @@ namespace BusinessWebApi.Controllers
         }
 
         [HttpGet]
+        [ActionName("GetPersonEspecific")]
+        public Person GetPersonEspecific(string dni)
+        {
+            Person person = Metodo.GetPerson(dni);
+            return person;
+        }
+
+        [HttpGet]
         [ActionName("GetPersonList")]
         public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno = 1)
         {

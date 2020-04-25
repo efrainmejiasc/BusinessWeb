@@ -4,10 +4,10 @@
 }
 
 .logoInitial {
-    height: 12vh;
+    height: 14vh;
     width: 8vw;
     position: absolute;
-    margin-left:20%;
+    margin-left:32%;
     margin-top:-1%;
     float:right;
 }
@@ -21,7 +21,7 @@
 }
 
 .voton {
-    width: 14vh;
+    width: 8vw;
 }
 
 .cBtn {

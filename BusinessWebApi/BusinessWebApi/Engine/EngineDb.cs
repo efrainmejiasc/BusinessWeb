@@ -803,7 +803,7 @@ namespace BusinessWebApi.Engine
             return null;
         }
 
-       public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
+        public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
         {
             List<Person> persons = new List<Person>();
             try

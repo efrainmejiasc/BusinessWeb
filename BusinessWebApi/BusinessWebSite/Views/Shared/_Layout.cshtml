@@ -12,18 +12,31 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div id="bannerSite" class="container-fluid" style="height:16vh;background-color:#085CA6;padding:2%;margin-top:1%;">
+    <div id="bannerSite" class="container-fluid" style="height:16vh;background-color:white;padding:0%;margin-top:2%;">
         <div>
             <img id="logSudoku" src="~/Content/image/logoTuIdentidad.jpg" class="logoInitial" />
         </div>
-        <div align="center" style="font-size:70px; color:#84c9fc;">
-            <strong>Tu Identidad</strong>
-        </div><br /><br />
+        <div align="center" style="font-size:70px; color:#085CA6; margin-left:5%">
+            <strong>Tú Identidad</strong>
+        </div>
+        <br />
+        <div style="background-color:#085CA6;height:auto;">
+            <br />
+            <div >
+                <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="MostrarMenu()" style="text-decoration: none; color:white;" onmouseover="MostrarMenu()">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MENU&nbsp;</span>
+                    <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/justify.svg" alt="" width="32" height="32" title="Menu" id="menuImg"><br />
+                </a>
+                <a id="cerrar" class="abrir-cerrar" href="javascript:void(0)" onclick="OcultarMenu()" style="text-decoration: none; color:white">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CERRAR&nbsp;</span>
+                </a>
+            </div>
+            <br />
+        </div>
     </div>
-
     <br />
 
-    <div id="sidebar" class="sidebar" style="width:350px;margin-top:3%;">
+    <div id="sidebar" class="sidebar" style="width:350px;margin-top:0%;">
         <a href="#" class="boton-cerrar" onclick="OcultarMenu()">×</a>
         <ul class="menu">
             <li style="list-style:none;position:relative;"><a href="/Home/Index" id="inicio" class="listBanner"> Inicio </a></li>
@@ -35,44 +48,50 @@
         position: relative;"><a href="/Procesor/Contact" id="alumno" class="listBanner"> Carnet </a></li>
             <li style="list-style:none;position:relative;"><a href="/Procesor/ReportAssistance" id="actualizacionAsistencia" class="listBanner"> Actualizar Asistencia </a></li>
             <li style="list-style:none;position:relative;"><a href="/Procesor/QueryAssistance" id="consolidadoAsistencia" class="listBanner"> Consultas y Consolidados </a></li>
+
         </ul>
+        <div style="width:100%;height:2vh;background-color:#085CA6;"></div>
     </div>
 
+ 
 
-    <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="MostrarMenu()" style="text-decoration: none;">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Menu</strong>
-    </a>
-    <a id="cerrar" class="abrir-cerrar" href="javascript:void(0)" onclick="OcultarMenu()" style="text-decoration: none;">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Cerrar</strong>
-    </a>
 
     <div class="container body-content">
+        <br /><br />
         @RenderBody()
     </div>
 
-        <div  class="container body-content">
-            <hr />
+    <div class="container-fluid body-content" style="background-color:#085CA6;color:white; position:static;">
+        <hr />
+        <div style="margin-left:20%;position:static;">
             <footer>
+                <br />
                 <ul class="row">
-                    <li style="list-style:none;font-weight:bold;color:#085CA6">copyright&copy;@DateTime.Now.Year - www.tuidentidad.com.co</li>
-                    <li style="list-style:none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="list-style:none;font-weight:bold;">copyright&copy;@DateTime.Now.Year - www.tuidentidad.com.co</li>
+                    <li style="list-style:none;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </li>
 
-                    <li style="list-style:none;"><a class="w3-button w3-light-grey w3-block" id="contacto" href="~/Contact/Contact" style="color:dimgray;font-weight:bold;">Contacto</a></li>&nbsp;
+                    <li style="list-style:none;"><a class="w3-button w3-light-grey w3-block" id="contacto" href="~/Contact/Contact" style="color:white;font-weight:bold;">Contacto</a></li>&nbsp;
                     <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/at.svg" alt="" width="32" height="32" title="Contactanos" id="contactoImg">
                     <li style="list-style:none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
 
 
-                    <li style="list-style:none;"><a class="w3-button w3-light-grey w3-block" id="producto" href="~/Contact/Services" style="color:dimgray;font-weight:bold;">Productos y Servicios</a></li>&nbsp;&nbsp;
-                    <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/building.svg" alt="" width="32" height="32" title="Solicitudes de Servicios" id="productoImg" >
+                    <li style="list-style:none;"><a class="w3-button w3-light-grey w3-block" id="producto" href="~/Contact/Services" style="color:white;font-weight:bold;">Productos y Servicios</a></li>&nbsp;&nbsp;
+                    <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/building.svg" alt="" width="32" height="32" title="Solicitudes de Servicios" id="productoImg">
                     <li style="list-style:none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
 
 
-                    <li style="list-style:none;"><a class="w3-button w3-light-grey w3-block" id="soporte" href="~/Contact/Support" style="color:dimgray;font-weight:bold;">Soporte</a></li>&nbsp;&nbsp;
+                    <li style="list-style:none;"><a class="w3-button w3-light-grey w3-block" id="soporte" href="~/Contact/Support" style="color:white;font-weight:bold;">Soporte</a></li>&nbsp;&nbsp;
                     <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/tools.svg" alt="" width="32" height="32" title="Ayuda y Soporte" id="soporteImg">
 
                 </ul>
+                <br />
+
             </footer>
         </div>
+    </div>
 
 
     @Scripts.Render("~/bundles/jquery")
