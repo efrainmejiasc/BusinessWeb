@@ -86,22 +86,26 @@ namespace BusinessWebSite.Engine
             Excel.Application application = new Excel.Application();
             Excel.Workbook workbook = application.Workbooks.Add(System.Reflection.Missing.Value);
             Excel.Worksheet worksheet = workbook.ActiveSheet;
+            //ENCABEZADO ARCHIVO
             worksheet.Cells[1, 1] = "Nombre";
             worksheet.Cells[1, 2] = "Apellido";
             worksheet.Cells[1, 3] = "Documento Identidad";
             worksheet.Cells[1, 4] = "Fecha Expedicion";
-            worksheet.get_Range("A1", "D1").Interior.Color = Color.Black;
-            worksheet.get_Range("A1", "D1").Font.Color = Color.White;
+            worksheet.Cells[1, 5] = "Total Inasistencias";
+            worksheet.get_Range("A1", "E1").Interior.Color = Color.Black;
+            worksheet.get_Range("A1", "E1").Font.Color = Color.White;
             worksheet.Cells[2, 1] = nombre;
             worksheet.Cells[2, 2] = apellido;
             worksheet.Cells[2, 3] = dni;
             worksheet.Cells[2, 4] = DateTime.Now.Date.ToString("dd/MM/yyyy");
+            worksheet.Cells[2, 5] = 0;
+
             worksheet.Cells[4, 1] ="Historico de Asistencia";
             worksheet.get_Range("A4", "A4").Interior.Color = Color.Black;
             worksheet.get_Range("A4", "A4").Font.Color = Color.White;
             worksheet.Cells[6, 1] = "Nº";
             worksheet.Cells[6, 2] = "Materia";
-            worksheet.Cells[6, 3] = "Numero de Inasistencias";
+            worksheet.Cells[6, 3] = "Fecha de Inasistencias";
             worksheet.get_Range("A6", "C6").Interior.Color = Color.Black;
             worksheet.get_Range("A6", "C6").Font.Color = Color.White;
 
@@ -115,15 +119,16 @@ namespace BusinessWebSite.Engine
 
                 worksheet.Cells[row, 1] = index.ToString();
                 worksheet.Cells[row, 2] = I.Materia;
-                worksheet.Cells[row, 3] = I.NumeroInasistencia;
-                totalInasistencias = totalInasistencias + Convert.ToInt32(I.NumeroInasistencia);
+                worksheet.Cells[row, 3] = I.FechaInasistencia;
+                totalInasistencias ++;
                 index++;
                 row++;
             }
-            worksheet.Cells[row, 2] = "Total Inasistencias";
-            worksheet.Cells[row, 3] = totalInasistencias.ToString();
-            worksheet.get_Range("B10", "B10").Interior.Color = Color.Black;
-            worksheet.get_Range("B10", "B10").Font.Color = Color.White;
+            worksheet.Cells[2, 5] = totalInasistencias.ToString();
+
+
+            //worksheet.get_Range("B10", "B10").Interior.Color = Color.Black;
+            //worksheet.get_Range("B10", "B10").Font.Color = Color.White;
 
             application.Columns.AutoFit();
             application.Rows.AutoFit();
@@ -151,10 +156,17 @@ namespace BusinessWebSite.Engine
         {
             bool resultado = false;
             HttpContext.Current.Server.MapPath(folder);
-            if (!System.IO.Directory.Exists(folder))
+            try
             {
-                System.IO.Directory.CreateDirectory(folder);
-                resultado = true;
+                if (!System.IO.Directory.Exists(folder))
+                {
+                    System.IO.Directory.CreateDirectory(folder);
+                    resultado = true;
+                }
+            }
+            catch(Exception ex) 
+            {
+                string n = ex.ToString();
             }
             return resultado;
         }

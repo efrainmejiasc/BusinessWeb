@@ -466,6 +466,7 @@ function EnviarEmail() {
         },
         complete: function () {
             console.log('EnviarEmail');
+            CerrarModalEmail();
         }
     });
     return false;

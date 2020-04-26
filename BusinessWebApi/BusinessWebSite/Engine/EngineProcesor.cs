@@ -75,5 +75,10 @@ namespace BusinessWebSite.Engine
         {
             return await FuncionHttp.GetHistoriaAsistenciaMateria(accessToken, dni, materia, dniAdm);
         }
+
+        public async Task<string> GetHistoriaAsistenciaPersonaXlsx(string dni, string accessToken, IEngineHttp FuncionHttp)
+        {
+            return await FuncionHttp.GetHistoriaAsistenciaPersonaXlsx(dni, accessToken);
+        }
     }
 }

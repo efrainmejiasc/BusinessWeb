@@ -306,5 +306,27 @@ namespace BusinessWebSite.Engine
             return respuesta;
         }
 
+        public async Task<string> GetHistoriaAsistenciaPersonaXlsx(string dni, string strToken)
+        {
+            string respuesta = string.Empty;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetHistoriaAsistenciaPersonaXlsx?dni=" + dni);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    respuesta = "NO AUTORIZADO";
+                }
+
+            }
+            return respuesta;
+        }
+
     }
 }

@@ -143,6 +143,14 @@ namespace BusinessWebApi.Controllers
         }
 
         [HttpGet]
+        [ActionName("GetHistoriaAsistenciaPersonaXlsx")]
+        public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPersonaXlsx(string dni)
+        {
+            List<HistoriaAsistenciaPerson> lista = Metodo.GetHistoriaAsistenciaPersonaXlsx(dni);
+            return lista;
+        }
+
+        [HttpGet]
         [ActionName("GetDetalleHistoriaAsistenciaPerson")]
         public List<Asistencia> GetDetalleHistoriaAsistenciaPerson(string dni , string materia, string dniAdm)
         {

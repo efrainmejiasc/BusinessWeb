@@ -471,8 +471,6 @@ namespace BusinessWebApi.Engine
             return asistencia;
         }
 
-
-
         public bool UpdateAsistenciaClase(List<AsistenciaClase> asis)
         {
             bool resultado = false;
@@ -974,7 +972,7 @@ namespace BusinessWebApi.Engine
                     {
                         Materia = lector.GetString(0),
                         DniAdm = lector.GetString(1),
-                        NumeroInasistencia = lector.GetInt32(2), 
+                        NumeroInasistencia = lector.GetInt32(2)
                     };
                     registros.Add(registro);
                 }
@@ -983,6 +981,28 @@ namespace BusinessWebApi.Engine
             }
 
             return registros;
+        }
+
+        public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPersonaXlsx (string dni)
+        {
+            List<AsistenciaClase> inasistencias = new List<AsistenciaClase>();
+            List<HistoriaAsistenciaPerson> historia = new List<HistoriaAsistenciaPerson>();
+            using (EngineContext context = new EngineContext())
+            {
+               inasistencias = context.AsistenciaClase.Where(s => s.Dni == dni && s.Status == false).ToList();
+            }
+            HistoriaAsistenciaPerson single = new HistoriaAsistenciaPerson();
+            int n = 0;
+            foreach (AsistenciaClase I in inasistencias)
+            {
+                single.Materia = I.Materia;
+                single.FechaInasistencia = I.CreateDate.ToString();
+                single.DniAdm = I.DniAdm;
+                single.NumeroInasistencia = 1;
+                historia.Insert(n, single);
+                n++;
+            }
+            return historia;
         }
 
         public List<Materias> GetMaterias(int idCompany)

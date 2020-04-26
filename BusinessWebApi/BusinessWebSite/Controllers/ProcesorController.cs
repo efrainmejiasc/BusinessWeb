@@ -260,7 +260,7 @@ namespace BusinessWebSite.Controllers
                     return Json(respuesta);
                 }
 
-                jsonHistoria = await Proceso.GetHistoriaAsistenciaPerson(dni, token, FuncionHttp);
+                jsonHistoria = await Proceso.GetHistoriaAsistenciaPersonaXlsx(dni, token, FuncionHttp);
                 if (!string.IsNullOrEmpty(jsonHistoria))
                 {
                     List<HistoriaAsistenciaPerson> historia = new List<HistoriaAsistenciaPerson>();

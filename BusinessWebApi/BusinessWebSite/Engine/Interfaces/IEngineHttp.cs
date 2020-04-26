@@ -21,6 +21,7 @@ namespace BusinessWebSite.Engine.Interfaces
         Task<bool> RegisterDevice(string jsonData, string strToken);
         Task<string> GetHistoriaAsistenciaPerson(string dni, string strToken);
         Task<bool> UpdateObservacionAsistencia(string jsonData, string strToken);
+        Task<string> GetHistoriaAsistenciaPersonaXlsx(string dni, string strToken);
         Task<string> GetPerson(string grado, string grupo, int idCompany, string strToken , int turno = 1 );
         Task<string> GetHistoriaAsistenciaMateria(string accessToken, string dni, string materia, string dniAdm);
         Task<string> GetAsistencia(string strToken, string fecha, string grado, string grupo,int turno, int idCompany);

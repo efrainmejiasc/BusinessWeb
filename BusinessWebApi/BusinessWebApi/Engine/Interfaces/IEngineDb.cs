@@ -48,6 +48,7 @@ namespace BusinessWebApi.Engine.Interfaces
         bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias);
         bool UpdateUserApi(string userName, string email, string password);
         List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni);
+        List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPersonaXlsx(string dni);
         bool UpdateUserApi(int idCompany, string nameCompany, string user, string email);
         List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno);
         List<Asistencia> GetDetalleHistoriaAsistenciaPerson(string dni, string materia, string dniAdm);

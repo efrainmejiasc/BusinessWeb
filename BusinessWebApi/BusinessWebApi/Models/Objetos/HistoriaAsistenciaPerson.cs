@@ -13,5 +13,7 @@ namespace BusinessWebApi.Models.Objetos
 
         public int NumeroInasistencia { get; set; }
 
+        public string FechaInasistencia { get; set; }
+
     }
 }
