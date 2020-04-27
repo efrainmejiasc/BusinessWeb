@@ -27,22 +27,22 @@
 
 
 <div class="container-fluid">
-
     <div class="container col-md-12" style="margin-top:5%;display:inline;">
         <div class="" id="searchDiv">
             <div class="form-group">
                 <div class="input-group">
-                    <select id="grado" class="form-control" style="width:900px"> </select>
+                    <select id="grado" class="form-control" style="width:900px" onchange="LimpiarTituloConsolidado();"> </select>
                     <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="grupo" class="form-control" style="width:900px"></select>
+                    <select id="grupo" class="form-control" style="width:900px" onchange="LimpiarTituloConsolidado();"></select>
                     <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="turno" class="form-control" style="width:900px"></select>
+                    <select id="turno" class="form-control" style="width:900px" onchange="LimpiarTituloConsolidado();"></select>
 
                     <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
                     <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:160px;" onclick="GetConsolidado();" />
                 </div>
             </div>
         </div>
+        <p id="pTitulo2" style="text-align:center;color:silver;"></p>
     </div>
 
     <input type="hidden" id="tituloBusqueda2">
@@ -160,13 +160,13 @@
 
 </div>
 
-        <script>
-            $(document).ready(function () {
-                OcultarMenu();
-                OcultarIcons();
-                document.documentElement.style.overflowX = 'hidden';
-                GetGrado();
-                GetGrupo();
-                $.noConflict();
-            });
-        </script>
+<script>
+    $(document).ready(function () {
+        OcultarMenu();
+        OcultarIcons();
+        document.documentElement.style.overflowX = 'hidden';
+        GetGrado();
+        GetGrupo();
+        $.noConflict();
+    });
+</script>

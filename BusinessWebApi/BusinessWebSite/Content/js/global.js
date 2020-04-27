@@ -75,6 +75,59 @@ function GetGrupo() {
 }
 
 
+function GetGradoA() {
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/GetGrados",
+        datatype: "json",
+        success: function (data) {
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+
+            $('#gradoA').empty();
+            $('#gradoA').append('<option selected disabled value=""> Seleccione grado...</option>');
+
+            $.each(data, function (index, item) {
+                $('#gradoA').append("<option value=\"" + item.Id + "\">" + item.NombreGrado + "</option>");
+            });
+        },
+        complete: function () {
+            console.log('GetGradoA');
+        }
+    });
+    return false;
+}
+
+function GetGrupoA() {
+    $.ajax({
+        type: "POST",
+        url: "/Procesor/GetGrupos",
+        datatype: "json",
+        success: function (data) {
+            try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
+
+            $('#grupoA').empty();
+            $('#grupoA').append('<option selected disabled value=""> Seleccione grupo...</option>');
+
+            $.each(data, function (index, item) {
+                $('#grupoA').append("<option value=\"" + item.Id + "\">" + item.NombreGrupo + "</option>");
+            });
+        },
+        complete: function () {
+            GetTurnoA();
+            console.log('GetGrupoA');
+        }
+    });
+    return false;
+}
+
+function GetTurnoA() {
+    $('#turnoA').empty();
+    $('#turnoA').append('<option selected disabled value=""> Seleccione turno...</option>');
+    $('#turnoA').append('<option  value="1">MAÑANA</option>');
+    $('#turnoA').append('<option  value="2">TARDE</option>');
+    $('#turnoA').append('<option  value="3">NOCHE</option>');
+} 
+
 function GetTurno() {
     $('#turno').empty();
     $('#turno').append('<option selected disabled value=""> Seleccione turno...</option>');
@@ -105,13 +158,22 @@ function GetTurno() {
     return false;
 }*/
 
+//*******************************************CHANGE SELECT*******************************************************************
+
+function LimpiarTituloConsolidado() {
+    $("#pTitulo2").html('');
+}
+
+function LimpiarTituloAsistencia() {
+    $('#pTitulo1').html('');
+}
 //**************************ASISTENCIA *************************************************************************
 
 function GetAsistencia() {
     var fecha = $('#fecha').val();
-    var grado = $("#grado option:selected").text();
-    var grupo = $("#grupo option:selected").text();
-    var nameTurno = $("#turno option:selected").text();
+    var grado = $("#gradoA option:selected").text();
+    var grupo = $("#grupoA option:selected").text();
+    var nameTurno = $("#turnoA option:selected").text();
     var turno = 0;
 
     if (nameTurno === 'MAÑANA')
@@ -135,12 +197,20 @@ function GetAsistencia() {
         success: function (data) {
             try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
             console.log(data);
+
+            var initDataTable1 = $('#initDataTable1').val();
+            if (initDataTable1 === 'yes') {
+                var table1 = $('#tableAsistencia').DataTable();
+                table1.destroy();
+            }
+
             CrearTabla(data);
+            $('#pTitulo1').html('Fecha: ' + fecha + '&nbsp;&nbsp;&nbsp; Grado: ' + grado + '&nbsp;&nbsp;&nbsp; Grupo: ' + grupo + '&nbsp;&nbsp;&nbsp; Turno: ' + nameTurno);
         },
         complete: function () {
-            TablaPlus();
             console.log('GetAsistencia');
             $('#tituloBusqueda1').val('ASISTENCIAS - ' + fecha + ' Grado: ' + grado + ' Grupo: ' + grupo + ' Turno: ' + nameTurno);
+            TablaPlus();
         }
     });
     return false;
@@ -166,9 +236,6 @@ function CrearTabla(emp) {
 
 function TablaPlus() {
   
-    var initDataTable = $('#initDataTable').val();
-    if (initDataTable === 'yes') return false;
-
     $('#tableAsistencia').DataTable({
         language: {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
@@ -207,7 +274,7 @@ function TablaPlus() {
         ]
 
     });
-    $('#initDataTable').val('yes');
+    $('#initDataTable1').val('yes');
 }
 
 
@@ -243,12 +310,20 @@ function GetConsolidado() {
         success: function (data) {
             try { data = JSON.parse(data); } catch{ NavePage('../Home/Autentication'); }
             console.log(data);
+
+            var initDataTable = $('#initDataTable').val();
+            if (initDataTable === 'yes') {
+                var table = $('#tableConsolidado').DataTable();
+                table.destroy();
+            }
+
             CrearTablaConsolidado(data);
+            $('#pTitulo2').html(' Grado: ' + grado + '&nbsp;&nbsp;&nbsp; Grupo: ' + grupo + '&nbsp;&nbsp;&nbsp; Turno: ' + nameTurno);
         },
         complete: function () {
-            TablaPlusConsolidado();
             console.log('GetConsolidado');
             $('#tituloBusqueda2').val('CONSOLIDADO - ' + fecha + ' Grado: ' + grado + ' Grupo: ' + grupo + ' Turno: ' + nameTurno);
+            TablaPlusConsolidado();
         }
     });
     return false;
@@ -278,9 +353,7 @@ function CrearTablaConsolidado(emp) {
 }
 
 function TablaPlusConsolidado() {
-    var initDataTable = $('#initDataTable').val();
-    if (initDataTable === 'yes') return false;
-
+  
     $('#tableConsolidado').DataTable({
         language: {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
