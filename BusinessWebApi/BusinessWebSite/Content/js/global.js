@@ -18,6 +18,7 @@ function LoginUser() {
         success: function (data) {
             if (data.Descripcion === "Autentificacion Exitosa") {
                 alert(data.Descripcion);
+                MostrarMenu();
             } else if (data.Descripcion === "Autentificacion Fallida") {
                 alert(data.Descripcion);
             }

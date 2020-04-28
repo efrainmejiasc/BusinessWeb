@@ -189,3 +189,11 @@ textarea {
     background: #f7e406 !important;
 }
 
+/******************************************/
+
+.footerPage {
+    background-color: #085CA6;
+    color: white;
+    position: static;
+}
+
