@@ -328,5 +328,27 @@ namespace BusinessWebSite.Engine
             return respuesta;
         }
 
+        public async Task<string> GetObservacionClase(string dni, string strToken)
+        {
+            string respuesta = string.Empty;
+            List<Grado> grados = new List<Grado>();
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+                HttpResponseMessage response = await client.GetAsync(EngineData.UrlBase + "AsistenciaClaseApi/GetObservacionClase?dni=" + dni);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    respuesta = response.StatusCode.ToString();
+                }
+            }
+            return respuesta;
+        }
+
     }
 }

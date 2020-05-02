@@ -19,6 +19,7 @@ namespace BusinessWebSite.Engine.Interfaces
         Task<string> GetGrados(string strToken, int idCompany);
         Task<string> GetTurnos(string strToken, int idCompany);
         Task<bool> RegisterDevice(string jsonData, string strToken);
+        Task<string> GetObservacionClase(string dni, string strToken);
         Task<string> GetHistoriaAsistenciaPerson(string dni, string strToken);
         Task<bool> UpdateObservacionAsistencia(string jsonData, string strToken);
         Task<string> GetHistoriaAsistenciaPersonaXlsx(string dni, string strToken);

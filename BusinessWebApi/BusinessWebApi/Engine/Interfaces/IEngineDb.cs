@@ -39,6 +39,7 @@ namespace BusinessWebApi.Engine.Interfaces
         UserApi GetUser(string password, string password2);
         List<Person> GetPerson(List<AsistenciaClase> asis);
         List<Models.Objetos.Turno> GetTurnos(int idCompany);
+        List<ObservacionClase> GetObservacionClase(string dni);
         bool NewObservacionClase(ObservacionClase observacion);
         bool UpdateAsistenciaClase(List<AsistenciaClase> asis);
         object GetDniUserApi(int id, int idCompany, string email);

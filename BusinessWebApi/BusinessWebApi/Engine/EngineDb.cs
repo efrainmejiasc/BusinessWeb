@@ -546,6 +546,23 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
+        public List<ObservacionClase> GetObservacionClase (string dni)
+        {
+            List<ObservacionClase> observaciones = new List<ObservacionClase>();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    observaciones = context.ObservacionClase.Where(s => s.Dni == dni).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetObservacionClase*" + dni));
+            }
+            return observaciones;
+        }
+
         public bool ComparacionDniToUpdateAsistenciaClase(string dniAdm , int idAsistencia)
         {
             bool resultado = false;

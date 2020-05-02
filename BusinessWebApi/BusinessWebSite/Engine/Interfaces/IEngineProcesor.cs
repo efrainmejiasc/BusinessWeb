@@ -17,6 +17,7 @@ namespace BusinessWebSite.Engine.Interfaces
         Task<string> GetTurnos(string accessToken, int idCompany, IEngineHttp FuncionHttp);
         Task <TicketAcceso> GetTicketAccesoAsync(string jsonUserApi, IEngineHttp FuncionHttp);
         Task<bool> RegisterDevice(string jsonData, string accessToken, IEngineHttp FuncionHttp);
+        Task<string> GetObservacionClase(string dni, string accessToken, IEngineHttp FuncionHttp);
         Task<string> GetHistoriaAsistenciaPerson(string dni, string accessToken, IEngineHttp FuncionHttp);
         Task<bool> UpdateObservacionAsistencia(string jsonData, string accessToken, IEngineHttp FuncionHttp);
         Task<string> GetHistoriaAsistenciaPersonaXlsx(string dni, string accessToken, IEngineHttp FuncionHttp);

@@ -64,7 +64,7 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
-        public string BuidObservacionAsistencia(int idAsistencia, string dni, bool status, string materia,string observacion ,string dniAdm , int idCompany)
+        public string BuildObservacionAsistencia(int idAsistencia, string dni, bool status, string materia,string observacion ,string dniAdm , int idCompany)
         {
             ObservacionClase modelo = new ObservacionClase()
             {
@@ -81,7 +81,7 @@ namespace BusinessWebSite.Engine
             return JsonConvert.SerializeObject(modelo);
         }
 
-        public string BuildXlsxAsistenciaClase(List<HistoriaAsistenciaPerson> asis,string nombre, string apellido, string dni)
+        public string BuildXlsxAsistenciaClase(List<HistoriaAsistenciaPerson> asis, List<ObservacionClase> observacion, string nombre, string apellido, string dni)
         {
             Excel.Application application = new Excel.Application();
             Excel.Workbook workbook = application.Workbooks.Add(System.Reflection.Missing.Value);
@@ -116,19 +116,44 @@ namespace BusinessWebSite.Engine
             {
                 worksheet.Range["A" + row.ToString(), "C" + row.ToString()].Font.Color = System.Drawing.Color.Black;
                 worksheet.Range["A" + row.ToString(), "C" + row.ToString()].Font.Size = 10;
-
                 worksheet.Cells[row, 1] = index.ToString();
                 worksheet.Cells[row, 2] = I.Materia;
-                worksheet.Cells[row, 3] = I.FechaInasistencia;
+                worksheet.Cells[row, 3] = I.FechaInasistencia.Substring(0,9);
                 totalInasistencias ++;
                 index++;
                 row++;
             }
             worksheet.Cells[2, 5] = totalInasistencias.ToString();
 
+            if(observacion.Count > 0)
+            {
+                index = 1;
+                row++;
+                worksheet.Cells[row, 1] = "Observaciones";
+                worksheet.get_Range("A" + row.ToString(), "A" + row.ToString()).Interior.Color = Color.Black;
+                worksheet.get_Range("A" + row.ToString(), "A" + row.ToString()).Font.Color = Color.White;
+                row++;
+                worksheet.Cells[row, 1] = "Nº";
+                worksheet.Cells[row, 2] = "Materia";
+                worksheet.Cells[row, 3] = "Fecha Observacion";
+                worksheet.Cells[row, 4] = "Observacion";
+                worksheet.get_Range("A" + row.ToString(), "D" + row.ToString()).Interior.Color = Color.Black;
+                worksheet.get_Range("A" + row.ToString(), "D" + row.ToString()).Font.Color = Color.White;
+                row++;
+                foreach(var J in observacion)
+                {
+                    worksheet.Range["A" + row.ToString(), "D" + row.ToString()].Font.Color = System.Drawing.Color.Black;
+                    worksheet.Range["A" + row.ToString(), "D" + row.ToString()].Font.Size = 10;
+                    worksheet.Cells[row, 1] = index.ToString();
+                    worksheet.Cells[row, 2] = J.Materia;
+                    worksheet.Cells[row, 3] = J.CreateDate.ToString("dd/MM/yyyy");
+                    worksheet.Cells[row, 4] = J.Observacion;
+                    index++;
+                    row++;
+                }
 
-            //worksheet.get_Range("B10", "B10").Interior.Color = Color.Black;
-            //worksheet.get_Range("B10", "B10").Font.Color = Color.White;
+            }
+         
 
             application.Columns.AutoFit();
             application.Rows.AutoFit();

@@ -227,7 +227,7 @@ namespace BusinessWebSite.Controllers
 
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
 
-            string jsonData = Funcion.BuidObservacionAsistencia(idAsistencia, dni, status, materia, observacion, dniAdm, idCompany);
+            string jsonData = Funcion.BuildObservacionAsistencia(idAsistencia, dni, status, materia, observacion, dniAdm, idCompany);
             bool resultado = await Proceso.UpdateObservacionAsistencia(jsonData, token, FuncionHttp);
             Respuesta respuesta = new Respuesta();
             if (resultado)
@@ -247,7 +247,7 @@ namespace BusinessWebSite.Controllers
 
             Respuesta respuesta = new Respuesta();
 
-            string token = string.Empty; string jsonHistoria = string.Empty; string pathAdjunto = string.Empty;
+            string token = string.Empty; string jsonHistoria = string.Empty; string pathAdjunto = string.Empty;string jsonObservaciones = string.Empty;
             if (resumen)
             {
                 if (System.Web.HttpContext.Current.Session["AccessToken"] != null)
@@ -265,7 +265,10 @@ namespace BusinessWebSite.Controllers
                 {
                     List<HistoriaAsistenciaPerson> historia = new List<HistoriaAsistenciaPerson>();
                     historia = JsonConvert.DeserializeObject<List<HistoriaAsistenciaPerson>>(jsonHistoria);
-                    pathAdjunto = Funcion.BuildXlsxAsistenciaClase(historia, nombre, apellido, dni);
+                    List<ObservacionClase> observaciones = new List<ObservacionClase>();
+                    jsonObservaciones = await Proceso.GetObservacionClase(dni, token, FuncionHttp);
+                    observaciones = JsonConvert.DeserializeObject<List<ObservacionClase>>(jsonObservaciones);
+                    pathAdjunto = Funcion.BuildXlsxAsistenciaClase(historia,observaciones, nombre, apellido, dni);
                 }
             }
 

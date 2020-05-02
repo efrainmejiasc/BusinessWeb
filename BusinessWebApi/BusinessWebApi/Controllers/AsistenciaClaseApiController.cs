@@ -194,6 +194,13 @@ namespace BusinessWebApi.Controllers
             return lista;
         }
 
+        [HttpGet]
+        [ActionName("GetObservacionClase")]
+        public List<ObservacionClase> GetObservacionClase(string dni)
+        {
+            List<ObservacionClase> lista = Metodo.GetObservacionClase(dni);
+            return lista;
+        }
 
     }
 }
