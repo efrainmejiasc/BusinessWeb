@@ -533,11 +533,57 @@ namespace BusinessWebApi.Engine
                     context.ObservacionClase.Add(observacion);
                     context.SaveChanges();
                 }
-               resultado  =  UpdateAsistenciaClase(observacion.IdAsistencia, observacion.Status);
+
+                if (ComparacionDniToUpdateAsistenciaClase(observacion.DniAdm, observacion.IdAsistencia))
+                    resultado = UpdateAsistenciaClase(observacion.IdAsistencia, observacion.Status);
+                else 
+                    resultado = true;
             }
             catch (Exception ex)
             {
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewObservacionClase*" + observacion.Dni));
+            }
+            return resultado;
+        }
+
+        public bool ComparacionDniToUpdateAsistenciaClase(string dniAdm , int idAsistencia)
+        {
+            bool resultado = false;
+            ObservacionClase O = new ObservacionClase();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    O = context.ObservacionClase.Where(x => x.DniAdm == dniAdm && x.Id == idAsistencia).FirstOrDefault();
+                    if (O.Id > 0)
+                        resultado = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/ComparacionDniToUpdateAsistenciaClase*" + dniAdm));
+            }
+            return resultado;
+        }
+
+        public bool NewObservacionClasePagina(ObservacionClase observacion)
+        {
+            bool resultado = false;
+            try
+            {
+                observacion.CreateDate = DateTime.UtcNow.Date;
+                using (EngineContext context = new EngineContext())
+                {
+                    context.ObservacionClase.Add(observacion);
+                    context.SaveChanges();
+                }
+
+                resultado = UpdateAsistenciaClase(observacion.IdAsistencia, observacion.Status);
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewObservacionClasePagina*" + observacion.Dni));
             }
             return resultado;
         }

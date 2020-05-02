@@ -44,6 +44,7 @@ namespace BusinessWebApi.Engine.Interfaces
         object GetDniUserApi(int id, int idCompany, string email);
         bool NewAsistenciaClase(List<AsistenciaClase> asistencias);
         UserApi GetUserSuspended(string password, string password2);
+        bool NewObservacionClasePagina(ObservacionClase observacion);
         List<RegisterDevice> GetListDevicesRegistered(string codigo);
         bool NewAsistenciaComedor(List<AsistenciaComedor> asistencias);
         bool UpdateUserApi(string userName, string email, string password);

@@ -47,11 +47,15 @@ namespace BusinessWebSite.Controllers
             {
                 respuesta.Descripcion = "Autentificacion Exitosa";
                 respuesta.Resultado = true;
+                string[] partes = ticket.dni.Split('=');
+                ticket.dni = partes[1].Replace("\"", "").Trim();
+                ticket.dni = ticket.dni.Replace("}", "").Trim();
                 System.Web.HttpContext.Current.Session["User"] = user;
                 System.Web.HttpContext.Current.Session["Password"] = password;
                 System.Web.HttpContext.Current.Session["Email"] = ticket.email;
                 System.Web.HttpContext.Current.Session["AccessToken"] = ticket.access_token;
                 System.Web.HttpContext.Current.Session["IdCompany"] = ticket.idCompany;
+                System.Web.HttpContext.Current.Session["DniAdm"] = ticket.dni;
             }
             else
             {
@@ -62,6 +66,7 @@ namespace BusinessWebSite.Controllers
                 System.Web.HttpContext.Current.Session["AccessToken"] = null;
                 System.Web.HttpContext.Current.Session["IdCompany"] = null;
                 System.Web.HttpContext.Current.Session["Password"] = null;
+                System.Web.HttpContext.Current.Session["DniAdm"] = null;
             }
             return Json(respuesta);
         }
@@ -98,7 +103,7 @@ namespace BusinessWebSite.Controllers
             string user = System.Web.HttpContext.Current.Session["User"].ToString();
             string email = System.Web.HttpContext.Current.Session["Email"].ToString();
             string token = System.Web.HttpContext.Current.Session["AccessToken"].ToString();
-            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni ,nombre);
+            string jsonData = Funcion.BuildRegisterDeviceStr(user, email, codigo, phone, dni ,nombre.ToUpper());
             bool resultado = await Proceso.RegisterDevice(jsonData, token, FuncionHttp);
             if (resultado)
                 ViewBag.Response = "Registro satisfactorio";

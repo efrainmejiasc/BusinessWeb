@@ -126,6 +126,42 @@ namespace BusinessWebApi.Controllers
             return response;
         }
 
+        [HttpPost]
+        [ActionName("ObservacionClasePagina")]
+        public HttpResponseMessage ObservacionClasePagina([FromBody] ObservacionClase model)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            if (model == null)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
+                return response;
+            }
+
+            bool resultado = false;
+            try
+            {
+                resultado = Metodo.NewObservacionClasePagina(model);
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+            }
+
+            if (!resultado)
+            {
+                response.Content = new StringContent("Fallo al insertar observacion", Encoding.Unicode);
+            }
+            else
+            {
+                response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
+                response.Headers.Location = new Uri(EngineData.UrlBase + EngineData.UrlLogin);
+            }
+
+            return response;
+        }
+
         [HttpGet]
         [ActionName("GetHistoriaAsistenciaPerson")]
         public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaClase(string dni)

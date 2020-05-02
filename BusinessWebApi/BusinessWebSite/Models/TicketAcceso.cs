@@ -16,5 +16,6 @@ namespace BusinessWebSite.Models
         public string idCompany { get; set; }
         public string status { get; set; }
         public string idTypeUser { get; set; }
+        public string dni { get; set; }
     }
 }
