@@ -41,7 +41,17 @@ namespace BusinessWebApi.Models
         [Column(Order = 8, TypeName = "INT")]
         public int Turno { get; set; }
 
-        [Column(Order = 9, TypeName = "BIT")]
-        public bool EmailSend  { get; set; }
+        [Column(Order = 9, TypeName = "VARCHAR")]
+        [StringLength(50)]
+        public string EmailSend  { get; set; }
+
+
+        [Column(Order = 10, TypeName = "VARCHAR")]
+        [StringLength(20)]
+        public string Grado { get; set; }
+
+        [Column(Order = 11, TypeName = "VARCHAR")]
+        [StringLength(20)]
+        public string Grupo { get; set; }
     }
 }

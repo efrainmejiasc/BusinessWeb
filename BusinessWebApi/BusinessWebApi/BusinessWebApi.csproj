@@ -61,6 +61,10 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.6.0\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
@@ -143,6 +147,7 @@
     <Compile Include="Controllers\CompanyApiController.cs" />
     <Compile Include="Controllers\DeviceApiController.cs" />
     <Compile Include="Controllers\PersonApiController.cs" />
+    <Compile Include="Controllers\ToolCompanyController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Engine\EngineContext.cs" />
     <Compile Include="Engine\EngineData.cs" />
@@ -167,17 +172,25 @@
     <Compile Include="Migrations\202002242123506_INIT1.designer.cs">
       <DependentUpon>202002242123506_INIT1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003160130270_person.cs" />
+    <Compile Include="Migrations\202003160130270_person.designer.cs">
+      <DependentUpon>202003160130270_person.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AsistenciaClase.cs" />
     <Compile Include="Models\AsistenciaComedor.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\DevicesCompany.cs" />
+    <Compile Include="Models\Materias.cs" />
     <Compile Include="Models\Objetos\Asistencia.cs" />
     <Compile Include="Models\Objetos\DataEmail.cs" />
     <Compile Include="Models\Objetos\DataEmailNoAsistencia.cs" />
     <Compile Include="Models\Objetos\Grado.cs" />
     <Compile Include="Models\Objetos\Grupo.cs" />
+    <Compile Include="Models\Objetos\HistoriaAsistenciaPerson.cs" />
     <Compile Include="Models\Objetos\RegisterDevice.cs" />
+    <Compile Include="Models\Objetos\Turno.cs" />
+    <Compile Include="Models\ObservacionClase.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\SucesoLog.cs" />
     <Compile Include="Models\Turno.cs" />
@@ -186,6 +199,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="libman.json" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
@@ -204,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002242123506_INIT1.resx">
       <DependentUpon>202002242123506_INIT1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003160130270_person.resx">
+      <DependentUpon>202003160130270_person.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

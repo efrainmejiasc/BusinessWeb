@@ -1,0 +1,20 @@
+USE [BusinessWeb]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Sp_UpdatePersonFoto]
+(
+	 @Dni VARCHAR(50),
+	 @Foto VARCHAR (MAX)
+)
+AS
+BEGIN
+
+SET NOCOUNT ON;
+
+UPDATE Person SET Foto = @Foto Where Dni = @Dni
+
+END;

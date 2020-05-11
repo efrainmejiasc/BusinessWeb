@@ -1,6 +1,15 @@
 ﻿.divBan {
-    margin-top: 70px;
+    margin-top: 50px;
     float:left;
+}
+
+.logoInitial {
+    height: 14vh;
+    width: 8vw;
+    position: absolute;
+    margin-left:32%;
+    margin-top:-1%;
+    float:right;
 }
 
 .divPrimary {
@@ -12,7 +21,7 @@
 }
 
 .voton {
-    width: 14vh;
+    width: 8vw;
 }
 
 .cBtn {
@@ -48,9 +57,9 @@ input:valid {
 }
 
 .imgCarnet{
-    width:25%;
-    height:35%;
-    float:left;
+    width:10vw;
+    height:auto;
+    float:right;
 }
 
 .imgQr {
@@ -84,7 +93,47 @@ input:valid {
     padding: 20px;
     border: 1px solid #888;
     width: 35%;
-    height:45%;
+    height:70%;
+}
+
+/* Modal Content */
+.modal-content2 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    height:70%;
+}
+
+/* Modal Content */
+.modal-content3 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 38%;
+    height: 65%;
+}
+
+/* Modal Content */
+.modal-content4 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+    height: 48%;
+}
+
+/* Modal Content */
+.modal-content5 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    height: 50%;
 }
 
 /* The Close Button */
@@ -101,4 +150,50 @@ input:valid {
         text-decoration: none;
         cursor: pointer;
     }
+
+header {
+    background: #8E2DE2;
+    background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);
+    background: linear-gradient(to right, #4A00E0, #8E2DE2);
+}
+
+/*estilos para la tabla*/
+table th {
+    background-color: #337ab7 !important;
+    color: white;
+}
+
+table > tbody > tr > td {
+    vertical-align: middle !important;
+}
+
+/*para alinear los botones y cuadro de busqueda*/
+.btn-group, .btn-group-vertical {
+    position: absolute !important;
+}
+
+.txtAst{
+    width:50vw;
+    height:50px;
+}
+
+textarea {
+    resize: none;
+}
+
+.btn-group , .btn-group-vertical{
+    position:absolute !important;
+}
+
+.tableH {
+    background: #f7e406 !important;
+}
+
+/******************************************/
+
+.footerPage {
+    background-color: #085CA6;
+    color: white;
+    position: static;
+}
 

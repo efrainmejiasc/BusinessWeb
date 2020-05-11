@@ -92,13 +92,13 @@ namespace BusinessWebApi.Controllers
 
             string unicoIdentificador = Guid.NewGuid().ToString();
             int expire = EngineData.ExpireToken;
-            DateTime time = DateTime.UtcNow;
-            DateTime expireTime = time.AddMinutes(Convert.ToInt32(expire));
+            DateTime time = DateTime.Now;
+            DateTime expireTime = time.AddDays(Convert.ToInt32(expire));
             var tokenString = GenerateTokenJwt(user, unicoIdentificador, time, expireTime);
             response = Ok(new
             {
                 access_token = tokenString,
-                expire_token = "20000",
+                expire_token = "11520000",
                 type_token = "Bearer",
                 refresh_token = unicoIdentificador,
                 email = user.Email,
@@ -144,5 +144,35 @@ namespace BusinessWebApi.Controllers
             string token = tokenHandler.WriteToken(jwtSecurityToken);
             return token;
         }
+
+        [AllowAnonymous]
+        [HttpPut]
+        [ActionName("UpdateUser")]
+        public HttpResponseMessage UpdateUser([FromBody] UserApi user)
+        {
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            if (user.User == string.Empty || user.Password == string.Empty)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
+                return response;
+            }
+            bool resultado = Metodo.ExistsUserApi(user.User);
+            if (!resultado)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                response.Content = new StringContent(EngineData.noExisteUsuario, Encoding.Unicode);
+                return response;
+            }
+            UserApi usuario = Metodo.GetUserApi(user.User);
+            resultado = Metodo.UpdateUserApi(usuario.User, usuario.Email, user.Password);
+            if (resultado)
+                response.Content = new StringContent(EngineData.transaccionExitosa, Encoding.Unicode);
+            else
+                response.Content = new StringContent(EngineData.transaccionFallida, Encoding.Unicode);
+
+            return response;
+        }
+
     }
 }

@@ -36,22 +36,22 @@ namespace BusinessWebApi.Controllers
                 return response;
             }
 
-            Company company = Metodo.GetCompanyCodigo(device.Codigo);
+            Company company = Metodo.GetCompanyCodigo(device.Codigo); //Obtiene el codigo de la empresa 
             if (company == null || company.Id == 0)
             {
                 response.Content = new StringContent("No existe el codigo ingresado", Encoding.Unicode);
                 return response;
             }
             DevicesCompany deviceCompany = new DevicesCompany();
-            int countDevice = Metodo.NumberDeviceRegister(company.Id);
+            int countDevice = Metodo.NumberDeviceRegister(company.Id); //Obtiene la cantidad de equipos registrados
             if (countDevice == 0)
             {
                 deviceCompany = Funcion.BuilDeviceCompany(company, device, Metodo);
             }
             else
             {
-                List<RegisterDevice> listDevice = Metodo.GetListDevicesRegistered(device.Codigo);
-                if (listDevice.Count < countDevice)
+                List<RegisterDevice> listDevice = Metodo.GetListDevicesRegistered(device.Codigo); // Obtiene la lista de equipos registrados 
+                if (listDevice.Count > countDevice)
                 {
                     response.Content = new StringContent("Limite para registrar dispositivos superado", Encoding.Unicode);
                     return response;
@@ -66,7 +66,7 @@ namespace BusinessWebApi.Controllers
                     }
                 } 
             }
-            bool resultado = Metodo.RegisterDevice(deviceCompany);
+            bool resultado = Metodo.RegisterDevice(deviceCompany); 
             if (resultado) 
             {
                 Metodo.UpdateUserApi(company.Id, company.NameCompany, device.User, device.Email);

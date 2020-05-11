@@ -3,6 +3,8 @@ using BusinessWebApi.Models;
 using BusinessWebApi.Models.Objetos;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -85,6 +87,97 @@ namespace BusinessWebApi.Engine
             return null;
         }
 
+        public bool UpdateUserApi(int idCompany, string nameCompany, string user, string email)
+        {
+            bool resultado = false;
+            UserApi C = new UserApi();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == user && s.Email == email).FirstOrDefault();
+                    Context.UserApi.Attach(C);
+                    C.IdCompany = idCompany;
+                    C.Company = nameCompany;
+                    C.IdTypeUser = 2;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+
+                    resultado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
+            }
+            return resultado;
+        }
+
+        public UserApi GetUserApi(string strValue)
+        {
+            UserApi C = null;
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == strValue || s.Email == strValue).FirstOrDefault();
+                    return C;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetUserApi*" + strValue));
+            }
+            return C;
+        }
+
+
+        public bool ExistsUserApi(string strValue)
+        {
+            bool resultado = false;
+            UserApi C = new UserApi();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == strValue || s.Email == strValue).FirstOrDefault();
+                    if (C != null)
+                        resultado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/ExistsUserApi*" + strValue));
+            }
+            return resultado;
+        }
+
+        public bool UpdateUserApi(string userName, string email, string password)
+        {
+            bool resultado = false;
+            string pass1 = Tool.ConvertirBase64(email + password);
+            string pass2 = Tool.ConvertirBase64(userName + password);
+            UserApi C = new UserApi();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.UserApi.Where(s => s.User == userName || s.Email == email).FirstOrDefault();
+                    Context.UserApi.Attach(C);
+                    C.Password = pass1;
+                    C.Password = pass2;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+                }
+                resultado = true;
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
+            }
+            return resultado;
+        }
+
         public UserApi GetUserSuspended(string password, string password2)
         {
             UserApi user = null;
@@ -104,6 +197,7 @@ namespace BusinessWebApi.Engine
             return null;
         }
 
+
         public int GetCompanyId(string nameCompany)
         {
             Company company = null;
@@ -120,6 +214,24 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetCompanyId*" + nameCompany));
             }
             return 0;
+        }
+
+        public string GetCompanyName(int idCompany)
+        {
+            Company company = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Id == idCompany).FirstOrDefault();
+                    return company.NameCompany;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetCompanyNamme*" + idCompany.ToString()));
+            }
+            return string.Empty;
         }
 
         public Company GetCompanyCodigo(string codigo)
@@ -147,6 +259,7 @@ namespace BusinessWebApi.Engine
                 foreach (Person person in persons)
                 {
                     person.IdCompany = GetCompanyId(person.Company);
+                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + "#"+ person.Dni);
                     CreatePerson(person);
                 }
                 resultado = true;
@@ -184,6 +297,7 @@ namespace BusinessWebApi.Engine
             {
                 foreach (Person person in persons)
                 {
+                    person.Identificador = Tool.ConvertirBase64(person.Nombre + "#" + person.Apellido + "#" + person.Dni);
                     UpdatePerson(person);
                 }
                 resultado = true;
@@ -219,6 +333,7 @@ namespace BusinessWebApi.Engine
                     C.Grupo = person.Grupo;
                     C.Matricula = person.Matricula;
                     C.Status = person.Status;
+                    C.Identificador = person.Identificador;
                     Context.Configuration.ValidateOnSaveEnabled = false;
                     Context.SaveChanges();
 
@@ -289,13 +404,223 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
+        public List<Asistencia> GetAsistenciaClase(string fecha, string grado, string grupo,int turno, int idCompany)
+        {
+            List<Asistencia> lista = new List<Asistencia>();
+            DateTime date = Convert.ToDateTime(fecha);
+            using (EngineContext context = new EngineContext())
+            {
+                lista = (from P in context.Person
+                         join A in context.AsistenciaClase
+                         on P.Dni equals A.Dni
+                         join D in context.DevicesCompany
+                         on A.DniAdm equals D.Dni
+                         where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.Turno == turno && P.IdCompany == idCompany && A.IdCompany == idCompany && A.DniAdm == D.Dni
+                         select new Asistencia()
+                         {
+                             Id = A.Id,
+                             Nombre = P.Nombre,
+                             Apellido = P.Apellido,
+                             Status = A.Status,
+                             CreateDate = A.CreateDate,
+                             Dni = P.Dni,
+                             Email = P.Email,
+                             Grado = P.Grado,
+                             Grupo = P.Grupo,
+                             IdCompany = P.IdCompany,
+                             Materia = A.Materia,
+                             Foto = P.Foto,
+                             DniAdm = A.DniAdm,
+                             NombreProfesor = D.Nombre
+                         }).ToList();
+            }
+            return lista;
+        }
+
+        public List<Asistencia> GetDetalleHistoriaAsistenciaPerson(string dni , string materia , string dniAdm)
+        {
+            List<Asistencia> lista = new List<Asistencia>();
+            using (EngineContext context = new EngineContext())
+            {
+                lista = (from A in context.AsistenciaClase 
+                         join D in context.DevicesCompany
+                         on A.DniAdm equals D.Dni
+                         where A.Dni == dni && A.DniAdm == dniAdm  && A.Materia == materia && A.Status == false
+                         select new Asistencia()
+                         {
+                           Id = A.Id,
+                           CreateDate = A.CreateDate,
+                           DniAdm = A.DniAdm,
+                           Dni = A.Dni,
+                           Materia = A.Materia,
+                           NombreProfesor = D.Nombre
+                         }).ToList();
+            }
+            return lista;
+        }
+
+        public AsistenciaClase GetAsistenciaClase(string fecha, string dni , string materia, string grado, string grupo, int idCompany)
+        {
+            AsistenciaClase asistencia = new AsistenciaClase();
+
+            DateTime date = Convert.ToDateTime(fecha);
+            using (EngineContext context = new EngineContext())
+            {
+               asistencia = context.AsistenciaClase.Where(x => x.CreateDate == date && x.Dni == dni && x.Materia == materia && x.Grado == grado && x.Grupo == grupo && x.IdCompany == idCompany).FirstOrDefault();
+            }
+            return asistencia;
+        }
+
+        public bool UpdateAsistenciaClase(List<AsistenciaClase> asis)
+        {
+            bool resultado = false;
+            AsistenciaClase C = new AsistenciaClase();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    foreach (AsistenciaClase a in asis)
+                    {
+                        C = Context.AsistenciaClase.Where(s => s.Dni == a.Dni && s.CreateDate == a.CreateDate && s.EmailSend == a.EmailSend && s.Status == false).FirstOrDefault();
+                        Context.AsistenciaClase.Attach(C);
+                        C.EmailSend = a.EmailSend;
+                        Context.Configuration.ValidateOnSaveEnabled = false;
+                        Context.SaveChanges();
+
+                        resultado = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string refe = asis[0].IdCompany.ToString() + " " + asis[0].Materia + " " + DateTime.UtcNow.Date.ToString();
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateAsistencia*" + refe));
+            }
+            return resultado;
+        }
+
+        public bool UpdateAsistenciaClase(int id , bool status)
+        {
+            bool resultado = false;
+            AsistenciaClase C = new AsistenciaClase();
+            try
+            {
+                using (EngineContext Context = new EngineContext())
+                {
+                    C = Context.AsistenciaClase.Where(s => s.Id == id).FirstOrDefault();
+                    Context.AsistenciaClase.Attach(C);
+                    C.Status = status;
+                    Context.Configuration.ValidateOnSaveEnabled = false;
+                    Context.SaveChanges();
+                    resultado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateAsistencia*" + id.ToString()));
+            }
+            return resultado;
+        }
+
+        public bool NewObservacionClase(ObservacionClase observacion)
+        {
+            bool resultado = false;
+            try
+            {
+                observacion.CreateDate = DateTime.UtcNow.Date;
+                using (EngineContext context = new EngineContext())
+                {
+                    context.ObservacionClase.Add(observacion);
+                    context.SaveChanges();
+                }
+
+                if (ComparacionDniToUpdateAsistenciaClase(observacion.DniAdm, observacion.IdAsistencia))
+                    resultado = UpdateAsistenciaClase(observacion.IdAsistencia, observacion.Status);
+                else 
+                    resultado = true;
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewObservacionClase*" + observacion.Dni));
+            }
+            return resultado;
+        }
+
+        public List<ObservacionClase> GetObservacionClase (string dni)
+        {
+            List<ObservacionClase> observaciones = new List<ObservacionClase>();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    observaciones = context.ObservacionClase.Where(s => s.Dni == dni).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetObservacionClase*" + dni));
+            }
+            return observaciones;
+        }
+
+        public bool ComparacionDniToUpdateAsistenciaClase(string dniAdm , int idAsistencia)
+        {
+            bool resultado = false;
+            ObservacionClase O = new ObservacionClase();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    O = context.ObservacionClase.Where(x => x.DniAdm == dniAdm && x.Id == idAsistencia).FirstOrDefault();
+                    if (O.Id > 0)
+                        resultado = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/ComparacionDniToUpdateAsistenciaClase*" + dniAdm));
+            }
+            return resultado;
+        }
+
+        public bool NewObservacionClasePagina(ObservacionClase observacion)
+        {
+            bool resultado = false;
+            try
+            {
+                observacion.CreateDate = DateTime.UtcNow.Date;
+                using (EngineContext context = new EngineContext())
+                {
+                    context.ObservacionClase.Add(observacion);
+                    context.SaveChanges();
+                }
+
+                resultado = UpdateAsistenciaClase(observacion.IdAsistencia, observacion.Status);
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NewObservacionClasePagina*" + observacion.Dni));
+            }
+            return resultado;
+        }
+
         public List<AsistenciaClase> StudentsNonAttending()
         {
             List<AsistenciaClase> noAsistentes = new List<AsistenciaClase>();
-            using (EngineContext context = new EngineContext())
-            {
-               noAsistentes = context.AsistenciaClase.Where(x => x.Status == false && x.CreateDate == DateTime.UtcNow.Date && x.EmailSend == false).ToList();
+
+            DateTime Time = DateTime.UtcNow.Date;
+            try {
+                using (EngineContext context = new EngineContext())
+                {
+                    noAsistentes = context.AsistenciaClase.Where(x => x.Status == false && x.CreateDate == Time).ToList();
+                }
             }
+            catch(Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/StudentsNonAttending*" + "SS"));
+            }
+         
             return noAsistentes;
         }
 
@@ -353,6 +678,42 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
+        public string EmailCompany(int idCompany)
+        {
+            Company company = new Company();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    company = context.Company.Where(s => s.Id == idCompany).FirstOrDefault();
+                    return company.Email;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/EmailCompany*" + idCompany.ToString()));
+            }
+            return string.Empty;
+        }
+
+        public string NameDevice(string dni)
+        {
+            DevicesCompany device = new DevicesCompany();
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    device = context.DevicesCompany.Where(s => s.Dni == dni).FirstOrDefault();
+                    return device.Nombre;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/NameDevice*" + dni));
+            }
+            return string.Empty;
+        }
+
         public int NumberDevice (string codigo)
         {
             Company company = new Company();
@@ -378,7 +739,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                     count = (from DeviceCompany in context.DeviceCompany where DeviceCompany.IdCompany == idCompany from s in context.DeviceCompany select s).Count();
+                     count = (from DeviceCompany in context.DevicesCompany where DeviceCompany.IdCompany == idCompany from s in context.DevicesCompany select s).Count();
                      return count;
                 }
             }
@@ -397,7 +758,7 @@ namespace BusinessWebApi.Engine
                 using (EngineContext context = new EngineContext())
                 {
 
-                   device = (from Company in context.Company join DevicesCompany in context.DeviceCompany 
+                   device = (from Company in context.Company join DevicesCompany in context.DevicesCompany 
                                                              on Company.Id equals DevicesCompany.IdCompany
                                                              where Company.Codigo == codigo && Company.Status == true
                                                              select new RegisterDevice() 
@@ -420,7 +781,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    var dni = (from A in context.UserApi join B in context.DeviceCompany
+                    var dni = (from A in context.UserApi join B in context.DevicesCompany
                                on A.Id equals B.IdUserApi
                                where A.Id == id && A.Email == email && B.IdCompany == idCompany
                                select new { B.Dni }).FirstOrDefault();
@@ -440,7 +801,7 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    context.DeviceCompany.Add(device);
+                    context.DevicesCompany.Add(device);
                     context.SaveChanges();
                 }
                 resultado = true;
@@ -452,79 +813,27 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-        public bool UpdateUserApi (int idCompany , string nameCompany ,string user,string email)
-        {
-            bool resultado = false;
-            UserApi C = new UserApi();
-            try
-            {
-                using (EngineContext Context = new EngineContext())
-                {
-                    C = Context.UserApi.Where(s => s.User == user && s.Email == email).FirstOrDefault();
-                    Context.UserApi.Attach(C);
-                    C.IdCompany = idCompany;
-                    C.Company = nameCompany;
-                    C.IdTypeUser = 2;
-                    Context.Configuration.ValidateOnSaveEnabled = false;
-                    Context.SaveChanges();
-
-                    resultado = true;
-                }
-            }
-            catch (Exception ex) 
-            {
-                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateUserApi*" + email));
-            }
-            return resultado;
-        }
-
-        public bool UpdateAsistencia(List<AsistenciaClase> asis)
-        {
-            bool resultado = false;
-            AsistenciaClase C = new AsistenciaClase();
-            try
-            {
-                using (EngineContext Context = new EngineContext())
-                {
-                    foreach (AsistenciaClase a in asis)
-                    {
-                        C = Context.AsistenciaClase.Where(s => s.Dni == a.Dni && s.CreateDate == a.CreateDate && s.EmailSend == false && s.Status == false).FirstOrDefault();
-                        Context.AsistenciaClase.Attach(C);
-                        C.EmailSend = true;
-                        Context.Configuration.ValidateOnSaveEnabled = false;
-                        Context.SaveChanges();
-
-                        resultado = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string refe = asis[0].IdCompany.ToString() + " " + asis[0].Materia + " " + DateTime.UtcNow.Date.ToString();
-                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/UpdateAsistencia*" + refe));
-            }
-            return resultado;
-        }
-
-
         public List<Person> GetPerson(List<AsistenciaClase> asis)
         {
             List<Person> personas = new List<Person>();
+            Person person = new Person();
             foreach(AsistenciaClase i in asis)
             {
-                personas.Add(GetPerson(i.Dni));
+                person = GetPerson(i.Dni);
+                if (person != null)
+                      personas.Add(person);
             }
             return personas;
         }
 
-        public Person GetPerson (string dni)
+        public Person GetPerson(string dni)
         {
-           Person person = null;
+            Person person = null;
             try
             {
                 using (EngineContext context = new EngineContext())
                 {
-                    person = context.Person.Where(s => s.Dni == dni ).FirstOrDefault();
+                    person = context.Person.Where(s => s.Dni == dni).FirstOrDefault();
                     if (person != null)
                         return person;
                 }
@@ -534,9 +843,28 @@ namespace BusinessWebApi.Engine
                 InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPerson*" + dni));
             }
             return null;
+        } 
+
+        public Person GetPerson2 (string identificador)
+        {
+           Person person = null;
+            try
+            {
+                using (EngineContext context = new EngineContext())
+                {
+                    person = context.Person.Where(s => s.Identificador == identificador ).FirstOrDefault();
+                    if (person != null)
+                        return person;
+                }
+            }
+            catch (Exception ex)
+            {
+                InsertarSucesoLog(Funcion.ConstruirSucesoLog(ex.ToString() + "*EngineDb/GetPerson*" + Tool.DecodeBase64(identificador)));
+            }
+            return null;
         }
 
-       public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
+        public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
         {
             List<Person> persons = new List<Person>();
             try
@@ -562,7 +890,6 @@ namespace BusinessWebApi.Engine
             }
             return companys;
         }
-
 
         public bool UpdateCompany(Company company)
         {
@@ -593,15 +920,14 @@ namespace BusinessWebApi.Engine
             return resultado;
         }
 
-
-        public List<Grado> GetGrados()
+        public List<Grado> GetGrados(int idCompany)
         {
             List<Grado> grados = new List<Grado>();
             List<Person> p = new List<Person>();
             List<string> l = new List<string>();
             using (EngineContext context = new EngineContext())
             {
-                p = context.Person.ToList();
+                p = context.Person.Where(s => s.IdCompany == idCompany).ToList();
             }
             if (p.Count > 0)
             {
@@ -624,14 +950,14 @@ namespace BusinessWebApi.Engine
             return grados;
         }
 
-        public List<Grupo> GetGrupos()
+        public List<Grupo> GetGrupos(int idCompany)
         {
             List<Grupo> grupos = new List<Grupo>();
             List<Person> p = new List<Person>();
             List<string> l = new List<string>();
             using (EngineContext context = new EngineContext())
             {
-                p = context.Person.ToList();
+                p = context.Person.Where(s => s.IdCompany == idCompany).ToList();
             }
             if (p.Count > 0)
             {
@@ -654,30 +980,102 @@ namespace BusinessWebApi.Engine
             return grupos;
         }
 
-        public List<Asistencia> GetAsistenciaClase (string fecha , string grado, string grupo,int idCompany)
+        public List<Models.Objetos.Turno> GetTurnos(int idCompany)
         {
-            List<Asistencia> lista = new List<Asistencia>();
-            DateTime date = Convert.ToDateTime(fecha);
+            List<Models.Objetos.Turno> turnos = new List<Models.Objetos.Turno>();
+            List<Person> p = new List<Person>();
+            List<string> l = new List<string>();
             using (EngineContext context = new EngineContext())
             {
-                lista = (from P in context.Person
-                          join A in context.AsistenciaClase
-                          on P.Dni equals A.Dni
-                          where A.CreateDate == date && P.Grado == grado && P.Grupo == grupo && P.IdCompany == idCompany && A.IdCompany == idCompany
-                          select new Asistencia()
-                          {
-                           Nombre = P.Nombre,
-                           Apellido = P.Apellido,
-                           Status = A.Status,
-                           CreateDate = A.CreateDate,
-                           Dni = P.Dni,
-                           Email = P.Email,
-                           Grado = P.Grado,
-                           Grupo = P.Grupo,
-                           IdCompany = P.IdCompany
-                          }).ToList();
+                p = context.Person.Where(s => s.IdCompany == idCompany).ToList();
             }
-            return lista;
+            if(p.Count > 0)
+            {
+                Models.Objetos.Turno turno;
+                int n = 0;
+                foreach (Person i in p)
+                {
+                    turno = new Models.Objetos.Turno();
+                    turno.Id = n;
+                    if (i.Turno == 1)
+                        turno.NombreTurno = "MAÑANA";
+                    else if (i.Turno == 2)
+                        turno.NombreTurno = "TARDE";
+                    else if (i.Turno == 3)
+                        turno.NombreTurno = "NOCHE";
+
+                    if (!l.Contains(i.Grupo.Trim()))
+                    {
+                        l.Add(turno.NombreTurno);
+                        turnos.Insert(n, turno);
+                        n++;
+                    }
+                }
+
+            }
+
+            return turnos;
+        }
+
+        public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPerson(string dni)
+        {
+            SqlConnection conexion = new SqlConnection(EngineData.CNX);
+            List<HistoriaAsistenciaPerson> registros = new List<HistoriaAsistenciaPerson>();
+            using (conexion)
+            {
+                conexion.Open();
+                SqlCommand command = new SqlCommand("Sp_GetHistoriaAsistenciaPerson", conexion);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@Dni", dni);
+                SqlDataReader lector = command.ExecuteReader();
+                while (lector.Read())
+                {
+                    HistoriaAsistenciaPerson registro = new HistoriaAsistenciaPerson()
+                    {
+                        Materia = lector.GetString(0),
+                        DniAdm = lector.GetString(1),
+                        NumeroInasistencia = lector.GetInt32(2)
+                    };
+                    registros.Add(registro);
+                }
+                lector.Close();
+                conexion.Close();
+            }
+
+            return registros;
+        }
+
+        public List<HistoriaAsistenciaPerson> GetHistoriaAsistenciaPersonaXlsx (string dni)
+        {
+            List<AsistenciaClase> inasistencias = new List<AsistenciaClase>();
+            List<HistoriaAsistenciaPerson> historia = new List<HistoriaAsistenciaPerson>();
+            using (EngineContext context = new EngineContext())
+            {
+               inasistencias = context.AsistenciaClase.Where(s => s.Dni == dni && s.Status == false).ToList();
+            }
+            HistoriaAsistenciaPerson single = new HistoriaAsistenciaPerson();
+            int n = 0;
+            foreach (AsistenciaClase I in inasistencias)
+            {
+                single.Materia = I.Materia;
+                single.FechaInasistencia = I.CreateDate.ToString();
+                single.DniAdm = I.DniAdm;
+                single.NumeroInasistencia = 1;
+                historia.Insert(n, single);
+                n++;
+            }
+            return historia;
+        }
+
+        public List<Materias> GetMaterias(int idCompany)
+        {
+            List<Materias> materias = new List<Materias>();
+            using (EngineContext context = new EngineContext())
+            {
+                materias = context.Materias.Where(s => s.IdCompany == idCompany ).ToList();
+            }
+            return materias;
         }
 
         public bool InsertarSucesoLog(SucesoLog model)

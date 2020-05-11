@@ -16,7 +16,7 @@ namespace BusinessWebApi.Engine
 
             MailMessage mensaje = new MailMessage();
             SmtpClient servidor = new SmtpClient();
-            mensaje.From = new MailAddress("Test App <sudokuparatodos@gmail.com>");
+            mensaje.From = new MailAddress("www.tuidentidad.com.co<tuidentidad.com.co@gmail.com>");
             mensaje.Subject = "Prueba envio email";
             mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
             mensaje.Body = model.Cuerpo;
@@ -24,7 +24,7 @@ namespace BusinessWebApi.Engine
             mensaje.IsBodyHtml = true;
             mensaje.To.Add(new MailAddress(model.EmailTo));
             //if (pathAdjunto != string.Empty) { mensaje.Attachments.Add(new Attachment(pathAdjunto)); }
-            servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos@gmail.com", "1234santiago");
+            servidor.Credentials = new System.Net.NetworkCredential("tuidentidad.com.co@gmail.com", "1234santiago");
             servidor.Port = 587;
             servidor.Host = "smtp.gmail.com";
             servidor.EnableSsl = true;
@@ -41,7 +41,7 @@ namespace BusinessWebApi.Engine
 
             MailMessage mensaje = new MailMessage();
             SmtpClient servidor = new SmtpClient();
-            mensaje.From = new MailAddress("Solo Educativas <sudokuparatodos@gmail.com>");
+            mensaje.From = new MailAddress("www.tuidentidad.com.co <tuidentidad.com.co@gmail.com>");
             mensaje.Subject = "Codigo para registro de equipo telefonicos (Digital Comerce)";
             mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
             mensaje.Body = Mensaje(empresa,codigo);
@@ -49,7 +49,7 @@ namespace BusinessWebApi.Engine
             mensaje.IsBodyHtml = true;
             mensaje.To.Add(new MailAddress(emailTo));
             //if (pathAdjunto != string.Empty) { mensaje.Attachments.Add(new Attachment(pathAdjunto)); }
-            servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos@gmail.com", "1234santiago");
+            servidor.Credentials = new System.Net.NetworkCredential("tuidentidad.com.co@gmail.com", "1234santiago");
             servidor.Port = 587;
             servidor.Host = "smtp.gmail.com";
             servidor.EnableSsl = true;
@@ -74,7 +74,7 @@ namespace BusinessWebApi.Engine
           string body = string.Empty;
           foreach(DataEmailNoAsistencia i in emailNoAsistentes)
           {
-                body = "Saludos... </br> + Hoy: " + i.Fecha + "<br>     Por medio del presente notificamos la ausencia de: <strong>" +
+                body = "Saludos... </br> + Hoy: " + i.Fecha + "<br> (Prueba de Plataforma)    Por medio del presente notificamos la ausencia de: <strong>" +
                         i.Nombre + " " + i.Apellido + " </strong> documeto de identidad: <strong>" + i.Dni +
                        "</strong>  </br></br> ATT: Solo Educativas";
                 EnviarEmail(i.Email, body);
@@ -88,7 +88,7 @@ namespace BusinessWebApi.Engine
 
             MailMessage mensaje = new MailMessage();
             SmtpClient servidor = new SmtpClient();
-            mensaje.From = new MailAddress("Solo Educativas <sudokuparatodos@gmail.com>");
+            mensaje.From = new MailAddress("www.tuidentidad.com.co <tuidentidad.com.co@gmail.com>");
             mensaje.Subject = "Notificacion de inasistencia";
             mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
             mensaje.Body = body;
@@ -96,7 +96,34 @@ namespace BusinessWebApi.Engine
             mensaje.IsBodyHtml = true;
             mensaje.To.Add(new MailAddress(emailTo));
             //if (pathAdjunto != string.Empty) { mensaje.Attachments.Add(new Attachment(pathAdjunto)); }
-            servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos@gmail.com", "1234santiago");
+            servidor.Credentials = new System.Net.NetworkCredential("tuidentidad.com.co@gmail.com", "1234santiago");
+            servidor.Port = 587;
+            servidor.Host = "smtp.gmail.com";
+            servidor.EnableSsl = true;
+            servidor.Send(mensaje);
+            mensaje.Dispose();
+            result = true;
+
+            return result;
+
+        }
+
+
+        public bool EnviarEmail(string emailTo, string nombreArchivo, string pathAdjunto, bool n = false)
+        {
+            bool result = false;
+
+            MailMessage mensaje = new MailMessage();
+            SmtpClient servidor = new SmtpClient();
+            mensaje.From = new MailAddress("www.tuidentidad.com.co <tuidentidad.com.co@gmail.com>");
+            mensaje.Subject = "Asistencia: " + nombreArchivo;
+            mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
+            mensaje.Body = "Asistencia: " + nombreArchivo;
+            mensaje.BodyEncoding = System.Text.Encoding.UTF8;
+            mensaje.IsBodyHtml = true;
+            mensaje.To.Add(new MailAddress(emailTo));
+            if (pathAdjunto != string.Empty) { mensaje.Attachments.Add(new Attachment(pathAdjunto)); }
+            servidor.Credentials = new System.Net.NetworkCredential("tuidentidad.com.co@gmail.com", "1234santiago");
             servidor.Port = 587;
             servidor.Host = "smtp.gmail.com";
             servidor.EnableSsl = true;

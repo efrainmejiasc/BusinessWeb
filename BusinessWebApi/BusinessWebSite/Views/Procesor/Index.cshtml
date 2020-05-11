@@ -22,7 +22,10 @@
     }
 </div>
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
+        OcultarMenu();
+        OcultarIcons();
+          $('#footerPage').removeClass('footerPage');
         document.documentElement.style.overflowX = 'hidden';
         let respuesta = '@ViewBag.Response';
         if (respuesta != '') {

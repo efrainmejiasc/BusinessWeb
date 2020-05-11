@@ -47,7 +47,7 @@ namespace BusinessDeskTop.Engine
         public bool ExistsFile(string pathArchivo)
         {
             bool resultado = false;
-            if (File.Exists(pathArchivo))
+            if (File.Exists(pathArchivo.Trim()))
                 resultado = true;
             return resultado;
         }
@@ -113,7 +113,7 @@ namespace BusinessDeskTop.Engine
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
             QrCode qrCode = new QrCode();
             qrEncoder.TryEncode(source, out qrCode);
-            GraphicsRenderer renderer = new GraphicsRenderer(new FixedCodeSize(400, QuietZoneModules.Zero), Brushes.Black, Brushes.White);
+            GraphicsRenderer renderer = new GraphicsRenderer(new FixedCodeSize(8000, QuietZoneModules.Zero), Brushes.Black, Brushes.White);
             MemoryStream ms= new MemoryStream();
             renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, ms);
             Bitmap imagenTemporal = new Bitmap(ms);
@@ -132,6 +132,47 @@ namespace BusinessDeskTop.Engine
                 Email = "desktop@gmail.com",
             };
             return JsonConvert.SerializeObject(userApi);
+        }
+
+        public string ConstruirCodigo()
+        {
+            string codigo = string.Empty;
+            for (int i = 0; i <= 5; i++)
+            {
+                if (i % 2 == 0)
+                    codigo = codigo + AleatorioLetra(i + DateTime.Now.Millisecond);
+                else
+                    codigo = codigo + AleatorioNumero(i + DateTime.Now.Millisecond);
+            }
+            return codigo.Trim();
+        }
+
+        private string AleatorioLetra(int semilla)
+        {
+            string letra = string.Empty;
+            Random rnd = new Random(semilla);
+            int n = rnd.Next(0, 26);
+            double d = AleatorioDoble(semilla);
+            if (d >= 0.5)
+                letra = EngineData.AlfabetoG[n];
+            else
+                letra = EngineData.AlfabetoP[n];
+
+            return letra;
+        }
+
+        private string AleatorioNumero(int semilla)
+        {
+            Random rnd = new Random(semilla);
+            int n = rnd.Next(0, 9);
+            return n.ToString();
+        }
+
+        private double AleatorioDoble(int semilla)
+        {
+            Random rnd = new Random(semilla);
+            double n = rnd.NextDouble();
+            return n;
         }
     }
 }

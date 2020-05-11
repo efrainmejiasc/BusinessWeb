@@ -39,5 +39,9 @@ namespace BusinessWebApi.Models
 
         [Column(Order = 8, TypeName = "DATETIME")]
         public DateTime CreateDate { get; set; }
+
+        [Column(Order = 9, TypeName = "VARCHAR")]
+        [StringLength(150)]
+        public string Nombre { get; set; }
     }
 }

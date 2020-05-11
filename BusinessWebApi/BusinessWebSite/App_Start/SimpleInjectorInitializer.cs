@@ -31,7 +31,7 @@ namespace BusinessWebSite.App_Start
         {
             container.Register<IEngineHttp, EngineHttp>(Lifestyle.Transient);
             container.Register<IEngineProject, EngineProject>(Lifestyle.Transient);
-           // container.Register<IEngineNotify, EngineNotify>(Lifestyle.Transient);
+            container.Register<IEngineNotify, EngineNotify>(Lifestyle.Transient);
             container.Register<IEngineTool, EngineTool>(Lifestyle.Transient);
             container.Register<IEngineProcesor, EngineProcesor>(Lifestyle.Transient);
             container.Register<IEngineRead, EngineRead>(Lifestyle.Transient);

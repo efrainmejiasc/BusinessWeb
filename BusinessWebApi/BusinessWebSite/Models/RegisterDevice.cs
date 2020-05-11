@@ -16,5 +16,6 @@ namespace BusinessWebSite.Models
         public int NumberDevice { get; set; }
         public int IdUserApi { get; set; }
         public string Dni { get; set; }
+        public string Nombre { get; set; }
     }
 }

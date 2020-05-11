@@ -9,6 +9,7 @@ namespace BusinessDeskTop.Engine.Interfaces
 {
     public interface IEngineTool
     {
+        string ConstruirCodigo();
         string DataLoginUserApi();
         bool CreateFolder(string path);
         bool EmailEsValido(string email);

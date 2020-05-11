@@ -20,10 +20,12 @@ namespace BusinessWebApi.Engine
         }
 
         public static string UrlBase = ConfigurationManager.AppSettings["URL_BASE"];
+        public static string UrlDominio = ConfigurationManager.AppSettings["URL_DOMINIO"];
         public static string SecretKey = ConfigurationManager.AppSettings["JWT_SECRET_KEY"];
         public static string Audience = ConfigurationManager.AppSettings["JWT_AUDIENCE_TOKEN"];
         public static string Issuer = ConfigurationManager.AppSettings["JWT_ISSUER_TOKEN"];
         public static int ExpireToken = Convert.ToInt32(ConfigurationManager.AppSettings["JWT_EXPIRE_MINUTES"]);
+        public static string CNX = ConfigurationManager.ConnectionStrings["CNX_DB"].ToString();
 
         public static string UrlLogin = "api/UserApi/Login";
         public static string UrlPersons = "api/PersonApi/QueryPersonas";
@@ -48,5 +50,6 @@ namespace BusinessWebApi.Engine
 
         public static string[] AlfabetoG = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };//0-25
         public static string[] AlfabetoP = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+
     }
 }

@@ -1,10 +1,12 @@
 ﻿using BusinessDeskTop.Engine.Interfaces;
+using BusinessDeskTop.Formularios;
 using BusinessDeskTop.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,8 @@ namespace BusinessDeskTop.Engine
         private readonly IEngineHttp HttpFuncion;
         private readonly IEngineProject Funcion;
         private EngineData Valor = EngineData.Instance();
+        private  Waiting waiting = new Waiting();
+
         public EngineProcesor(IEngineHttp _HttpFuncion , IEngineProject _Funcion, IEngineTool _Tool)
         {
             HttpFuncion = _HttpFuncion;
@@ -30,62 +34,64 @@ namespace BusinessDeskTop.Engine
         }
 
         #region UPLOADLISTA
-        public bool ProcesarArchivo (string pathArchivo,DataGridView dgv,Label lbl)
+     
+
+        public bool ProcesarArchivo(string pathArchivo, DataGridView dgv, Label lbl)
         {
+            this.waiting = new Waiting();
+            this.waiting.Show();
             bool resultado = false;
-            List<Person> persons = Funcion.LeerArchivo(pathArchivo,Tool);
+            List<Person> persons = Funcion.LeerArchivo(pathArchivo, Tool);
             resultado = Tool.CreateFolder(Valor.FolderFile); //path carpeta archivos 
             resultado = Tool.CreateFolder(Valor.PathFolderFileEmpresa()); // path carpeta archivos empresa
             resultado = Tool.CreateFolder(Valor.PathFolderImageQr()); // path carpeta qr empresa
             dgv.DataSource = Valor.GetDt();
             dgv.ClearSelection();
-           if (dgv.Rows.Count == 0)
+            if (dgv.Rows.Count == 0)
             {
-               // MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // MessageBox.Show("No existen datos para procesar", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 //return true;
             }
-            lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine + 
+            lbl.Text = "Numero de errores en el archivo : " + dgv.Rows.Count + Environment.NewLine + pathArchivo + Environment.NewLine +
                        "Insertando datos en Db" + Environment.NewLine + "Espere un momento, esto puede tardar unos segundos";
 
             string pathFileXlsx = Valor.PathFileXlsx();//path del archivo excel 
-            resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool); 
+            resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool);
             if (resultado)
-                UploadPersonToApi(lbl,"INSERT");
-            
-            return resultado;
-        } 
+                UploadPersonToApi(lbl, "INSERT" );
 
-        
-        public async Task  UploadPersonToApi(Label lbl,string tipo)
+            return resultado;
+        }
+
+        public async Task UploadPersonToApi(Label lbl, string tipo)
         {
             bool resultado = false;
             string token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
             if (!string.IsNullOrEmpty(token))
             {
                 List<Person> persons = Valor.GetPersons();
-                string personas = JsonConvert.SerializeObject(persons);
-                if (tipo == "INSERT")
-                  resultado = await HttpFuncion.UploadPersonToApi(token, personas);
-                else
-                  resultado = await HttpFuncion.UploadPersonToApiUpdate(token, personas);
-            }
-            if (resultado)
-              MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Valor.inicio = 0;
+                Valor.fin = persons.Count - 1;
+                Valor.quiebre = true;
+                do
+                {
+                    string personas = Funcion.SetJsonPerson(persons);
 
-            lbl.Text = string.Empty;
-        }
-        public bool ExportarErrores(DataTable dt)
-        {
-            bool resultado = false;
-            resultado = Funcion.CreateFileXlsx(dt);
+                    if (tipo == "INSERT")
+                        resultado = await HttpFuncion.UploadPersonToApi(token, personas);
+                    else
+                        resultado = await HttpFuncion.UploadPersonToApiUpdate(token, personas);
+
+                  token = await Funcion.GetAccessTokenAsync(Tool, HttpFuncion);
+                }
+                while (Valor.quiebre);
+            }
             if (resultado)
                 MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            return resultado;
+            this.waiting.Close();
         }
 
         #endregion
@@ -93,6 +99,8 @@ namespace BusinessDeskTop.Engine
         #region ACTUALIZAR LISTA
         public bool ProcesarArchivoActualizar(string pathArchivo, DataGridView dgv, Label lbl)
         {
+            this.waiting = new Waiting();
+            this.waiting.Show();
             bool resultado = false;
             List<Person> persons = Funcion.LeerArchivo(pathArchivo, Tool);
             resultado = Tool.CreateFolder(Valor.FolderFile); //path carpeta archivos 
@@ -112,6 +120,19 @@ namespace BusinessDeskTop.Engine
             resultado = Funcion.CreateFileXlsx(persons, pathFileXlsx, Tool);
             if (resultado)
                 UploadPersonToApi(lbl,"UPDATE");
+
+            return resultado;
+        }
+
+
+        public bool ExportarErrores(DataTable dt)
+        {
+            bool resultado = false;
+            resultado = Funcion.CreateFileXlsx(dt);
+            if (resultado)
+                MessageBox.Show("Transaccion exitosa", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Transaccion fallida", "INFORMACION DEL SISTEMA", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             return resultado;
         }
@@ -191,6 +212,12 @@ namespace BusinessDeskTop.Engine
             return dgv;
         }
 
+
+        public void CreateQRImagen(string source , string pathDestino) 
+        {
+           string strBase64 =  Tool.ConvertImgTo64Img(source);
+           Tool.CreateQrCode(strBase64, pathDestino);
+        }
 
     }
 }

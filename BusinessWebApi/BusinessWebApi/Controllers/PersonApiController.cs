@@ -28,7 +28,7 @@ namespace BusinessWebApi.Controllers
         public HttpResponseMessage CreatePerson ([FromBody] List<Person> persons)
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-            if (persons.Count == 0)
+            if ( persons == null || persons.Count == 0)
             {
                 response = new HttpResponseMessage(HttpStatusCode.BadRequest);
                 response.Content = new StringContent(EngineData.modeloImcompleto, Encoding.Unicode);
@@ -74,7 +74,15 @@ namespace BusinessWebApi.Controllers
 
         [HttpGet]
         [ActionName("GetPerson")]
-        public Person GetPerson(string dni)
+        public Person GetPerson(string identificador)
+        {
+            Person person = Metodo.GetPerson2(identificador);
+            return person;
+        }
+
+        [HttpGet]
+        [ActionName("GetPersonEspecific")]
+        public Person GetPersonEspecific(string dni)
         {
             Person person = Metodo.GetPerson(dni);
             return person;
@@ -82,7 +90,7 @@ namespace BusinessWebApi.Controllers
 
         [HttpGet]
         [ActionName("GetPersonList")]
-        public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno)
+        public List<Person> GetPersonList(int idCompany, string grado, string grupo, int idTurno = 1)
         {
             List<Person> person = Metodo.GetPersonList(idCompany, grado, grupo, idTurno);
             foreach(var i in person)
@@ -94,20 +102,47 @@ namespace BusinessWebApi.Controllers
         }
 
         [HttpGet]
-        [ActionName("GetGrados")]
-        public List<Grado> GetGrados()
+        [ActionName("GetPersonFull")]
+        public List<Person> GetPersonFull(int idCompany, string grado, string grupo, int idTurno = 1)
         {
-           List<Grado> grado = Metodo.GetGrados();
+            List<Person> person = Metodo.GetPersonList(idCompany, grado, grupo, idTurno);
+            foreach (var i in person)
+            {
+                i.Qr = string.Empty;
+            }
+            return person;
+        }
+
+        [HttpGet]
+        [ActionName("GetUrlCarnet")]
+        public string  GetUrlCarnet(int dni)
+        {
+            return EngineData.UrlDominio + "digitalcard/" + dni + ".jpg";
+        }
+
+        [HttpGet]
+        [ActionName("GetGrados")]
+        public List<Grado> GetGrados(int idCompany)
+        {
+           List<Grado> grado = Metodo.GetGrados(idCompany);
            return grado;
         }
 
 
         [HttpGet]
         [ActionName("GetGrupos")]
-        public List<Grupo> GetGrupos()
+        public List<Grupo> GetGrupos(int idCompany)
         {
-            List<Grupo> grado = Metodo.GetGrupos();
+            List<Grupo> grado = Metodo.GetGrupos(idCompany);
             return grado;
+        }
+
+        [HttpGet]
+        [ActionName("GetTurnos")]
+        public List<Models.Objetos.Turno> GetTurnos(int idCompany)
+        {
+            List <Models.Objetos.Turno> turno = Metodo.GetTurnos(idCompany);
+            return turno;
         }
     }
 }

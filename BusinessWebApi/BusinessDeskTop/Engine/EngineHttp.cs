@@ -1,9 +1,12 @@
 ﻿using BusinessDeskTop.Engine.Interfaces;
 
 using BusinessDeskTop.Models;
+using FastMember;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -46,10 +49,14 @@ namespace BusinessDeskTop.Engine
                     respuesta = await response.Content.ReadAsStringAsync();
                     if (respuesta == "transaccion exitosa")
                         return true;
+                }else
+                {
+                    string s = response.StatusCode.ToString();
                 }
             }
             return false;
         }
+
 
         public async Task<bool> UploadPersonToApiUpdate(string strToken, string jsonData)
         {
@@ -126,6 +133,33 @@ namespace BusinessDeskTop.Engine
                 }
             }
             return false;
+        }
+
+        public bool UpdatePersonFoto(string dni, string foto)
+        {
+            bool resultado = false;
+            string cnx = "Data Source=SQL5031.site4now.net;Initial Catalog=DB_A3EF3F_BusinessWeb;User Id=DB_A3EF3F_BusinessWeb_admin;Password=1234santiago";
+            SqlConnection conexion = new SqlConnection(cnx);
+            try
+            {
+                using (conexion)
+                {
+                    conexion.Open();
+                    SqlCommand command = new SqlCommand("Sp_UpdatePersonFoto", conexion);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@Dni", dni);
+                    command.Parameters.AddWithValue("@Foto", foto);
+                    command.ExecuteNonQuery();
+                    conexion.Close();
+                    resultado = true;
+                }
+            } catch {
+
+                string error = "";
+            }
+          
+            return resultado;
         }
 
     }
