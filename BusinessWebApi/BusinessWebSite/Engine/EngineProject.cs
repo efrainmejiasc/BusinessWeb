@@ -132,7 +132,7 @@ namespace BusinessWebSite.Engine
                 worksheet.Cells[row, 1] = "Observaciones";
                 worksheet.get_Range("A" + row.ToString(), "A" + row.ToString()).Interior.Color = Color.Black;
                 worksheet.get_Range("A" + row.ToString(), "A" + row.ToString()).Font.Color = Color.White;
-                row++;
+                row = row  + 2;
                 worksheet.Cells[row, 1] = "Nº";
                 worksheet.Cells[row, 2] = "Materia";
                 worksheet.Cells[row, 3] = "Fecha Observacion";
