@@ -194,6 +194,6 @@ textarea {
 .footerPage {
     background-color: #085CA6;
     color: white;
-    position: static;
+    /*position: static;*/
 }
 

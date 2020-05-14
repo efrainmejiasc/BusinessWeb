@@ -813,6 +813,7 @@
     <Content Include="Content\datatables\pdfmake-0.1.36\vfs_fonts.js" />
     <Content Include="Content\image\biometric.JPG" />
     <Content Include="Content\image\inventario.JPG" />
+    <Content Include="Content\image\LOGOHORIZONTAL.png" />
     <Content Include="Content\image\logoTuIdentidad.jpg" />
     <Content Include="Content\image\mapa.JPG" />
     <Content Include="Content\image\qrcode.JPG" />
