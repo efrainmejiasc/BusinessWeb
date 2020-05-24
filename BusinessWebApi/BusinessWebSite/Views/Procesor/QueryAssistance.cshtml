@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "QueryAssistance";
 }
-
 <br />
 <div class="row">
     <div class="offset-2 col-md-8">
@@ -53,7 +52,7 @@
     <input type="hidden" id="initDataTable" />
 </div>
 <hr />
-
+<!-- Modal -->
 <div id="myModalEmail" class="modal" role="dialog">
     <div class="modal-dialog">
 
@@ -133,7 +132,6 @@
     </div>
 </div>
 
-
 <div id="myModalDetail" class="modal">
     <div class="modal-content5">
         <div style="float:right;">
@@ -162,7 +160,7 @@
     </div>
 </div>
 
-
+@section Scripts{
     <script>
         $(document).ready(function () {
             OcultarMenu();

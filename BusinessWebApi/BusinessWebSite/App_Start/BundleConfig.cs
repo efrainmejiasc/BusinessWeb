@@ -10,13 +10,7 @@ namespace BusinessWebSite
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-3.4.1.min.js",
-                        "~/Scripts/jquery-3.4.1.js", 
-                        "~/Content/js/global.js", "~/Content/datatables/datatables.min.js", 
-                        "~/Content/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js",
-                        "~/Content/datatables/JSZip-2.5.0/jszip.min.js",
-                        "~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js",
-                        "~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js",
-                        "~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js"
+                        "~/Scripts/jquery-3.4.1.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -28,7 +22,14 @@ namespace BusinessWebSite
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap.js",
+                      "~/Content/datatables/datatables.min.js",
+                        "~/Content/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js",
+                        "~/Content/datatables/JSZip-2.5.0/jszip.min.js",
+                        "~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js",
+                        "~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js",
+                        "~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js",
+                        "~/Content/js/global.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",

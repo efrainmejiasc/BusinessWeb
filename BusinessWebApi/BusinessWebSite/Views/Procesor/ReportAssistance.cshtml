@@ -3,17 +3,9 @@
     ViewBag.Title = "ReportAssistance";
 }
 
-
-
 <input type="hidden" id="tituloBusqueda1" />
 <input type="hidden" id="initDataTable1" />
-
-<div class="form-group">
-    <div class="col-12">
-
-    </div>
-</div>
-
+<br />
 <div class="row">
     <div class="offset-1 col-md-10">
         <div class="row">
@@ -37,7 +29,6 @@
                 <input type="button" id="buscar" value="Buscar" class="btn btn-primary" onclick="GetAsistencia();" />
             </div>
         </div>
-
         <div class="text-center">
             <br />
             <p id="pTitulo1" style="color:silver;"></p>
@@ -45,6 +36,7 @@
     </div>
 </div>
 <hr />
+
 <div class="row">
     <div class="col-lg-12">
         <div class="table-responsive">
@@ -66,6 +58,7 @@
         </div>
     </div>
 </div>
+
 <hr />
 <!-- Modal -->
 <div id="myModal" class="modal" role="dialog">
@@ -121,7 +114,8 @@
     </div>
 </div>
 
-
+@section Scripts
+    {
     <script>
         $(document).ready(function () {
             OcultarMenu();
