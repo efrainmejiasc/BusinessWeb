@@ -1,39 +1,63 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
-<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
-<link href="~/Content/css/global.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
-<script src="/Content/js/global.js" type="text/javascript"></script>
 
-<div aling="center">
-    <div class="container">
+@*  1021933909  *@
 
-        <div class="col-md-4 container">
-            <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ver Carnet</h4>
-            <input type="text" id="dni" name="dni" placeholder="Ingrese Documento de Identidad" required class="form-control" /><br />
+<br />
+<div class="row">
+    <div class="offset-4 col-md-4">
 
-            <input type="submit" id="buscar" value="Buscar" class="voton btn btn-primary" onclick="BuscarCarnet();" />
-            <input type="reset" id="cancelar" value="Cancelar" onClick="NavePage('/Home/Index');" class="voton btn btn-primary" />
+        <div class="text-center">
+            <h4>Ver Carnet</h4>
         </div>
 
+        <div class="form-group">
+            <div class="col-12">
+                <input type="text" id="dni" name="dni" placeholder="Ingrese Documento de Identidad" required class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="submit" id="buscar" value="Buscar" class="voton btn btn-primary" onclick="BuscarCarnet();" />
+                    </div>
+                    <div class="col-6 text-right">
+                        <input type="reset" id="cancelar" value="Cancelar" onClick="NavePage('/Home/Index');" class="voton btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div id="myModal" class="modal">
-            <div class="modal-content">
+        <!-- Modal -->
+        <div id="myModal" class="modal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" onclick="CerrarModal();">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="carnet" class="imgCarnet" style="width:100%;" alt="No posee imagen">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<div id="myModal" class="modal">
+            <div class="modal-content" style="width:50%;">
                 <div style="float:right;">
                     <span id="cerrar" class="close" onclick="CerrarModal();">&times;</span>
                 </div><br />
-                <img id="carnet" class="imgCarnet" style="width:100%;height:90%;" alt="No posee imagen">
+                <img id="carnet" class="imgCarnet" style="width:50%;" alt="No posee imagen">
 
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
 
-<script>
+@section Scripts{
+    <script>
     $(document).ready(function () {
         OcultarMenu();
         OcultarIcons();
@@ -59,7 +83,7 @@
         MostrarModal();
     }
 
-  
+
 function BuscarPersona() {
     var dni = $('#dni').val();
 
@@ -92,12 +116,13 @@ function BuscarPersona() {
                 document.getElementById('qr').setAttribute('src', 'data:image/png;base64,' + I.Qr);
                 MostrarModal();
             } catch(error){ alert('Numero documento identidad ' + dni + ' no encontrado');}
-        
+
         },
         complete: function () {
-   
+
             console.log('BUSCARPERSONA');
         }
     });
 }
-</script>
+    </script>
+}

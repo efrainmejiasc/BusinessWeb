@@ -4,124 +4,193 @@
 }
 
 
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
-<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
-<link href="~/Content/css/global.css" rel="stylesheet" />
-<script src="/Content/js/global.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
+@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/css/global.css" rel="stylesheet" />
+    <script src="/Content/js/global.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>*@
+
+@*  1021933909  *@
+
+@*<link href="~/Content/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">*@
 
 
-<link href="~/Content/datatables/datatables.min.css" rel="stylesheet" />
-<link href="~/Content/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
 
-<script src="~/Content/datatables/datatables.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/JSZip-2.5.0/jszip.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js" type="text/javascript"></script>
-<script src="~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js" type="text/javascript"></script>
+<input type="hidden" id="tituloBusqueda1" />
+<input type="hidden" id="initDataTable1" />
 
+<div class="form-group">
+    <div class="col-12">
 
-<div class="container-fluid">
-    <div class="container col-md-12" style="margin-top:5%;display:inline;">
-        <div class="row" id="searchDiv">
+    </div>
+</div>
+
+<div class="row">
+    <div class="offset-1 col-md-10">
+        <div class="row">
+            <div class="col">
+                <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form form-control" onchange="LimpiarTituloAsistencia();">
+                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+            </div>
+            <div class="col">
+                <select id="gradoA" class="form-control" onchange="LimpiarTituloAsistencia();"> </select>
+                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+            </div>
+            <div class="col">
+                <select id="grupoA" class="form-control" onchange="LimpiarTituloAsistencia();"></select>
+                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+            </div>
+            <div class="col">
+                <select id="turnoA" class="form-control" onchange="LimpiarTituloAsistencia();"></select>
+                <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
+            </div>
+            <div class="col">
+                <input type="button" id="buscar" value="Buscar" class="btn btn-primary" onclick="GetAsistencia();" />
+            </div>
+        </div>
+        @*<div class="form-group">
+
+            </div>
+            <div class="form-group">
+
+            </div>
+            <div class="form-group">
+
+            </div>
+            <div class="form-group">
+
+            </div>
             <div class="form-group">
                 <div class="input-group" style="float:right;">
-                    <input type="date" id="fecha" name="fecha" value="" min="" max="" class="form form-control" style="width:900px" onchange="LimpiarTituloAsistencia();">
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="gradoA" class="form-control" style="width:900px"  onchange="LimpiarTituloAsistencia();"> </select>
-                    <span class="input-group-addon" style="background-color:white;border-color:white;" > </span>
-                    <select id="grupoA" class="form-control" style="width:900px"  onchange="LimpiarTituloAsistencia();"></select>
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="turnoA" class="form-control" style="width:900px"  onchange="LimpiarTituloAsistencia();"></select>
 
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
-                    <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:160px;" onclick="GetAsistencia();" />
                 </div>
-            </div>
-        </div>
-        <p id="pTitulo1" style="text-align:center;color:silver;"></p>
-    </div>
-    
-    <input type="hidden" id="tituloBusqueda1"> 
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table id="tableAsistencia" class="display table table-bordered table-hover" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Nª</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Email</th>
-                                <th>Materia</th>
-                                <th>Estado</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                         <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            </div>*@
+        <div class="text-center">
+            <br />
+            <p id="pTitulo1" style="color:silver;"></p>
         </div>
     </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table id="tableAsistencia" class="display table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Nª</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Materia</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<hr />
+<!-- Modal -->
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:630px;">
+            <div class="modal-header">
+                <h4> Actualizar Asistencia</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="CerrarModalUpdate();">&times;</button>
+                <input type="hidden" id="idAsistencia" />
+                <input type="hidden" id="dniAdm" />
 
-    <input type="hidden" id="initDataTable1" />
-    <br /><br />
- 
-    <div id="myModal" class="modal">
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label> Documento de Identidad: </label>
+                            <input type="text" id="dni" class="form-control" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label> Correo Electronico: </label>
+                            <input type="text" id="email" class="form-control" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label> Asignatura: </label>
+                            <input type="text" id="materia" class="form-control" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label> Profesor: </label>
+                            <input type="text" id="profesor" class="form-control" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label> Estado: </label>
+                            <select id="asistencia" class="form-control">
+                                <option value="1"> Asistente </option>
+                                <option value="0"> Inasistente </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label> Observacion: </label><br />
+                            <textarea id="observacion" rows="3" cols="50" maxlength="490" class="form-control" required autocomplete="on"> </textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img id="imgEstudiante" class="imgCarnet img-circle" alt="El alumno No posee foto">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" value="Actualizar" class="btn btn-primary" style="width:10vw;" onclick="EditAtending();" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div id="myModal" class="modal">
         <div class="modal-content2">
 
             <div style="float:right;">
                 <span id="cerrart" class="close" onclick="CerrarModalUpdate();">&times;</span><br /><br />
-                <input type="hidden" id="idAsistencia" />
-                <input type="hidden" id="dniAdm" />
+
             </div>
             <div style="text-align:center;"> <h4> Actualizar Asistencia</h4></div><br />
             <div style="float:left;">
-                <label> Documento de Identidad: </label>
-                <input type="text" id="dni" class="form form-control" disabled />
-                <label> Correo Electronico: </label>
-                <input type="text" id="email" class="form form-control" disabled />
-                <label> Asignatura: </label>
-                <input type="text" id="materia" class="form form-control" disabled />
-                <label> Profesor: </label>
-                <input type="text" id="profesor" class="form form-control" disabled />
-                <label> Estado: </label>
-                <select id="asistencia" class="form form-control">
-                    <option value="1"> Asistente </option>
-                    <option value="0"> Inasistente </option>
-                </select><br />
-                <label> Observacion: </label><br />
-                <textarea id="observacion" rows="3" cols="50" maxlength="490" class="form form-control" required autocomplete="on" style="width:25vw;"> </textarea>
+
             </div>
             <div style="float:right">
                 <img id="imgEstudiante" class="imgCarnet" alt="El alumno No posee foto"><br /><br /><br /><br />
                 <input type="button" value="Actualizar" class="btn btn-primary" style="width:10vw;" onclick="EditAtending();" />
             </div>
         </div>
-    </div>
-
-</div>
+    </div>*@
 
 
+@section Scripts
+    {
+    @*<script src="~/Content/datatables/datatables.min.js" type="text/javascript"></script>
+        <script src="~/Content/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+        <script src="~/Content/datatables/JSZip-2.5.0/jszip.min.js" type="text/javascript"></script>
+        <script src="~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js" type="text/javascript"></script>
+        <script src="~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js" type="text/javascript"></script>
+        <script src="~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js" type="text/javascript"></script>*@
 
-<script>
-    $(document).ready(function () {
-        OcultarMenu();
-        OcultarIcons();
-        $('#footerPage').removeClass('footerPage');
-        document.documentElement.style.overflowX = 'hidden';
-        GetDate('#fecha');
-        GetGradoA();
-        GetGrupoA();
-        $.noConflict();
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            OcultarMenu();
+            OcultarIcons();
+            $('#footerPage').removeClass('footerPage');
+            document.documentElement.style.overflowX = 'hidden';
+            GetDate('#fecha');
+            GetGradoA();
+            GetGrupoA();
+            $.noConflict();
+        });
+    </script>
+}
