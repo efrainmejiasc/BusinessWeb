@@ -3,171 +3,175 @@
     ViewBag.Title = "QueryAssistance";
 }
 
-
-
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
-<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
-<link href="~/Content/css/global.css" rel="stylesheet" />
-<script src="/Content/js/global.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
-<script src="~/Scripts/jquery-3.4.1.js" type="text/javascript"></script>
-
-<link href="~/Content/datatables/datatables.min.css" rel="stylesheet" />
-<link href="~/Content/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
-
-<script src="~/Content/datatables/datatables.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/JSZip-2.5.0/jszip.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js" type="text/javascript"></script>
-<script src="~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js" type="text/javascript"></script>
-<script src="~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js" type="text/javascript"></script>
-
-
-<div class="container-fluid">
-    <div class="container col-md-12" style="margin-top:5%;display:inline;">
+<br />
+<div class="row">
+    <div class="offset-2 col-md-8">
         <div class="" id="searchDiv">
-            <div class="form-group">
-                <div class="input-group">
-                    <select id="grado" class="form-control" style="width:900px" onchange="LimpiarTituloConsolidado();"> </select>
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="grupo" class="form-control" style="width:900px" onchange="LimpiarTituloConsolidado();"></select>
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span>
-                    <select id="turno" class="form-control" style="width:900px" onchange="LimpiarTituloConsolidado();"></select>
-
-                    <span class="input-group-addon" style="background-color:white;border-color:white;"> </span> &nbsp;&nbsp;&nbsp;
+            <div class="row">
+                <div class="col">
+                    <select id="grado" class="form-control" onchange="LimpiarTituloConsolidado();"> </select>
+                </div>
+                <div class="col">
+                    <select id="grupo" class="form-control" onchange="LimpiarTituloConsolidado();"></select>
+                </div>
+                <div class="col">
+                    <select id="turno" class="form-control" onchange="LimpiarTituloConsolidado();"></select>
+                </div>
+                <div class="col">
                     <input type="button" id="buscar" value="Buscar" class="btn btn-primary" style="width:160px;" onclick="GetConsolidado();" />
                 </div>
             </div>
         </div>
-        <p id="pTitulo2" style="text-align:center;color:silver;"></p>
+        <div class="col-12 text-center">
+            <br />
+            <p id="pTitulo2" style="color:silver;"></p>
+        </div>
     </div>
 
     <input type="hidden" id="tituloBusqueda2">
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table id="tableConsolidado" class="display table table-bordered table-hover" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Nª</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Dni</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table id="tableConsolidado" class="display table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Nª</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Dni</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
     <input type="hidden" id="initDataTable" />
-    <br /><br />
+</div>
+<hr />
 
+<div id="myModalEmail" class="modal" role="dialog">
+    <div class="modal-dialog">
 
-    <div id="myModal" class="modal">
-        <div class="modal-content3">
-            <div style="float:right;">
-                <span id="cerrado" class="close" onclick="CerrarModalUpdate();">&times;</span><br /><br />
-                <input type="hidden" id="dniEstudiante" />
+        <!-- Modal content-->
+        <div class="modal-content" style="width:630px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Notificacion</h4>
+                <button type="button" id="cerrarEmail" class="close" onclick="CerrarModalEmail();" data-dismiss="modal">&times;</button>
             </div>
-            <div style="text-align:center;"> <h4> Historial Asistencia</h4></div><br />
-            <div style="float:left;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <table id="tableHistoria" class="display table table-bordered table-hover" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr class="tableH">
-                                            <th>Nª</th>
-                                            <th>Materia</th>
-                                            <th>Inasistencias</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="hidden" id="di" />
+                        <input type="hidden" id="name" />
+                        <input type="hidden" id="lastName" />
+                        <div class="form-group">
+                            <label id="cce" style="color:deepskyblue"></label><br />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="asunto" placeholder="Ingrese Asunto" class="form form-control" />
+                        </div>
+                        <div class="form-group">
+                            <textarea id="mensaje" rows="4" cols="50" placeholder="Ingrese Mensaje" maxlength="490" class="form form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-inline"><input type="checkbox" id="check" name="check" required class="btn btn-primary" />  Resumen de asistencia</label>
                         </div>
                     </div>
                 </div>
-                &nbsp;&nbsp;&nbsp;<label class="btn-danger" id="total"> </label>
             </div>
-
-            <div style="float:right">
-                <input type="image" id="imgAlumno" class="imgCarnet" alt="El alumno no posee foto"><br /><br /><br /><br />
+            <div class="modal-footer">
+                <input type="button" value="Enviar" class="btn btn-success" onclick="EnviarEmail();" />
             </div>
         </div>
-    </div>
 
-    <div id="myModalEmail" class="modal">
-        <div class="modal-content4">
-            <div style="float:right;">
-                <span id="cerrarEmail" class="close" onclick="CerrarModalEmail();">&times;</span>
-            </div><br />
-            <div align="center">
-                <label><h4> Notificacion </h4></label><br />
-                <input type="hidden" id="di" />
-                <input type="hidden" id="name" />
-                <input type="hidden" id="lastName" />
-                <label id="cce" style="color:deepskyblue"></label><br />
-                <input type="text" id="asunto" placeholder="Ingrese Asunto" class="form form-control" style="width:23vw;" /><br />
-                <textarea id="mensaje" rows="4" cols="50" placeholder="Ingrese Mensaje" maxlength="490" class="form form-control" style="width:23vw;"></textarea>
-                <label class="checkbox-inline"><input type="checkbox" id="check" name="check" required class="btn btn-primary" />  Resumen de asistencia</label><br />
-                <input type="button" value="Enviar" class="btn btn-success" style="width:23vw;" onclick="EnviarEmail();" /><br />
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal " role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:660px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Historial Asistencia</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="CerrarModalUpdate();">&times;</button>
             </div>
-        </div>
-    </div>
-
-    <div id="myModalDetail" class="modal">
-        <div class="modal-content5">
-            <div style="float:right;">
-                <span id="cerrarEmail" class="close" onclick="CerrarModalDetail();">&times;</span>
-            </div><br />
-            <div class="container">
+            <div class="modal-body">
+                <input type="hidden" id="dniEstudiante" />
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-md-8">
                         <div class="table-responsive">
-                            <table id="tableInasistenciaDetail" class="display table table-bordered table-hover" cellspacing="0" width="100%">
+                            <table id="tableHistoria" class="display table table-bordered table-hover" cellspacing="0" width="100%">
                                 <thead>
-                                    <tr>
+                                    <tr class="tableH">
                                         <th>Nª</th>
-                                        <th>Profesor</th>
                                         <th>Materia</th>
-                                        <th>Fecha</th>
+                                        <th>Inasistencias</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
                         </div>
+                        <br />
+                        <label class="btn-danger" id="total"> </label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="image" id="imgAlumno" class="imgCarnet" alt="El alumno no posee foto" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="myModalDetail" class="modal">
+    <div class="modal-content5">
+        <div style="float:right;">
+            <span id="cerrarEmail" class="close" onclick="CerrarModalDetail();">&times;</span>
+        </div><br />
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table id="tableInasistenciaDetail" class="display table table-bordered table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Nª</th>
+                                    <th>Profesor</th>
+                                    <th>Materia</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>
 
-<script>
-    $(document).ready(function () {
-        OcultarMenu();
-        OcultarIcons();
-        $('#footerPage').removeClass('footerPage');
-        document.documentElement.style.overflowX = 'hidden';
-        GetGrado();
-        GetGrupo();
-        $.noConflict();
-    });
-</script>
+
+    <script>
+        $(document).ready(function () {
+            OcultarMenu();
+            OcultarIcons();
+            $('#footerPage').removeClass('footerPage');
+            document.documentElement.style.overflowX = 'hidden';
+            GetGrado();
+            GetGrupo();
+            $.noConflict();
+        });
+    </script>
+}

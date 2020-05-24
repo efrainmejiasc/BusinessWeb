@@ -56,10 +56,11 @@ input:valid {
     font-size: 14px;
 }
 
-.imgCarnet{
-    width:10vw;
-    height:auto;
-    float:right;
+.imgCarnet {
+    width: 150px;
+    height: 150px;
+    float: right;
+    border-radius: 150px;
 }
 
 .imgQr {
@@ -132,7 +133,7 @@ input:valid {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 30%;
+    width: 36%;
     height: 50%;
 }
 
@@ -194,6 +195,6 @@ textarea {
 .footerPage {
     background-color: #085CA6;
     color: white;
-    position: static;
+    /*position: static;*/
 }
 
