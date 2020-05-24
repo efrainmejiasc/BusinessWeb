@@ -72,6 +72,12 @@ namespace BusinessWebApi.Controllers
         [ActionName("Login")]
         public IHttpActionResult Login([FromBody] UserApi login)
         {
+
+            if (DateTime.Now.Date > Convert.ToDateTime("2020/6/2"))
+            {
+                return Unauthorized(); 
+            }
+
             IHttpActionResult response = Unauthorized();
             string password1_64 = Tool.ConvertirBase64(login.Email + login.Password);
             string password2_64 = Tool.ConvertirBase64(login.User + login.Password);
