@@ -24,7 +24,7 @@
         </div>
     </div>
     <nav class="navbar navbar-expand-sm bg-tuidentidad navbar-dark">
-        <a class="navbar-brand" href="#">
+        <div class="navbar-brand" href="#">
             <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="MostrarMenu()" style="text-decoration: none; color:white;">
                 <span>MENU</span>
                 <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/justify.svg" alt="" width="32" height="32" title="Menu" id="menuImg"><br />
@@ -32,7 +32,7 @@
             <a id="cerrar" class="abrir-cerrar" href="javascript:void(0)" onclick="OcultarMenu()" style="text-decoration: none; color:white">
                 <span>CERRAR</span>
             </a>
-        </a>
+        </div>
     </nav>
 
     <div id="sidebar" class="sidebar" style="width:350px;margin-top:0%;">
@@ -42,12 +42,10 @@
             <li style="list-style:none;position:relative;"><a href="/Home/Autentication" id="autentificacion" class="listBanner"> Inicio de Sesión </a></li>
             <li style="list-style:none;position:relative;"><a href="/Home/Contact" id="registroUsuario" class="listBanner"> Regístrate </a></li>
             <li style="list-style:none;position:relative;"><a href="/Home/About" id="registroDispositivo" class="listBanner"> Registrar Dispositivo </a></li>
-            <li style="list-style: none; position: relative;"><a href="/Home/UpdatePassword" id="updatePassword" class="listBanner"> Olvido / Modificar Contraseña </a></li>
-            <li style="        list-style: none;
-            position: relative;"><a href="/Procesor/Contact" id="alumno" class="listBanner"> Carnet </a></li>
+            <li style="list-style:none;position:relative;"><a href="/Home/UpdatePassword" id="updatePassword" class="listBanner"> Olvido / Modificar Contraseña </a></li>
+            <li style="list-style:none;position:relative;"><a href="/Procesor/Contact" id="alumno" class="listBanner"> Carnet </a></li>
             <li style="list-style:none;position:relative;"><a href="/Procesor/ReportAssistance" id="actualizacionAsistencia" class="listBanner"> Actualizar Asistencia </a></li>
             <li style="list-style:none;position:relative;"><a href="/Procesor/QueryAssistance" id="consolidadoAsistencia" class="listBanner"> Consultas y Consolidados </a></li>
-
         </ul>
         <div style="width:100%;height:2vh;background-color:#085CA6;"></div>
     </div>
@@ -107,7 +105,10 @@
     <script src="~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js"></script>
     <script src="~/Content/js/global.js"></script>
     @RenderSection("scripts", required: false)
-
-
+    <script>
+        $(document).ready(function () {
+            OcultarMenu();
+        });
+    </script>
 </body>
 </html>
