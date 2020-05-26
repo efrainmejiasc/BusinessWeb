@@ -8,61 +8,56 @@
 
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
-    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
-    <link href="~/Content/css/global.css" rel="stylesheet" />
     <link href="~/Content/site.css" rel="stylesheet" />
+    <link href="~/Content/css/global.css" rel="stylesheet" />
+    <link href="~/Content/css/master.css" rel="stylesheet" />
     <link href="~/Content/datatables/datatables.min.css" rel="stylesheet" />
-    <link href="~/Content/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />*@
+    <link href="~/Content/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 
 <body id="main">
     <div class="text-center">
-        <div class="text-center" style="margin:0px;">
-            <img src="~/Content/image/LOGOHORIZONTAL.png" class="img-responsive" style="max-width:30%;" />
+            <div class="text-center" style="margin:0px;">
+                <img src="~/Content/image/LOGOHORIZONTAL.png" class="img-responsive" style="max-width:30%;" />
+            </div>
         </div>
-    </div>
     <nav class="navbar navbar-expand-sm bg-tuidentidad navbar-dark">
-        <a class="navbar-brand" href="#">
-            <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="MostrarMenu()" style="text-decoration: none; color:white;">
-                <span>MENU</span>
-                <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/justify.svg" alt="" width="32" height="32" title="Menu" id="menuImg"><br />
-            </a>
-            <a id="cerrar" class="abrir-cerrar" href="javascript:void(0)" onclick="OcultarMenu()" style="text-decoration: none; color:white">
-                <span>CERRAR</span>
-            </a>
-        </a>
-    </nav>
+            <div class="navbar-brand" href="#">
+                <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="MostrarMenu()" style="text-decoration: none; color:white;">
+                    <span>MENU</span>
+                    <img src="~/Content/bootstrapicon/node_modules/bootstrap-icons/icons/justify.svg" alt="" width="32" height="32" title="Menu" id="menuImg"><br />
+                </a>
+                <a id="cerrar" class="abrir-cerrar" href="javascript:void(0)" onclick="OcultarMenu()" style="text-decoration: none; color:white">
+                    <span>CERRAR</span>
+                </a>
+            </div>
+        </nav>
 
-    <div id="sidebar" class="sidebar" style="width:350px;margin-top:0%;">
-        <a href="#" class="boton-cerrar" onclick="OcultarMenu()">×</a>
-        <ul class="menu">
-            <li style="list-style:none;position:relative;"><a href="/Home/Index" id="inicio" class="listBanner"> Inicio </a></li>
-            <li style="list-style:none;position:relative;"><a href="/Home/Autentication" id="autentificacion" class="listBanner"> Inicio de Sesión </a></li>
-            <li style="list-style:none;position:relative;"><a href="/Home/Contact" id="registroUsuario" class="listBanner"> Regístrate </a></li>
-            <li style="list-style:none;position:relative;"><a href="/Home/About" id="registroDispositivo" class="listBanner"> Registrar Dispositivo </a></li>
-            <li style="list-style: none; position: relative;"><a href="/Home/UpdatePassword" id="updatePassword" class="listBanner"> Olvido / Modificar Contraseña </a></li>
-            <li style="        list-style: none;
-            position: relative;"><a href="/Procesor/Contact" id="alumno" class="listBanner"> Carnet </a></li>
-            <li style="list-style:none;position:relative;"><a href="/Procesor/ReportAssistance" id="actualizacionAsistencia" class="listBanner"> Actualizar Asistencia </a></li>
-            <li style="list-style:none;position:relative;"><a href="/Procesor/QueryAssistance" id="consolidadoAsistencia" class="listBanner"> Consultas y Consolidados </a></li>
-
-        </ul>
-        <div style="width:100%;height:2vh;background-color:#085CA6;"></div>
-    </div>
-
-    <div class="container" style="margin-bottom:100px;">
+        <div id="sidebar" class="sidebar" style="width:350px;margin-top:0%;">
+            <a href="#" class="boton-cerrar" onclick="OcultarMenu()">×</a>
+            <ul>
+                <li style="list-style:none;position:relative;"><a href="/Home/Index" id="inicio" class="listBanner"> Inicio </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Home/Autentication" id="autentificacion" class="listBanner"> Inicio de Sesión </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Home/Contact" id="registroUsuario" class="listBanner"> Regístrate </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Home/About" id="registroDispositivo" class="listBanner"> Registrar Dispositivo </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Home/UpdatePassword" id="updatePassword" class="listBanner"> Olvido / Modificar Contraseña </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Procesor/Contact" id="alumno" class="listBanner"> Carnet </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Procesor/ReportAssistance" id="actualizacionAsistencia" class="listBanner"> Actualizar Asistencia </a></li>
+                <li style="list-style:none;position:relative;"><a href="/Procesor/QueryAssistance" id="consolidadoAsistencia" class="listBanner"> Consultas y Consolidados </a></li>
+            </ul>
+            <div style="width:100%;height:2vh;background-color:#085CA6;"></div>
+        </div>
+   
+    <section class="container" style="margin-bottom:100px;">
         @RenderBody()
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer class="page-footer font-small unique-color-dark pt-4 bg-tuidentidad">
-
-        <!-- Footer Elements -->
         <div class="container">
-
-            <!-- Call to action -->
             <ul class="list-unstyled list-inline text-center py-2">
 
                 <li class="list-inline-item">
@@ -81,22 +76,16 @@
                 </li>
 
             </ul>
-            <!-- Call to action -->
-
         </div>
-        <!-- Footer Elements -->
-        <!-- Copyright -->
         <div class="footer-copyright text-center py-3" style="color:white;">
             © @DateTime.Now.Year Copyright:
             <a href="https://mdbootstrap.com/" style="color:white;"> www.tuidentidad.com.co</a>
         </div>
-        <!-- Copyright -->
-
     </footer>
     <!-- Footer -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Content/datatables/datatables.min.js"></script>
@@ -105,9 +94,7 @@
     <script src="~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
     <script src="~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
     <script src="~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js"></script>
-    <script src="~/Content/js/global.js"></script>*@
+    <script src="~/Content/js/global.js"></script>
     @RenderSection("scripts", required: false)
-
-
 </body>
 </html>
