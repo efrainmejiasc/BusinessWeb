@@ -162,10 +162,10 @@ namespace BusinessWebApi.Engine
             {
                 using (EngineContext Context = new EngineContext())
                 {
-                    C = Context.UserApi.Where(s => s.User == userName || s.Email == email).FirstOrDefault();
+                    C = Context.UserApi.Where(s => s.User == userName && s.Email == email).FirstOrDefault();
                     Context.UserApi.Attach(C);
                     C.Password = pass1;
-                    C.Password = pass2;
+                    C.Password2 = pass2;
                     Context.Configuration.ValidateOnSaveEnabled = false;
                     Context.SaveChanges();
                 }

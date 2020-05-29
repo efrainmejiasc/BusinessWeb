@@ -72,10 +72,9 @@ namespace BusinessWebApi.Controllers
         [ActionName("Login")]
         public IHttpActionResult Login([FromBody] UserApi login)
         {
-
-            if (DateTime.Now.Date > Convert.ToDateTime("2020/6/2"))
+            if (DateTime.Now.Date > Convert.ToDateTime("2020/6/6"))
             {
-                return Unauthorized(); 
+                return Unauthorized();
             }
 
             IHttpActionResult response = Unauthorized();
