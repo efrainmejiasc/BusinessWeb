@@ -47,15 +47,19 @@ namespace BusinessWebSite.Controllers
             {
                 respuesta.Descripcion = "Autentificacion Exitosa";
                 respuesta.Resultado = true;
-                string[] partes = ticket.dni.Split('=');
-                ticket.dni = partes[1].Replace("\"", "").Trim();
-                ticket.dni = ticket.dni.Replace("}", "").Trim();
+
                 System.Web.HttpContext.Current.Session["User"] = user;
                 System.Web.HttpContext.Current.Session["Password"] = password;
                 System.Web.HttpContext.Current.Session["Email"] = ticket.email;
                 System.Web.HttpContext.Current.Session["AccessToken"] = ticket.access_token;
                 System.Web.HttpContext.Current.Session["IdCompany"] = ticket.idCompany;
-                System.Web.HttpContext.Current.Session["DniAdm"] = ticket.dni;
+                if (!string.IsNullOrEmpty(ticket.dni))
+                {
+                    string[] partes = ticket.dni.Split('=');
+                    ticket.dni = partes[1].Replace("\"", "").Trim();
+                    ticket.dni = ticket.dni.Replace("}", "").Trim();
+                    System.Web.HttpContext.Current.Session["DniAdm"] = ticket.dni;
+                }
             }
             else
             {
