@@ -9,9 +9,7 @@ namespace BusinessWebSite
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-3.5.1.min.js",
-                        "~/Scripts/jquery-3.5.1.js"
-                        ));
+                          "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -22,25 +20,11 @@ namespace BusinessWebSite
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Content/datatables/datatables.min.js",
-                        "~/Content/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js",
-                        "~/Content/datatables/JSZip-2.5.0/jszip.min.js",
-                        "~/Content/datatables/pdfmake-0.1.36/pdfmake.min.js",
-                        "~/Content/datatables/pdfmake-0.1.36/vfs_fonts.js",
-                        "~/Content/datatables/Buttons-1.6.1/js/buttons.html5.min.js",
-                        "~/Content/js/global.js"
-                        ));
+                      "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.min.css",
-                      "~/Content/bootstrap-theme.css",
-                      "~/Content/css/global.css",
-                      "~/Content/css/master.css",
-                      "~/Content/site.css",
-                      "~/Content/datatables/datatables.min.css",
-                      "~/Content/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css"
-                      ));
+                      "~/Content/bootstrap.css",
+                      "~/Content/site.css"));
         }
     }
 }
